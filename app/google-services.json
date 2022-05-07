@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "326194035784",
+    "project_id": "presin-57bcf",
+    "storage_bucket": "presin-57bcf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326194035784:android:8a59b78654e042c2efec7d",
+        "android_client_info": {
+          "package_name": "com.geekym.face_recognition_engage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "326194035784-11ngsud6u5b5n57sr73j9onkopkia610.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.geekym.face_recognition_engage",
+            "certificate_hash": "7e22addac941a074b74516d07e3b358ba21538ff"
+          }
+        },
+        {
+          "client_id": "326194035784-dpqh18mmfu9kgq9osabe9tc6c0ccmdnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB08rR-lCAlOwtdw1WiFErzMGOJs-qLYoo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "326194035784-dpqh18mmfu9kgq9osabe9tc6c0ccmdnc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

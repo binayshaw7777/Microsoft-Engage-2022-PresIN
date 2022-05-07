@@ -70,7 +70,7 @@
     <TextView
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="#2d2d2d"
+        android:textColor="@color/lightblue"
         android:id="@+id/tv_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

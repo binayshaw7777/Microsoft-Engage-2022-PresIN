@@ -12,8 +12,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.geekym.face_recognition_engage.MainActivity;
 import com.geekym.face_recognition_engage.R;
+import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class onboarding extends AppCompatActivity {
 
         // when this activity is about to be launch we need to check if its openened before or not
         if (restorePrefData()) {
-            Intent login = new Intent(getApplicationContext(), MainActivity.class);
+            Intent login = new Intent(getApplicationContext(), SignIn_Activity.class);
             startActivity(login);
             finish();
         }
@@ -104,7 +104,7 @@ public class onboarding extends AppCompatActivity {
             public void onClick(View v) {
 
                 //open main activity
-                Intent login = new Intent(getApplicationContext(), MainActivity.class);
+                Intent login = new Intent(getApplicationContext(), SignIn_Activity.class);
                 startActivity(login);
                 // also we need to save a boolean value to storage so next time when the user run the app
                 // we could know that he is already checked the intro screen activity

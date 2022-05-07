@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Face_Recognition_Engage">
         <activity
+            android:name=".Authentication.Forgot_Password_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Authentication.SignUp_Second_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Authentication.SignUp_First_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Authentication.SignIn_Activity"
+            android:exported="false" />
+        <activity
             android:name=".Onboarding.Splash_Screen_Activity"
             android:exported="true">
             <intent-filter>
@@ -18,16 +30,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Onboarding.onboarding" android:exported="true"/>
+        <activity
+            android:name=".Onboarding.onboarding"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
