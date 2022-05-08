@@ -48,5 +48,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-analytics'
 
-
+    //LottieFiles for SplashScreen
+    implementation 'com.airbnb.android:lottie:3.4.0'
 }
