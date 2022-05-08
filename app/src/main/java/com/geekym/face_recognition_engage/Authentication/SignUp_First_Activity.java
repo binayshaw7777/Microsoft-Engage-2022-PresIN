@@ -80,8 +80,10 @@ public class SignUp_First_Activity extends AppCompatActivity {
                                                 Log.d(TAG, "createUserWithEmail:success");
                                                 FirebaseUser user = mAuth.getCurrentUser();
                                                 startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
+                                                user.sendEmailVerification();
                                                 // updateUI(user);
                                                 Toast.makeText(SignUp_First_Activity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(SignUp_First_Activity.this, "Verification Mail Sent", Toast.LENGTH_SHORT).show();
                                                 progressBar.setVisibility(View.GONE);
                                             } else {
                                                 // If sign in fails, display a message to the user.
