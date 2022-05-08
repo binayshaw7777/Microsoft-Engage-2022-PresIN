@@ -132,6 +132,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/stroked"
             android:ems="10"
+            android:longClickable="false"
             android:hint="Password"
             android:drawableRight="@drawable/visibility_off"
             android:drawableTint="@color/lightblue"
@@ -175,6 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Already have an account?   "
+                android:textSize="16dp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -182,6 +184,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sign In"
+                android:textSize="16dp"
                 android:textColor="@color/lightblue"
                 android:textStyle="bold" />
 

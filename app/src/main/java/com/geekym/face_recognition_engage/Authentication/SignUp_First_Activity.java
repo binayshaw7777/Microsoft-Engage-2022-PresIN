@@ -107,20 +107,24 @@ public class SignUp_First_Activity extends AppCompatActivity {
         Password.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                final int Right=2;
-                if (event.getAction()==MotionEvent.ACTION_UP){
-                    if (event.getRawX()>=Password.getRight()-Password.getCompoundDrawables()[Right].getBounds().width()){
+                final int Right = 2;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= Password.getRight() - Password.getCompoundDrawables()[Right].getBounds().width()) {
                         int selection = Password.getSelectionEnd();
                         if (passwordVisible) {
-                            Password.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.visibility_off,0);
-                            // for hide password
+                            //set drawable image here
+                            Password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility_off, 0);
+                            //for hide password
                             Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                            passwordVisible=false;
+                            passwordVisible = false;
+                            Password.setLongClickable(false); //Handles Multiple option popups
                         } else {
-                            Password.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.visibility,0);
-                            // for show password
+                            //set drawable image here
+                            Password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility, 0);
+                            //for show password
                             Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                            passwordVisible=true;
+                            passwordVisible = true;
+                            Password.setLongClickable(false); //Handles Multiple option popups
                         }
                         Password.setSelection(selection);
                         return true;

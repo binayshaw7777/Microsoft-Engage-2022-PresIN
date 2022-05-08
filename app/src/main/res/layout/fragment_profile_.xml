@@ -26,12 +26,12 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="25dp" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="359dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.004"
             app:layout_constraintStart_toStartOf="@+id/guideline_left"
@@ -46,10 +46,22 @@
                 android:textColor="@color/white"
                 android:textSize="35dp"
                 android:textStyle="bold"
-                tools:layout_editor_absoluteX="212dp"
-                tools:layout_editor_absoluteY="220dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/logout_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/exit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.428" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,22 +143,10 @@
                 android:layout_width="330dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="60dp"
-                android:background="@drawable/gradient_button"
+                android:background="@drawable/negative"
                 android:text="Delete Account"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/logout_button"
-                android:layout_width="330dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="132dp"
-                android:background="@drawable/negative"
-                android:text="Logout"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent" />
 
         </LinearLayout>
 
