@@ -88,6 +88,7 @@
                 android:paddingRight="10dp"
                 android:inputType="textPassword"
                 android:paddingLeft="20dp"
+                android:longClickable="false"
                 app:layout_constraintBottom_toTopOf="@+id/login_button"
                 app:layout_constraintEnd_toEndOf="@+id/forgotpass_tv"
                 app:layout_constraintHorizontal_bias="0.0"

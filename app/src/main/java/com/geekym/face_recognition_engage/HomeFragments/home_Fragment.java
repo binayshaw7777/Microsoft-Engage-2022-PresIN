@@ -1,4 +1,4 @@
-package com.geekym.face_recognition_engage;
+package com.geekym.face_recognition_engage.HomeFragments;
 
 import android.os.Bundle;
 
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+import com.geekym.face_recognition_engage.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +27,6 @@ public class home_Fragment extends Fragment {
     private DatabaseReference reference;
     private String userID;
     ImageView clockInOut;
-    Button Logout;
     TextView DateDis;
     TextClock clock;
     Calendar calendar;
@@ -46,7 +46,6 @@ public class home_Fragment extends Fragment {
         DateDis.setText(date);
 
         return view;
-      //  return inflater.inflate(R.layout.fragment_home_, container, false);
     }
 
     private void Initialization(View view) {

@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.geekym.face_recognition_engage.HomeFragments.home_Fragment;
+import com.geekym.face_recognition_engage.HomeFragments.profile_Fragment;
+import com.geekym.face_recognition_engage.HomeFragments.status_Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 

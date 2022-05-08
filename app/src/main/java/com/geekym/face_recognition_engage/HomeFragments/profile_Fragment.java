@@ -1,4 +1,4 @@
-package com.geekym.face_recognition_engage;
+package com.geekym.face_recognition_engage.HomeFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
+import com.geekym.face_recognition_engage.R;
+import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +36,6 @@ public class profile_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile_, container, false);
 
         Initialization(view);
@@ -45,7 +46,6 @@ public class profile_Fragment extends Fragment {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getContext(), SignIn_Activity.class));
                 getActivity().finish();
-
             }
         });
 
@@ -53,20 +53,18 @@ public class profile_Fragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Users userprofile = snapshot.getValue(Users.class);
-                if (userprofile != null){
+                if (userprofile != null) {
                     String name = userprofile.name;
                     String email = userprofile.email;
                     String uid = userprofile.id;
                     String org = userprofile.organization;
 
-                  //  if (!name.isEmpty() && )
+                    Name.setText("Name: " + name);
+                    Email.setText("Email: " + email);
+                    Uid.setText("ID: " + uid);
+                    OrgName.setText("Organization: " + org);
 
-                    Name.setText("Name: "+name);
-                    Email.setText("Email: "+email);
-                    Uid.setText("ID: "+uid);
-                    OrgName.setText("Organization: "+org);
-
-                    Toast.makeText(getContext(), "Welcome "+name, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Welcome " + name, Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -45,48 +45,41 @@ public class SignIn_Activity extends AppCompatActivity {
         ForgotPass.setOnClickListener(view ->
                 startActivity(new Intent(getApplicationContext(), Forgot_Password_Activity.class)));
 
-        Login_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Login();
-            }
-        });
+        Login_Button.setOnClickListener(view -> Login()); //Login Button CTA
 
-        SignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), SignUp_First_Activity.class));
-            }
-        });
+        SignUp.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SignUp_First_Activity.class))); //To SignUp Activity
 
         // Function to see password and hide password
         Password_editText.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                final int Right=2;
-                if (event.getAction()==MotionEvent.ACTION_UP){
-                    if (event.getRawX()>=Password_editText.getRight()-Password_editText.getCompoundDrawables()[Right].getBounds().width()){
+                final int Right = 2;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= Password_editText.getRight() - Password_editText.getCompoundDrawables()[Right].getBounds().width()) {
                         int selection = Password_editText.getSelectionEnd();
                         if (passwordVisible) {
-                            Password_editText.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.visibility_off,0);
-                            // for hide password
+                            //set drawable image here
+                            Password_editText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility_off, 0);
+                            //for hide password
                             Password_editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                            passwordVisible=false;
+                            passwordVisible = false;
+                            Password_editText.setLongClickable(false); //Handles Multiple option popups
                         } else {
-                            Password_editText.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.visibility,0);
-                            // for show password
+                            //set drawable image here
+                            Password_editText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility, 0);
+                            //for show password
                             Password_editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                            passwordVisible=true;
+                            passwordVisible = true;
+                            Password_editText.setLongClickable(false); //Handles Multiple option popups
                         }
                         Password_editText.setSelection(selection);
                         return true;
                     }
-
                 }
                 return false;
             }
         });
+
     }
 
     private void Login() {
