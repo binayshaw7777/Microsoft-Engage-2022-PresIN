@@ -65,16 +65,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/add_face"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/primary_button"
-            android:text="Register Facial Data"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
-
         <EditText
             android:id="@+id/name_box"
             android:layout_width="330dp"
@@ -154,11 +144,21 @@
             app:layout_constraintStart_toStartOf="@+id/pass_box" />
 
         <Button
-            android:id="@+id/signup_button"
+            android:id="@+id/add_face"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:background="@drawable/primary_button"
+            android:text="Register Facial Data"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/signup_button"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/positive"
             android:text="Create Account"
             android:textAllCaps="false"
             android:textColor="@color/white" />

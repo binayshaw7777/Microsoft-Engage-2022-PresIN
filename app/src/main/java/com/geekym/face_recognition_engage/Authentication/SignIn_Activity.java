@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.geekym.face_recognition_engage.MainActivity;
+import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -119,7 +119,7 @@ public class SignIn_Activity extends AppCompatActivity {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user.isEmailVerified()) {
                         progressBar.setVisibility(View.GONE);
-                        Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent2 = new Intent(getApplicationContext(), HomeScreen.class);
                         startActivity(intent2);
                         finishAffinity();
                     } else {

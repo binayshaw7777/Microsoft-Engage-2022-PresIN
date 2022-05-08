@@ -34,7 +34,7 @@
             android:name=".Onboarding.onboarding"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeScreen"
             android:exported="true" />
     </application>
 
