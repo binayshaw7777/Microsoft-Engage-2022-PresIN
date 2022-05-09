@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.geekym.face_recognition_engage.HomeFragments.home_Fragment;
 import com.geekym.face_recognition_engage.HomeFragments.profile_Fragment;
@@ -51,5 +54,27 @@ public class HomeScreen extends AppCompatActivity {
 
     private void Initialization() {
         bottomBar = findViewById(R.id.bottomBar);
+    }
+
+    public void onBackPressed() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        alertDialogBuilder.setTitle("Confirm Exit");
+        alertDialogBuilder.setIcon(R.drawable.logo);
+        alertDialogBuilder.setMessage("Do you really want to exit?");
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finishAffinity();
+            }
+        });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }

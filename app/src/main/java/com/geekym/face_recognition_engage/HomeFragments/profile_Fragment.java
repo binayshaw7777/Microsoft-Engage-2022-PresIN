@@ -2,6 +2,8 @@ package com.geekym.face_recognition_engage.HomeFragments;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
+import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,11 +33,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 
 public class profile_Fragment extends Fragment {
 
     ImageButton Logout;
-    Button Delete;
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
@@ -50,13 +54,29 @@ public class profile_Fragment extends Fragment {
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getContext(), SignIn_Activity.class));
-                getActivity().finish();
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                alertDialogBuilder.setTitle("Confirm Logout");
+                alertDialogBuilder.setIcon(R.drawable.logo);
+                alertDialogBuilder.setMessage("Do you really want to logout?");
+                alertDialogBuilder.setCancelable(false);
+                alertDialogBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(getContext(), SignIn_Activity.class));
+                        getActivity().finish();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
-
-        Delete.setOnClickListener(view1 -> deleteAccount()); //To delete account
 
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
             @Override
@@ -93,25 +113,30 @@ public class profile_Fragment extends Fragment {
         Email = view.findViewById(R.id.email);
         Uid = view.findViewById(R.id.uid);
         OrgName = view.findViewById(R.id.orgname);
-        Delete = view.findViewById(R.id.delete_button);
     }
 
-    public void deleteAccount() { //function to delete account
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+    public void onBackPressed() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+
+        alertDialogBuilder.setTitle("Confirm Exit");
+        alertDialogBuilder.setIcon(R.drawable.logo);
+        alertDialogBuilder.setMessage("Do you really want to exit?");
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getContext(), "Account Deleted Successfully!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getContext(), SignIn_Activity.class));
-                    getActivity().finish();
-                } else {
-                    Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
-                }
+            public void onClick(DialogInterface dialogInterface, int i) {
+                getActivity().finishAffinity();
             }
         });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
+
 
 
 //    private void Fetch() {
