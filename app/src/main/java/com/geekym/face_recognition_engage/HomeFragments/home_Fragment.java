@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+import com.geekym.face_recognition_engage.Attendance_Result_Activity;
 import com.geekym.face_recognition_engage.Attendance_Scanner_Activity;
 import com.geekym.face_recognition_engage.R;
 import com.google.firebase.auth.FirebaseAuth;

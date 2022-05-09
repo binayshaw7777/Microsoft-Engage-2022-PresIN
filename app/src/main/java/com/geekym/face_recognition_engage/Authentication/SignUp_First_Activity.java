@@ -2,9 +2,6 @@ package com.geekym.face_recognition_engage.Authentication;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
@@ -45,6 +45,8 @@ public class SignUp_First_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_first);
 
         Initialization();
+
+        ScanFace.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SignUp_Second_Activity.class)));
 
         LoginPage.setOnClickListener(view ->
                 startActivity(new Intent(getApplicationContext(), SignIn_Activity.class))); //Already have an account

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     app:layoutDescription="@xml/activity_main_scene"
     android:background="@color/white"
-    tools:context=".Onboarding.Splash_Screen_Activity">
+    tools:context=".Introduction.Splash_Screen_Activity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/backgroundLayout"
