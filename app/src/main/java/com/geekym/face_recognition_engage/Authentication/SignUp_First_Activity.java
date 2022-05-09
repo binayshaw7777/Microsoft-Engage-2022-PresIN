@@ -61,7 +61,38 @@ public class SignUp_First_Activity extends AppCompatActivity {
                 String sOrg = OrgName.getText().toString();
                 String sName = Name.getText().toString();
 
-                validate(sName, sEmail, sPass, sID, sOrg);
+                if (sName.isEmpty()) {
+                    Name.setError("Field can't be empty");
+                    Name.requestFocus();
+                    return;
+                }
+                if (sEmail.isEmpty()) {
+                    Email.setError("Field can't be empty");
+                    Email.requestFocus();
+                    return;
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(sEmail).matches()) {
+                    Email.setError("Please enter a valid email address");
+                    Email.requestFocus();
+                    return;
+                } else if (sPass.isEmpty()) {
+                    Password.setError("Field can't be empty");
+                    Password.requestFocus();
+                    return;
+                } else if (sPass.length() < 6) {
+                    Password.setError("Password must be at least 6 characters");
+                    Password.requestFocus();
+                    return;
+                } else if (sID.isEmpty()) {
+                    OrgID.setError("Field can't be empty");
+                    OrgID.requestFocus();
+                    return;
+                } else if (sOrg.isEmpty()) {
+                    OrgName.setError("Field can't be empty");
+                    OrgName.requestFocus();
+                    return;
+                }
+
+              //  validate(sName, sEmail, sPass, sID, sOrg);
 
                 progressBar.setVisibility(View.VISIBLE);
                 mAuth.createUserWithEmailAndPassword(sEmail, sPass)
