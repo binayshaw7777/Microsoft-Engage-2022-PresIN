@@ -10,6 +10,7 @@
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="PresIN"
+        android:largeHeap="true"
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Face_Recognition_Engage">
@@ -46,6 +47,9 @@
         <activity
             android:name=".HomeScreen"
             android:exported="true" />
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="face" />
     </application>
 
 </manifest>

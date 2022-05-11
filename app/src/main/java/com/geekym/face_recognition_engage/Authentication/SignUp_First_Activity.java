@@ -55,6 +55,8 @@ public class SignUp_First_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                String Embeddings = getIntent().getStringExtra("Face_Embeddings");
+
                 String sEmail = Email.getText().toString();
                 String sPass = Password.getText().toString();
                 String sID = OrgID.getText().toString();
@@ -101,7 +103,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
 
-                                    Users users = new Users(sName, sEmail, sID, sOrg);
+                                    Users users = new Users(sName, sEmail, sID, sOrg, Embeddings);
 
                                     FirebaseDatabase.getInstance().getReference("Users")
                                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

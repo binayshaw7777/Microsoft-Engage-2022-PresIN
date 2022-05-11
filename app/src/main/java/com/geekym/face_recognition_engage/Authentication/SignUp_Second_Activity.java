@@ -3,6 +3,7 @@ package com.geekym.face_recognition_engage.Authentication;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
@@ -16,13 +17,13 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.YuvImage;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Pair;
 import android.util.Size;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -37,7 +38,6 @@ import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
 
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.SimilarityClassifier;
@@ -46,6 +46,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.face.Face;
 import com.google.mlkit.vision.face.FaceDetection;
@@ -71,32 +72,34 @@ import java.util.concurrent.Executors;
 
 public class SignUp_Second_Activity extends AppCompatActivity {
 
-    FaceDetector detector;
-    Interpreter tfLite;
+    ImageView Info, FacePeview;
+    Button Next;
+    HashMap<String, SimilarityClassifier.Recognition> map = new HashMap<String, SimilarityClassifier.Recognition>();
+    ImageButton addFace;
 
-    ImageButton Add;
-    ImageView Face_Preview;
+    FaceDetector detector;
+    private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+    PreviewView previewView;
+    Interpreter tfLite;
+    CameraSelector cameraSelector;
+    float distance = 1.0f;
     boolean start = true, flipX = false;
-    float[][] embeddings;
+    Context context = SignUp_Second_Activity.this;
+    int cam_face = CameraSelector.LENS_FACING_FRONT; //Default Back Camera
+    ProcessCameraProvider cameraProvider;
 
     int[] intValues;
     int inputSize = 112;  //Input size for model
     boolean isModelQuantized = false;
+    float[][] embeddings;
     float IMAGE_MEAN = 128.0f;
     float IMAGE_STD = 128.0f;
     int OUTPUT_SIZE = 192; //Output size of model
-    private static int SELECT_PICTURE = 1;
-    ProcessCameraProvider cameraProvider;
-    private static final int MY_CAMERA_REQUEST_CODE = 100;
 
-    //Camera Preview Variables
-    PreviewView previewView;
-    private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-    CameraSelector cameraSelector; //Camera Facing
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
 
     String modelFile = "mobile_face_net.tflite"; //model name
 
-    private HashMap<String, SimilarityClassifier.Recognition> registered = new HashMap<>(); //saved Faces
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -104,13 +107,38 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_second);
 
+        Initialization();
+
         //Camera Permission
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
         }
 
-        Initialize();
+        Info.setOnClickListener(view ->
+                Toast.makeText(this, "Please face the camera properly to register your face", Toast.LENGTH_SHORT).show());
 
+        Next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (map.containsKey("added")) {
+                    String Json = getFromMap(map); //we convert the map into a string by calling a function and passing the map
+                    Intent intent = new Intent(getApplicationContext(), SignUp_First_Activity.class);
+                    intent.putExtra("Face_Embeddings", Json); //Here we are passing face embeddings to the next activity
+                    Toast.makeText(context, Json, Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+
+        addFace.setOnClickListener(view -> AddFace()); //Adding Face to Hashmap
+
+        //Load model
+        try {
+            tfLite = new Interpreter(loadModelFile(SignUp_Second_Activity.this, modelFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //Initialize Face Detector
         FaceDetectorOptions highAccuracyOpts =
                 new FaceDetectorOptions.Builder()
@@ -119,53 +147,26 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         detector = FaceDetection.getClient(highAccuracyOpts);
 
         cameraBind();
-
-        //Load model
-        try {
-            tfLite = new Interpreter(loadModelFile(SignUp_Second_Activity.this, modelFile));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Add.setOnClickListener(view -> addFace());
-
     }
 
-    private MappedByteBuffer loadModelFile(Activity activity, String MODEL_FILE) throws IOException {
-        AssetFileDescriptor fileDescriptor = activity.getAssets().openFd(MODEL_FILE);
-        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
-        FileChannel fileChannel = inputStream.getChannel();
-        long startOffset = fileDescriptor.getStartOffset();
-        long declaredLength = fileDescriptor.getDeclaredLength();
-        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
-    }
-
-    private void Initialize() {
-        Add = findViewById(R.id.addButton);
-        Face_Preview = findViewById(R.id.face_preview);
-    }
-
-    private void addFace() {
-        start = false;
-
-        //Create and Initialize new object with Face embeddings and Name.
-        SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition(
-                "0", "", -1f);
+    private void AddFace() {
+        if (!map.isEmpty())
+            map.clear();
+        SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition("0", "", -1f);
         result.setExtra(embeddings);
-
-        start = true;
+        map.put("added", result);
+        Toast.makeText(context, "Face Saved", Toast.LENGTH_SHORT).show();
     }
 
     //Bind camera and preview view
     private void cameraBind() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
-
         previewView = findViewById(R.id.previewView);
         cameraProviderFuture.addListener(() -> {
             try {
                 cameraProvider = cameraProviderFuture.get();
 
-                bindPreview(cameraProvider);
+                bindPreview(cameraProvider); //Passes to bindPreview whatever is input of Camera
             } catch (ExecutionException | InterruptedException e) {
                 // No errors need to be handled for this in Future.
                 // This should never be reached.
@@ -174,19 +175,14 @@ public class SignUp_Second_Activity extends AppCompatActivity {
     }
 
     void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
-        Preview preview = new Preview.Builder()
-                .build();
-
-        cameraSelector = new CameraSelector.Builder()
-                .requireLensFacing(cameraSelector.LENS_FACING_FRONT)
-                .build();
-
+        Preview preview = new Preview.Builder().build();
+        cameraSelector = new CameraSelector.Builder().requireLensFacing(cam_face).build();
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
-        ImageAnalysis imageAnalysis =
-                new ImageAnalysis.Builder()
-                        .setTargetResolution(new Size(640, 480))
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST) //Latest frame is shown
-                        .build();
+
+        ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
+                .setTargetResolution(new Size(640, 480))
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST) //Latest frame is shown
+                .build();
 
         Executor executor = Executors.newSingleThreadExecutor();
         imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
@@ -199,7 +195,6 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                 }
                 InputImage image = null;
 
-
                 @SuppressLint({"UnsafeExperimentalUsageError", "UnsafeOptInUsageError"})
                 // Camera Feed-->Analyzer-->ImageProxy-->mediaImage-->InputImage(needed for ML kit face detection)
 
@@ -210,65 +205,79 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                 }
 
                 //Process acquired image to detect faces
+                /**ML Kit to detect faces**/
                 Task<List<Face>> result = detector.process(image).addOnSuccessListener(new OnSuccessListener<List<Face>>() {
-                    @Override
-                    public void onSuccess(List<Face> faces) {
-
-                        if (faces.size() != 0) {
-
-                            Face face = faces.get(0); //Get first face from detected faces
-
-                            //mediaImage to Bitmap
-                            Bitmap frame_bmp = toBitmap(mediaImage);
-
-                            int rot = imageProxy.getImageInfo().getRotationDegrees();
-
-                            //Adjust orientation of Face
-                            Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false, false);
-
-                            //Get bounding box of face
-                            RectF boundingBox = new RectF(face.getBoundingBox());
-
-                            //Crop out bounding box from whole Bitmap(image)
-                            Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
-
-                            if (flipX)
-                                cropped_face = rotateBitmap(cropped_face, 0, flipX, false);
-                            //Scale the acquired Face to 112*112 which is required input for model
-                            Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
-
-                            if (start)
-                                recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
-                        }
-                    }
-                }).addOnFailureListener(
-                        new OnFailureListener() {
                             @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Task failed with an exception
-                                // ...
+                            public void onSuccess(List<Face> faces) {
+
+                                if (faces.size() != 0) {
+
+                                    Face face = faces.get(0); //Get first face from detected faces
+
+                                    //mediaImage to Bitmap
+                                    Bitmap frame_bmp = toBitmap(mediaImage);
+
+                                    int rot = imageProxy.getImageInfo().getRotationDegrees();
+
+                                    //Adjust orientation of Face
+                                    Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false, false);
+
+
+                                    //Get bounding box of face
+                                    RectF boundingBox = new RectF(face.getBoundingBox());
+
+                                    //Crop out bounding box from whole Bitmap(image)
+                                    Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
+
+                                    if (flipX)
+                                        cropped_face = rotateBitmap(cropped_face, 0, flipX, false);
+                                    //Scale the acquired Face to 112*112 which is required input for model
+                                    Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
+
+                                    if (start) //If ImageView is running
+                                        recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
+
+                                } else {
+                                    if (map.isEmpty()) {
+                                        addFace.setOnClickListener(view -> Toast.makeText(context, "Add Face", Toast.LENGTH_SHORT).show());
+                                    } else {
+                                        addFace.setOnClickListener(view -> Toast.makeText(context, "No Face Detected", Toast.LENGTH_SHORT).show());
+                                    }
+                                }
+
                             }
-                        }).addOnCompleteListener(new OnCompleteListener<List<Face>>() {
-                    @Override
-                    public void onComplete(@NonNull Task<List<Face>> task) {
-                        imageProxy.close(); //v.important to acquire next frame for analysis
-                    }
-                });
+                        })
+                        .addOnFailureListener(
+                                new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Task failed with an exception
+                                    }
+                                })
+                        .addOnCompleteListener(new OnCompleteListener<List<Face>>() {
+                            @Override
+                            public void onComplete(@NonNull Task<List<Face>> task) {
+
+                                imageProxy.close(); //v.important to acquire next frame for analysis
+                            }
+                        });
+
+
             }
         });
 
-        cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
+        cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
 
     }
 
     public void recognizeImage(final Bitmap bitmap) {
 
         // set Face to Preview
-        Face_Preview.setImageBitmap(bitmap);
+        FacePeview.setImageBitmap(bitmap);
 
         //Create ByteBuffer to store normalized image
 
-        ByteBuffer imgData = ByteBuffer.allocateDirect(1 * inputSize * inputSize * 3 * 4);
+        ByteBuffer imgData = ByteBuffer.allocateDirect(inputSize * inputSize * 3 * 4);
 
         imgData.order(ByteOrder.nativeOrder());
 
@@ -300,7 +309,6 @@ public class SignUp_Second_Activity extends AppCompatActivity {
 
         Map<Integer, Object> outputMap = new HashMap<>();
 
-
         embeddings = new float[1][OUTPUT_SIZE]; //output of model will be stored in this variable
 
         outputMap.put(0, embeddings);
@@ -308,6 +316,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         tfLite.runForMultipleInputsOutputs(inputArray, outputMap); //Run model
     }
 
+    /**Bitmap Processing**/
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
         int height = bm.getHeight();
@@ -444,16 +453,33 @@ public class SignUp_Second_Activity extends AppCompatActivity {
 
         byte[] nv21 = YUV_420_888toNV21(image);
 
+
         YuvImage yuvImage = new YuvImage(nv21, ImageFormat.NV21, image.getWidth(), image.getHeight(), null);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         yuvImage.compressToJpeg(new Rect(0, 0, yuvImage.getWidth(), yuvImage.getHeight()), 75, out);
 
         byte[] imageBytes = out.toByteArray();
-
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
+    /**Bitmap Processing**/
+
+    //Convert hashmap to string, basically to pass and store it in firebase
+    private String getFromMap(HashMap<String, SimilarityClassifier.Recognition> json) {
+        String jsonString = new Gson().toJson(json);
+        return jsonString;
+    }
+
+    //Initializing all the variables
+    private void Initialization() {
+        Info = findViewById(R.id.info_icon);
+        Next = findViewById(R.id.next);
+        addFace = findViewById(R.id.addButton);
+        FacePeview = findViewById(R.id.face_preview);
+    }
+
+    //To ask permission for camera
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -466,68 +492,14 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         }
     }
 
-    //Similar Analyzing Procedure
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK) {
-//            if (requestCode == SELECT_PICTURE) {
-//                Uri selectedImageUri = data.getData();
-//                try {
-//                    InputImage impphoto = InputImage.fromBitmap(getBitmapFromUri(selectedImageUri), 0);
-//                    detector.process(impphoto).addOnSuccessListener(new OnSuccessListener<List<Face>>() {
-//                        @Override
-//                        public void onSuccess(List<Face> faces) {
-//
-//                            if (faces.size() != 0) {
-//                                recognize.setText("Recognize");
-//                                add_face.setVisibility(View.VISIBLE);
-//                                reco_name.setVisibility(View.INVISIBLE);
-//                                face_preview.setVisibility(View.VISIBLE);
-//                                preview_info.setText("1.Bring Face in view of Camera.\n\n2.Your Face preview will appear here.\n\n3.Click Add button to save face.");
-//                                Face face = faces.get(0);
-//
-//                                //write code to recreate bitmap from source
-//                                //Write code to show bitmap to canvas
-//
-//                                Bitmap frame_bmp = null;
-//                                try {
-//                                    frame_bmp = getBitmapFromUri(selectedImageUri);
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                Bitmap frame_bmp1 = rotateBitmap(frame_bmp, 0, flipX, false);
-//
-//                                RectF boundingBox = new RectF(face.getBoundingBox());
-//
-//
-//                                Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
-//
-//                                Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
-//                                // face_preview.setImageBitmap(scaled);
-//
-//                                recognizeImage(scaled);
-//                                addFace();
-////                                System.out.println(boundingBox);
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        }
-//                    }).addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            start = true;
-//                            Toast.makeText(context, "Failed to add", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                    face_preview.setImageBitmap(getBitmapFromUri(selectedImageUri));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
+    //Loads model file
+    private MappedByteBuffer loadModelFile(Activity activity, String MODEL_FILE) throws IOException {
+        AssetFileDescriptor fileDescriptor = activity.getAssets().openFd(MODEL_FILE);
+        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
+        FileChannel fileChannel = inputStream.getChannel();
+        long startOffset = fileDescriptor.getStartOffset();
+        long declaredLength = fileDescriptor.getDeclaredLength();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
+    }
 
 }

@@ -54,33 +54,40 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/container"
+        <androidx.cardview.widget.CardView
             android:layout_width="330dp"
             android:layout_height="330dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.060000002">
+            app:cardCornerRadius="200dp">
 
-            <androidx.camera.view.PreviewView
-                android:id="@+id/previewView"
+            <FrameLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </androidx.camera.view.PreviewView>
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.060000002">
 
-        </FrameLayout>
+                <androidx.camera.view.PreviewView
+                    android:id="@+id/previewView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></androidx.camera.view.PreviewView>
+
+            </FrameLayout>
+
+        </androidx.cardview.widget.CardView>
+
 
         <TextView
             android:id="@+id/face_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text=""
             android:textColor="@color/lightblue"
             android:textSize="20dp"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 

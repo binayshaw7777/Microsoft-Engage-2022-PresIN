@@ -43,13 +43,13 @@ dependencies {
 
     //Firebase
     implementation 'com.google.firebase:firebase-auth:21.0.3'
-    implementation 'com.google.firebase:firebase-database:20.0.4'
+    implementation 'com.google.firebase:firebase-database:20.0.5'
     implementation platform('com.google.firebase:firebase-bom:29.3.1')
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-analytics'
 
     //LottieFiles for SplashScreen
-    implementation 'com.airbnb.android:lottie:3.4.0'
+    implementation 'com.airbnb.android:lottie:4.2.2'
 
     //ML Kit
     implementation 'com.google.mlkit:face-detection:16.1.5'

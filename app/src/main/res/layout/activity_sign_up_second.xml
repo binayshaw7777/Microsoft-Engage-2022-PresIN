@@ -54,22 +54,49 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/container"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="250dp"
-            android:layout_height="250dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.060000002">
+            android:layout_height="250dp">
 
-            <androidx.camera.view.PreviewView
-                android:id="@+id/previewView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            <ImageView
+                android:id="@+id/info_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/info"
+                app:layout_constraintEnd_toEndOf="@+id/cardView2"
+                app:layout_constraintTop_toTopOf="@+id/cardView2" />
 
-        </FrameLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                app:cardCornerRadius="200dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <FrameLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.060000002">
+
+                    <androidx.camera.view.PreviewView
+                        android:id="@+id/previewView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </FrameLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -81,10 +108,10 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="164dp"
                 android:layout_marginBottom="168dp"
+                android:background="@drawable/add"
                 android:elevation="5dp"
                 app:layout_constraintBottom_toBottomOf="@+id/face_preview"
-                app:layout_constraintStart_toStartOf="@+id/face_preview"
-                android:background="@drawable/add" />
+                app:layout_constraintStart_toStartOf="@+id/face_preview" />
 
 
             <ImageView
@@ -113,7 +140,7 @@
             app:layout_constraintTop_toBottomOf="@+id/container">
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/next"
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/gradient_button"
@@ -121,10 +148,10 @@
                 android:rotationX="0"
                 android:rotationY="0"
                 android:text="Next"
-                android:textSize="16dp"
+                android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textAlignment="center"
+                android:textSize="16dp"
                 android:visibility="visible"
                 tools:visibility="visible" />
 
