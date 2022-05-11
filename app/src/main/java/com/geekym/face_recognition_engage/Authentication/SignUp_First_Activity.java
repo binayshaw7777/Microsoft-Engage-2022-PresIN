@@ -80,7 +80,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-    boolean start = true, flipX = false;
+    boolean flipX = false;
     Context context = SignUp_First_Activity.this;
     int cam_face = CameraSelector.LENS_FACING_FRONT; //Default Back Camera
     ProcessCameraProvider cameraProvider;
@@ -231,14 +231,14 @@ public class SignUp_First_Activity extends AppCompatActivity {
                                     //Scale the acquired Face to 112*112 which is required input for model
                                     Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
 
-                                    if (start) //If ImageView is running
+                                   // if (start) //If ImageView is running
                                         recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
 
                                 } else {
                                     addFace.setVisibility(View.INVISIBLE);
-                                    if (map.isEmpty()) {
-                                        addFace.setOnClickListener(view -> Toast.makeText(context, "Add Face", Toast.LENGTH_SHORT).show());
-                                    } else {
+                                    if (!map.isEmpty()) {
+//                                        addFace.setOnClickListener(view -> Toast.makeText(context, "Add Face", Toast.LENGTH_SHORT).show());
+//                                    } else {
                                         addFace.setOnClickListener(view -> Toast.makeText(context, "No Face Detected", Toast.LENGTH_SHORT).show());
                                     }
                                 }
