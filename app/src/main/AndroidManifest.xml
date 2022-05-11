@@ -24,10 +24,10 @@
             android:name=".Authentication.Forgot_Password_Activity"
             android:exported="true" />
         <activity
-            android:name=".Authentication.SignUp_Second_Activity"
+            android:name=".Authentication.SignUp_First_Activity"
             android:exported="true" />
         <activity
-            android:name=".Authentication.SignUp_First_Activity"
+            android:name=".Authentication.SignUp_Second_Activity"
             android:exported="true" />
         <activity
             android:name=".Authentication.SignIn_Activity"

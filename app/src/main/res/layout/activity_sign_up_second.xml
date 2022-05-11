@@ -25,10 +25,10 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.004"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -37,127 +37,162 @@
             style="@style/TextAppearance.AppCompat.Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scanning Facial Data"
+            android:text="Create Account"
             android:textColor="@color/white"
-            android:textSize="25dp"
+            android:textSize="35dp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="212dp"
             tools:layout_editor_absoluteY="220dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Sign up with your new account"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/white_bar"
+        android:layout_marginTop="140dp"
+        android:background="@color/white"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="250dp"
-            android:layout_height="250dp">
+        <EditText
+            android:id="@+id/name_box"
+            android:layout_width="330dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/stroked"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="text"
+            android:paddingLeft="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/pass_box"
+            app:layout_constraintEnd_toEndOf="@+id/pass_box"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/pass_box" />
 
-            <ImageView
-                android:id="@+id/info_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/info"
-                app:layout_constraintEnd_toEndOf="@+id/cardView2"
-                app:layout_constraintTop_toTopOf="@+id/cardView2" />
+        <EditText
+            android:id="@+id/email_box"
+            android:layout_width="330dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/stroked"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/pass_box"
+            app:layout_constraintEnd_toEndOf="@+id/pass_box"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/pass_box" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView2"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                app:cardCornerRadius="200dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        <EditText
+            android:id="@+id/id_box"
+            android:layout_width="330dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/stroked"
+            android:ems="10"
+            android:hint="Work / College ID"
+            android:inputType="text"
+            android:paddingLeft="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/pass_box"
+            app:layout_constraintEnd_toEndOf="@+id/pass_box"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/pass_box" />
 
-                <FrameLayout
-                    android:id="@+id/container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.060000002">
+        <EditText
+            android:id="@+id/orgname_box"
+            android:layout_width="330dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/stroked"
+            android:ems="10"
+            android:hint="Organization Name"
+            android:inputType="text"
+            android:paddingLeft="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/pass_box"
+            app:layout_constraintEnd_toEndOf="@+id/pass_box"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/pass_box" />
 
-                    <androidx.camera.view.PreviewView
-                        android:id="@+id/previewView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+        <EditText
+            android:id="@+id/pass_box"
+            android:layout_width="330dp"
+            android:layout_height="55dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/stroked"
+            android:drawableRight="@drawable/visibility_off"
+            android:drawableTint="@color/lightblue"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:longClickable="false"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/pass_box"
+            app:layout_constraintEnd_toEndOf="@+id/pass_box"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/pass_box" />
 
-                </FrameLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:id="@+id/addButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="164dp"
-                android:layout_marginBottom="168dp"
-                android:background="@drawable/add"
-                android:elevation="5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/face_preview"
-                app:layout_constraintStart_toStartOf="@+id/face_preview" />
-
-
-            <ImageView
-                android:id="@+id/face_preview"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:background="#2C7E57C2"
-                android:elevation="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@android:drawable/screen_background_light_transparent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/signup_button"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/positive"
+            android:text="Create Account"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/container">
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/next"
-                android:layout_width="330dp"
+            <TextView
+                android:id="@+id/text2_tv"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/gradient_button"
-                android:rotation="0"
-                android:rotationX="0"
-                android:rotationY="0"
-                android:text="Next"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:text="Already have an account?   "
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/SignIn_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign In"
+                android:textColor="@color/lightblue"
                 android:textSize="16dp"
-                android:visibility="visible"
-                tools:visibility="visible" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar_SignUp1"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="60dp"
+        android:layout_height="58dp"
+        android:progressBackgroundTint="@color/lightblue"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
