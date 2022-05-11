@@ -82,7 +82,6 @@ public class SignUp_Second_Activity extends AppCompatActivity {
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-    float distance = 1.0f;
     boolean start = true, flipX = false;
     Context context = SignUp_Second_Activity.this;
     int cam_face = CameraSelector.LENS_FACING_FRONT; //Default Back Camera
@@ -127,7 +126,8 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                     Toast.makeText(context, Json, Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                     finish();
-                }
+                } else
+                    Toast.makeText(context, "Face not added!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -155,7 +155,6 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition("0", "", -1f);
         result.setExtra(embeddings);
         map.put("added", result);
-        Toast.makeText(context, "Face Saved", Toast.LENGTH_SHORT).show();
     }
 
     //Bind camera and preview view

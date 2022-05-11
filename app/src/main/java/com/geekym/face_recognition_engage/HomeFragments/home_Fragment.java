@@ -3,6 +3,7 @@ package com.geekym.face_recognition_engage.HomeFragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -12,14 +13,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.geekym.face_recognition_engage.Attendance_Result_Activity;
 import com.geekym.face_recognition_engage.Attendance_Scanner_Activity;
 import com.geekym.face_recognition_engage.R;
+import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,7 +48,28 @@ public class home_Fragment extends Fragment {
 
         Initialization(view);
 
-        clockInOut.setOnClickListener(view1 -> startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)));
+        clockInOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Users userprofile = snapshot.getValue(Users.class);
+                        if (userprofile != null) {
+                            String Embeddings = userprofile.embeddings;
+                            Intent intent = new Intent(getContext(), Attendance_Scanner_Activity.class);
+                            intent.putExtra("Embeddings", Embeddings);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         calendar = Calendar.getInstance();
         dateFormat = new SimpleDateFormat("EEEE, MMM d");
