@@ -298,6 +298,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                 float distance_local = nearest.get(0).second;
 
                 if (distance_local < distance) {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
+                    distance = Float.MIN_VALUE;
                     Intent intent = new Intent(getApplicationContext(), Attendance_Result_Activity.class);
                     startActivity(intent);
                     finish();
