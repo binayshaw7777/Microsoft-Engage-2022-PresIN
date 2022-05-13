@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.geekym.face_recognition_engage.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 public class Forgot_Password_Activity extends AppCompatActivity {
 
@@ -44,9 +45,9 @@ public class Forgot_Password_Activity extends AppCompatActivity {
             Auth2.sendPasswordResetEmail(Email).addOnCompleteListener(task -> {
                 try {
                     if (task.isSuccessful())
-                        Toast.makeText(getApplicationContext(), "Password Reset email sent!", Toast.LENGTH_SHORT).show();
+                        DynamicToast.makeSuccess(this, "Password Reset email sent!").show();
                     else
-                        Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                        DynamicToast.makeSuccess(this, "Something went wrong").show();
 
                 } catch (Exception e) {
                     e.printStackTrace();

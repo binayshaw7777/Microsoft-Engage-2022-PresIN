@@ -47,6 +47,7 @@ import com.google.mlkit.vision.face.Face;
 import com.google.mlkit.vision.face.FaceDetection;
 import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import org.tensorflow.lite.Interpreter;
 
@@ -102,8 +103,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         Initialization();
 
         info.setOnClickListener(view ->
-                Toast.makeText(this, "Please face the camera properly to register your face", Toast.LENGTH_SHORT).show());
-
+                DynamicToast.make(this, "Please face the camera properly to register your face", getResources()
+                        .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
         String Embeddings = getIntent().getStringExtra("Embeddings");
         map.putAll(StringToMap(Embeddings));
 
@@ -486,7 +487,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
             }
             entry.getValue().setExtra(output);
         }
-        Toast.makeText(context, "Recognitions Loaded", Toast.LENGTH_SHORT).show();
         return retrievedMap;
     }
 
@@ -496,9 +496,9 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+                DynamicToast.makeSuccess(this, "Camera permission granted").show();
             } else {
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+                DynamicToast.makeError(this, "Camera permission denied").show();
             }
         }
     }

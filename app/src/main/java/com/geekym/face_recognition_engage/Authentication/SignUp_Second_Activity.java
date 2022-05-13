@@ -22,6 +22,7 @@ import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.util.Objects;
 
@@ -102,22 +103,22 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                                             // Sign in success, update UI with the signed-in user's information
                                             Log.d(TAG, "createUserWithEmail:success");
                                             FirebaseUser user = mAuth.getCurrentUser();
+                                            DynamicToast.makeSuccess(this, "Registered Successfully").show();
                                             startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
                                             assert user != null;
                                             user.sendEmailVerification();
-                                            Toast.makeText(SignUp_Second_Activity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                                            Toast.makeText(SignUp_Second_Activity.this, "Verification Mail Sent", Toast.LENGTH_SHORT).show();
+                                            DynamicToast.makeSuccess(this, "Verification Mail Sent").show();
                                         } else {
                                             // If sign in fails, display a message to the user.
                                             Log.w(TAG, "createUserWithEmail:failure", task1.getException());
-                                            Toast.makeText(getApplicationContext(), "User data failed.", Toast.LENGTH_SHORT).show();
+                                            DynamicToast.makeError(this, "Failed").show();
                                         }
                                         progressBar.setVisibility(View.GONE);
                                     });
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed" + task.getException(), Toast.LENGTH_SHORT).show();
+                            DynamicToast.makeSuccess(this, "Authentication Failed").show();
                             progressBar.setVisibility(View.GONE);
                         }
                     });

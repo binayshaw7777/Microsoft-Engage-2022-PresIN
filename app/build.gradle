@@ -66,4 +66,7 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-task-vision:0.3.0'
     implementation 'org.tensorflow:tensorflow-lite-support:0.3.0'
     implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
+
+    //Custom Toasts
+    implementation 'com.pranavpandey.android:dynamic-toasts:4.1.0'
 }

@@ -14,12 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 public class SignIn_Activity extends AppCompatActivity {
 
@@ -105,7 +105,7 @@ public class SignIn_Activity extends AppCompatActivity {
                 if (!user.isEmailVerified()) {
                     progressBar.setVisibility(View.GONE);
                     user.sendEmailVerification();
-                    Toast.makeText(getApplicationContext(), "Check your email to verify your account and Login again", Toast.LENGTH_SHORT).show();
+                    DynamicToast.makeSuccess(this, "Check your email to verify your account and Login again").show();
                 } else {
                     progressBar.setVisibility(View.GONE);
                     Intent intent2 = new Intent(getApplicationContext(), HomeScreen.class);
@@ -114,7 +114,7 @@ public class SignIn_Activity extends AppCompatActivity {
                 }
             } else {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), "Failed to Login! Please check your credentials", Toast.LENGTH_SHORT).show();
+                DynamicToast.makeSuccess(this, "Failed to Login! Please check your credentials").show();
             }
         });
     }

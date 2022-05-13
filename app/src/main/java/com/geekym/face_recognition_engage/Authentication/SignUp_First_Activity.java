@@ -46,6 +46,7 @@ import com.google.mlkit.vision.face.Face;
 import com.google.mlkit.vision.face.FaceDetection;
 import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import org.tensorflow.lite.Interpreter;
 
@@ -106,7 +107,8 @@ public class SignUp_First_Activity extends AppCompatActivity {
         }
 
         Info.setOnClickListener(view ->
-                Toast.makeText(this, "Please face the camera properly to register your face", Toast.LENGTH_SHORT).show());
+                DynamicToast.make(this, "Please face the camera properly to register your face", getResources()
+                        .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
 
         Next.setOnClickListener(view -> {
             if (map.containsKey("added")) {
@@ -116,7 +118,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else
-                Toast.makeText(context, "Face not added!", Toast.LENGTH_SHORT).show();
+                DynamicToast.makeError(this, "Face not Added").show();
         });
 
         addFace.setOnClickListener(view -> AddFace()); //Adding Face to Hashmap
@@ -143,7 +145,8 @@ public class SignUp_First_Activity extends AppCompatActivity {
         SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition("0", "", -1f);
         result.setExtra(embeddings);
         map.put("added", result);
-        Toast.makeText(context, "Face Added Successfully", Toast.LENGTH_SHORT).show();
+        DynamicToast.make(this, "Face Added Successfully", getResources()
+                .getColor(R.color.white), getResources().getColor(R.color.green_desat)).show();
     }
 
     //Bind camera and preview view
@@ -458,11 +461,10 @@ public class SignUp_First_Activity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
-            }
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                DynamicToast.makeSuccess(this, "Camera permission granted").show();
+             else
+                DynamicToast.makeError(this, "Camera permission denied").show();
         }
     }
 
