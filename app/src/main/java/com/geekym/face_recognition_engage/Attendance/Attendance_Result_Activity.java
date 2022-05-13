@@ -24,7 +24,6 @@ public class Attendance_Result_Activity extends AppCompatActivity {
 
     Button Home;
     TextView Name;
-    private FirebaseUser user;
     private DatabaseReference reference;
     private String userID;
 
@@ -57,8 +56,9 @@ public class Attendance_Result_Activity extends AppCompatActivity {
     private void Initialize() {
         Home = findViewById(R.id.back_home);
         Name = findViewById(R.id.name_display);
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
+        assert user != null;
         userID = user.getUid();
     }
 }

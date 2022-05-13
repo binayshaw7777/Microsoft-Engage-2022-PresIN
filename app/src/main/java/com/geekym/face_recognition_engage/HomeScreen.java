@@ -1,25 +1,21 @@
 package com.geekym.face_recognition_engage;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
-
 import com.geekym.face_recognition_engage.HomeFragments.home_Fragment;
 import com.geekym.face_recognition_engage.HomeFragments.profile_Fragment;
 import com.geekym.face_recognition_engage.HomeFragments.status_Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 public class HomeScreen extends AppCompatActivity {
 
     BottomNavigationView bottomBar;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,24 +26,22 @@ public class HomeScreen extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.main, new home_Fragment()).commit();
 
         bottomBar.setSelectedItemId(R.id.home);
-        bottomBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment = null;
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        fragment = new home_Fragment();
-                        break;
-                    case R.id.scan:
-                        fragment = new status_Fragment();
-                        break;
-                    case R.id.profile:
-                        fragment = new profile_Fragment();
-                        break;
-                }
-                getSupportFragmentManager().beginTransaction().replace(R.id.main, fragment).commit();
-                return true;
+        bottomBar.setOnItemSelectedListener(item -> {
+            Fragment fragment = null;
+            switch (item.getItemId()) {
+                case R.id.home:
+                    fragment = new home_Fragment();
+                    break;
+                case R.id.scan:
+                    fragment = new status_Fragment();
+                    break;
+                case R.id.profile:
+                    fragment = new profile_Fragment();
+                    break;
             }
+            assert fragment != null;
+            getSupportFragmentManager().beginTransaction().replace(R.id.main, fragment).commit();
+            return true;
         });
 
     }
@@ -63,16 +57,8 @@ public class HomeScreen extends AppCompatActivity {
         alertDialogBuilder.setIcon(R.drawable.logo);
         alertDialogBuilder.setMessage("Do you really want to exit?");
         alertDialogBuilder.setCancelable(false);
-        alertDialogBuilder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finishAffinity();
-            }
-        });
-        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
+        alertDialogBuilder.setPositiveButton("Exit", (dialogInterface, i) -> finishAffinity());
+        alertDialogBuilder.setNegativeButton("No", (dialogInterface, i) -> {
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();

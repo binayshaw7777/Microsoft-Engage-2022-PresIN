@@ -31,7 +31,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
@@ -39,9 +38,6 @@ import androidx.core.content.ContextCompat;
 
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.SimilarityClassifier;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
@@ -160,88 +156,68 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                 .build();
 
         Executor executor = Executors.newSingleThreadExecutor();
-        imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
-            @Override
-            public void analyze(@NonNull ImageProxy imageProxy) {
-                try {
-                    Thread.sleep(0);  //Camera preview refreshed every 10 millisec(adjust as required)
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                InputImage image = null;
-
-                @SuppressLint({"UnsafeExperimentalUsageError", "UnsafeOptInUsageError"})
-                // Camera Feed-->Analyzer-->ImageProxy-->mediaImage-->InputImage(needed for ML kit face detection)
-
-                Image mediaImage = imageProxy.getImage();
-
-                if (mediaImage != null) {
-                    image = InputImage.fromMediaImage(mediaImage, imageProxy.getImageInfo().getRotationDegrees());
-                }
-
-                //Process acquired image to detect faces
-                /**ML Kit to detect faces**/
-                Task<List<Face>> result = detector.process(image).addOnSuccessListener(new OnSuccessListener<List<Face>>() {
-                            @Override
-                            public void onSuccess(List<Face> faces) {
-
-                                if (faces.size() != 0) {
-
-                                    Face face = faces.get(0); //Get first face from detected faces
-
-                                    //mediaImage to Bitmap
-                                    Bitmap frame_bmp = toBitmap(mediaImage);
-
-                                    int rot = imageProxy.getImageInfo().getRotationDegrees();
-
-                                    //Adjust orientation of Face
-                                    Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false, false);
-
-
-                                    //Get bounding box of face
-                                    RectF boundingBox = new RectF(face.getBoundingBox());
-
-                                    //Crop out bounding box from whole Bitmap(image)
-                                    Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
-
-                                    if (flipX)
-                                        cropped_face = rotateBitmap(cropped_face, 0, flipX, false);
-                                    //Scale the acquired Face to 112*112 which is required input for model
-                                    Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
-
-                                    if (start) //If ImageView is running
-                                        recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
-
-                                } else {
-                                    if (!map.isEmpty())
-                                        FaceStatus.setText("No Face Detected");
-                                }
-                            }
-                        })
-                        .addOnFailureListener(
-                                new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Task failed with an exception
-                                    }
-                                })
-                        .addOnCompleteListener(new OnCompleteListener<List<Face>>() {
-                            @Override
-                            public void onComplete(@NonNull Task<List<Face>> task) {
-
-                                imageProxy.close(); //v.important to acquire next frame for analysis
-                            }
-                        });
-
-
+        imageAnalysis.setAnalyzer(executor, imageProxy -> {
+            try {
+                Thread.sleep(0);  //Camera preview refreshed every 10 millisec(adjust as required)
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            InputImage image = null;
+
+            @SuppressLint({"UnsafeExperimentalUsageError", "UnsafeOptInUsageError"})
+            // Camera Feed-->Analyzer-->ImageProxy-->mediaImage-->InputImage(needed for ML kit face detection)
+
+            Image mediaImage = imageProxy.getImage();
+
+            if (mediaImage != null) {
+                image = InputImage.fromMediaImage(mediaImage, imageProxy.getImageInfo().getRotationDegrees());
+            }
+
+            //Process acquired image to detect faces
+            @SuppressLint("SetTextI18n") Task<List<Face>> result = detector.process(image).addOnSuccessListener(faces -> {
+
+                if (faces.size() != 0) {
+
+                    Face face = faces.get(0); //Get first face from detected faces
+
+                    //mediaImage to Bitmap
+                    Bitmap frame_bmp = toBitmap(mediaImage);
+
+                    int rot = imageProxy.getImageInfo().getRotationDegrees();
+
+                    //Adjust orientation of Face
+                    Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false);
+
+
+                    //Get bounding box of face
+                    RectF boundingBox = new RectF(face.getBoundingBox());
+
+                    //Crop out bounding box from whole Bitmap(image)
+                    Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
+
+                    if (flipX)
+                        cropped_face = rotateBitmap(cropped_face, 0, flipX);
+                    //Scale the acquired Face to 112*112 which is required input for model
+                    Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
+
+                    if (start) //If ImageView is running
+                        recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
+
+                } else {
+                    if (!map.isEmpty())
+                        FaceStatus.setText("No Face Detected");
+                }
+            })
+                    .addOnFailureListener(e -> {// Task failed with an exception
+                        })
+
+                    .addOnCompleteListener(task -> { imageProxy.close(); //v.important to acquire next frame for analysis
+                        });
         });
-
         cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
-
     }
 
-
+    @SuppressLint("SetTextI18n")
     public void recognizeImage(final Bitmap bitmap) {
 
         //Create ByteBuffer to store normalized image
@@ -284,7 +260,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
         tfLite.runForMultipleInputsOutputs(inputArray, outputMap); //Run model
 
-        /**For Recognize**/
+        //For Recognize
         //Compare new face with saved Faces.
         if (map.size() > 0) {
 
@@ -382,14 +358,14 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         return resultBitmap;
     }
 
-    private static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegrees, boolean flipX, boolean flipY) {
+    private static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegrees, boolean flipX) {
         Matrix matrix = new Matrix();
 
         // Rotate the image back to straight.
         matrix.postRotate(rotationDegrees);
 
         // Mirror the image along the X or Y axis.
-        matrix.postScale(flipX ? -1.0f : 1.0f, flipY ? -1.0f : 1.0f);
+        matrix.postScale(flipX ? -1.0f : 1.0f, 1.0f);
         Bitmap rotatedBitmap =
                 Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
@@ -487,10 +463,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
-    /**
-     * Bitmap Processing
-     **/
-
     private void Initialization() {
         FaceStatus = findViewById(R.id.face_status);
         info = findViewById(R.id.info_icon_scanner);
@@ -498,13 +470,9 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     //    Load Faces from Shared Preferences.Json String to Recognition object
     private HashMap<String, SimilarityClassifier.Recognition> StringToMap(String Fetched) {
-//        SharedPreferences sharedPreferences = getSharedPreferences("HashMap", MODE_PRIVATE);
-//        String defValue = new Gson().toJson(new HashMap<String, SimilarityClassifier.Recognition>());
-//        String json = sharedPreferences.getString("map", defValue);
         TypeToken<HashMap<String, SimilarityClassifier.Recognition>> token = new TypeToken<HashMap<String, SimilarityClassifier.Recognition>>() {
         };
         HashMap<String, SimilarityClassifier.Recognition> retrievedMap = new Gson().fromJson(Fetched, token.getType());
-
         //During type conversion and save/load procedure,format changes(eg float converted to double).
         //So embeddings need to be extracted from it in required format(eg.double to float).
         for (Map.Entry<String, SimilarityClassifier.Recognition> entry : retrievedMap.entrySet()) {
@@ -519,13 +487,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         Toast.makeText(context, "Recognitions Loaded", Toast.LENGTH_SHORT).show();
         return retrievedMap;
     }
-
-//    private void toMap(String fetch) {
-//        Gson gson = new Gson();
-//        Type stringStringMap = new TypeToken<HashMap<String, String>>() {
-//        }.getType();
-//        map = gson.fromJson(fetch, stringStringMap);
-//    }
 
     //To ask permission for camera
     @Override

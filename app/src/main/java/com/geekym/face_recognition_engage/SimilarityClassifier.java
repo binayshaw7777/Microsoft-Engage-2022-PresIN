@@ -1,5 +1,9 @@
 package com.geekym.face_recognition_engage;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 public interface SimilarityClassifier {
 
 
@@ -35,20 +39,18 @@ public interface SimilarityClassifier {
             return this.extra;
         }
 
+        @SuppressLint("DefaultLocale")
+        @NonNull
         @Override
         public String toString() {
+
             String resultString = "";
-            if (id != null) {
-                resultString += "[" + id + "] ";
-            }
 
-            if (title != null) {
-                resultString += title + " ";
-            }
+            if (id != null) resultString += "[" + id + "] ";
 
-            if (distance != null) {
-                resultString += String.format("(%.1f%%) ", distance * 100.0f);
-            }
+            if (title != null) resultString += title + " ";
+
+            if (distance != null) resultString += String.format("(%.1f%%) ", distance * 100.0f);
 
             return resultString.trim();
         }
