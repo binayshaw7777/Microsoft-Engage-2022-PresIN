@@ -1,4 +1,4 @@
-package com.geekym.face_recognition_engage;
+package com.geekym.face_recognition_engage.Attendance;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -22,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
 import android.util.Size;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 
+import com.geekym.face_recognition_engage.R;
+import com.geekym.face_recognition_engage.SimilarityClassifier;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -81,6 +84,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     Context context = Attendance_Scanner_Activity.this;
     int cam_face = CameraSelector.LENS_FACING_FRONT; //Default Back Camera
     ProcessCameraProvider cameraProvider;
+    ImageView info;
 
     float[][] embeddings;
     int[] intValues;
@@ -102,11 +106,11 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
         Initialization();
 
-        String Embeddings = getIntent().getStringExtra("Embeddings");
-//        StringToMap(Embeddings);
-        map.putAll(StringToMap(Embeddings));
+        info.setOnClickListener(view ->
+                Toast.makeText(this, "Please face the camera properly to register your face", Toast.LENGTH_SHORT).show());
 
-//        Toast.makeText(context, map.get("added").toString(), Toast.LENGTH_SHORT).show();
+        String Embeddings = getIntent().getStringExtra("Embeddings");
+        map.putAll(StringToMap(Embeddings));
 
         //Camera Permission
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -119,6 +123,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         //Initialize Face Detector
         FaceDetectorOptions highAccuracyOpts =
                 new FaceDetectorOptions.Builder()
@@ -129,12 +134,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         cameraBind();
     }
 
-    //Convert hashmap to string, basically to pass and store it in firebase
-    private void getFromMap(HashMap<String, SimilarityClassifier.Recognition> json) {
-        String jsonString = new Gson().toJson(json);
-        Toast.makeText(context, jsonString, Toast.LENGTH_LONG).show();
-    }
-
     //Bind camera and preview view
     private void cameraBind() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
@@ -142,7 +141,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         cameraProviderFuture.addListener(() -> {
             try {
                 cameraProvider = cameraProviderFuture.get();
-
                 bindPreview(cameraProvider); //Passes to bindPreview whatever is input of Camera
             } catch (ExecutionException | InterruptedException e) {
                 // No errors need to be handled for this in Future.
@@ -495,6 +493,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     private void Initialization() {
         FaceStatus = findViewById(R.id.face_status);
+        info = findViewById(R.id.info_icon_scanner);
     }
 
     //    Load Faces from Shared Preferences.Json String to Recognition object

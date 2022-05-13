@@ -1,4 +1,4 @@
-package com.geekym.face_recognition_engage;
+package com.geekym.face_recognition_engage.Attendance;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.geekym.face_recognition_engage.HomeScreen;
+import com.geekym.face_recognition_engage.R;
+import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

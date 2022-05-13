@@ -10,18 +10,6 @@ public class ScreenItem {
         ScreenImg = screenImg;
     }
 
-    public void setTitle(String title) {
-        Title = title;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public void setScreenImg(int screenImg) {
-        ScreenImg = screenImg;
-    }
-
     public String getTitle() {
         return Title;
     }

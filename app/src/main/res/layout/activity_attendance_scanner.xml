@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_main"
-    tools:context=".Attendance_Scanner_Activity">
+    tools:context=".Attendance.Attendance_Scanner_Activity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_left"
@@ -54,30 +54,48 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="330dp"
-            android:layout_height="330dp"
-            app:cardCornerRadius="200dp">
+            android:layout_height="330dp">
 
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <ImageView
+                android:id="@+id/info_icon_scanner"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/info"
+                app:layout_constraintEnd_toEndOf="@+id/cardView2"
+                app:layout_constraintTop_toTopOf="@+id/cardView2" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="330dp"
+                android:layout_height="330dp"
+                app:cardCornerRadius="200dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.060000002">
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.camera.view.PreviewView
-                    android:id="@+id/previewView"
+                <FrameLayout
+                    android:id="@+id/container"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></androidx.camera.view.PreviewView>
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.060000002">
 
-            </FrameLayout>
+                    <androidx.camera.view.PreviewView
+                        android:id="@+id/previewView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-        </androidx.cardview.widget.CardView>
+                </FrameLayout>
 
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/face_status"

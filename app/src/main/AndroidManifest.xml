@@ -15,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Face_Recognition_Engage">
         <activity
-            android:name=".Attendance_Result_Activity"
+            android:name=".Attendance.Attendance_Result_Activity"
             android:exported="false" />
         <activity
-            android:name=".Attendance_Scanner_Activity"
+            android:name=".Attendance.Attendance_Scanner_Activity"
             android:exported="true" />
         <activity
             android:name=".Authentication.Forgot_Password_Activity"
