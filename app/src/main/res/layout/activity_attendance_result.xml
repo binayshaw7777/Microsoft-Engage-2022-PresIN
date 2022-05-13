@@ -67,22 +67,22 @@
             app:lottie_rawRes="@raw/loading_animation" />
 
         <TextView
-            android:layout_marginTop="35dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/lightblue"
+            android:layout_marginTop="35dp"
             android:text="Your Attendance is Marked"
-            android:textSize="20dp"/>
+            android:textColor="@color/lightblue"
+            android:textSize="20dp" />
 
         <TextView
-            android:layout_marginTop="20dp"
-            android:textSize="16dp"
-            android:textStyle="bold"
             android:id="@+id/name_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text=""
             android:textColor="@color/lightblue"
-            android:text=""/>
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/back_home"
@@ -91,9 +91,9 @@
             android:layout_marginTop="35dp"
             android:background="@drawable/positive"
             android:text="Back to Home"
-            android:textSize="17dp"
             android:textAllCaps="false"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="17dp" />
 
     </LinearLayout>
 

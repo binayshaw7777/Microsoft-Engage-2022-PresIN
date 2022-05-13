@@ -81,14 +81,14 @@
                 android:layout_height="55dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/stroked"
-                android:ems="10"
-                android:hint="Password"
                 android:drawableRight="@drawable/visibility_off"
                 android:drawableTint="@color/lightblue"
-                android:paddingRight="10dp"
+                android:ems="10"
+                android:hint="Password"
                 android:inputType="textPassword"
-                android:paddingLeft="20dp"
                 android:longClickable="false"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/login_button"
                 app:layout_constraintEnd_toEndOf="@+id/forgotpass_tv"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -131,16 +131,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Don't have an account?   "
-                    android:textSize="15dp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/SignUp_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sign up"
-                    android:textSize="15dp"
                     android:textColor="@color/lightblue"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
             </LinearLayout>

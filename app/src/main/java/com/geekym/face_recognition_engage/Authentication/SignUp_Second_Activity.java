@@ -15,8 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,7 +88,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                 return;
             }
 
-          //  validate(sName, sEmail, sPass, sID, sOrg);
+            //  validate(sName, sEmail, sPass, sID, sOrg);
 
             progressBar.setVisibility(View.VISIBLE);
             mAuth.createUserWithEmailAndPassword(sEmail, sPass)

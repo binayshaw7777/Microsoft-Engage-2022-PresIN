@@ -1,8 +1,5 @@
 package com.geekym.face_recognition_engage.Introduction;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,8 +9,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.geekym.face_recognition_engage.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
+import com.geekym.face_recognition_engage.R;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -81,10 +81,12 @@ public class onboarding extends AppCompatActivity {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) { }
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) { }
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
 
         // Get Started button click listener

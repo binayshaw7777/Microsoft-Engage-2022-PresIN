@@ -3,10 +3,6 @@ package com.geekym.face_recognition_engage.HomeFragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.geekym.face_recognition_engage.Attendance.Attendance_Scanner_Activity;
 import com.geekym.face_recognition_engage.R;
@@ -28,16 +27,22 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class home_Fragment extends Fragment {
 
     private DatabaseReference reference;
     private String userID;
     ImageView clockInOut;
-    TextView DateDis;
+    TextView DateDis, PresentMark_Time;
     TextClock clock;
     Calendar calendar;
-    SimpleDateFormat dateFormat;
+    SimpleDateFormat dateFormat1;
+
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
+    Date today = new Date();
+    String date1 = dateFormat.format(today);
 
     @SuppressLint("SimpleDateFormat")
     @Override
@@ -47,7 +52,27 @@ public class home_Fragment extends Fragment {
 
         Initialization(view);
 
-        clockInOut.setOnClickListener(view1 -> reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
+        calendar = Calendar.getInstance();
+        dateFormat1 = new SimpleDateFormat("EEEE, MMM d");
+        String date = dateFormat1.format(calendar.getTime());
+        DateDis.setText(date);
+
+        reference.child("Attendance").child(date1).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(userID))
+                    PresentMark_Time.setText(snapshot.child(userID).child("Time").getValue().toString());
+                else
+                    view.findViewById(R.id.attendance_box).setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        clockInOut.setOnClickListener(view1 -> reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Users userprofile = snapshot.getValue(Users.class);
@@ -65,17 +90,13 @@ public class home_Fragment extends Fragment {
             }
         }));
 
-        calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("EEEE, MMM d");
-        String date = dateFormat.format(calendar.getTime());
-        DateDis.setText(date);
-
         return view;
     }
 
     private void Initialization(View view) {
+        PresentMark_Time = view.findViewById(R.id.in_count);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference = FirebaseDatabase.getInstance().getReference();
         assert user != null;
         userID = user.getUid();
         DateDis = view.findViewById(R.id.text_view_date);

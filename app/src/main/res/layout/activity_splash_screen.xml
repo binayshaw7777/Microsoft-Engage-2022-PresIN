@@ -5,8 +5,8 @@
     android:id="@+id/motionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/activity_main_scene"
     android:background="@color/white"
+    app:layoutDescription="@xml/activity_main_scene"
     tools:context=".Introduction.Splash_Screen_Activity">
 
     <androidx.constraintlayout.widget.ConstraintLayout

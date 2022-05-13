@@ -2,14 +2,13 @@ package com.geekym.face_recognition_engage.Authentication;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.geekym.face_recognition_engage.R;
 import com.google.firebase.auth.FirebaseAuth;

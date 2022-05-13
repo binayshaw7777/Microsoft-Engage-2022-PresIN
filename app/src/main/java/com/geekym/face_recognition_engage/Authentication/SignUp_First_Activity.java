@@ -463,7 +463,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 DynamicToast.makeSuccess(this, "Camera permission granted").show();
-             else
+            else
                 DynamicToast.makeError(this, "Camera permission denied").show();
         }
     }

@@ -1,7 +1,5 @@
 package com.geekym.face_recognition_engage.Authentication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
@@ -105,7 +105,7 @@ public class SignIn_Activity extends AppCompatActivity {
                 if (!user.isEmailVerified()) {
                     progressBar.setVisibility(View.GONE);
                     user.sendEmailVerification();
-                    DynamicToast.makeSuccess(this, "Check your email to verify your account and Login again").show();
+                    DynamicToast.make(this, "Check your email to verify your account and Login again", getResources().getColor(R.color.white), getResources().getColor(R.color.lightblue)).show();
                 } else {
                     progressBar.setVisibility(View.GONE);
                     Intent intent2 = new Intent(getApplicationContext(), HomeScreen.class);
@@ -114,7 +114,7 @@ public class SignIn_Activity extends AppCompatActivity {
                 }
             } else {
                 progressBar.setVisibility(View.GONE);
-                DynamicToast.makeSuccess(this, "Failed to Login! Please check your credentials").show();
+                DynamicToast.makeError(this, "Failed to Login! Please check your credentials").show();
             }
         });
     }

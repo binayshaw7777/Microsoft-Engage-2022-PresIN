@@ -20,6 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
 public class Attendance_Result_Activity extends AppCompatActivity {
 
     Button Home;
@@ -27,15 +31,28 @@ public class Attendance_Result_Activity extends AppCompatActivity {
     private DatabaseReference reference;
     private String userID;
 
+    SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
+    Date today = new Date();
+    String date = dateFormat.format(today);
+    final String Time = timeFormat.format(today);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance_result);
         Initialize();
 
-        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
+        reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Time", Time);
+                map.put("Status", "Present");
+                reference.child("Users").child(userID).child("Attendance").child(date).setValue(map);
+                reference.child("Attendance").child(date).child(userID).setValue(map);
+
                 Users userprofile = snapshot.getValue(Users.class);
                 if (userprofile != null) {
                     String name = userprofile.name;
@@ -57,7 +74,7 @@ public class Attendance_Result_Activity extends AppCompatActivity {
         Home = findViewById(R.id.back_home);
         Name = findViewById(R.id.name_display);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference = FirebaseDatabase.getInstance().getReference();
         assert user != null;
         userID = user.getUid();
     }

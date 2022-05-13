@@ -24,7 +24,6 @@ import android.util.Pair;
 import android.util.Size;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
