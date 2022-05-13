@@ -82,7 +82,7 @@
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/stroked"
                 android:ems="10"
-                android:hint="Passowrd"
+                android:hint="Password"
                 android:drawableRight="@drawable/visibility_off"
                 android:drawableTint="@color/lightblue"
                 android:paddingRight="10dp"

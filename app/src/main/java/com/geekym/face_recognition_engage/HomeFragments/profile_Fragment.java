@@ -31,7 +31,7 @@ public class profile_Fragment extends Fragment {
     ImageButton Logout;
     private DatabaseReference reference;
     private String userID;
-    TextView Name, Email, Uid, OrgName;
+    TextView Name, Email, CollegeID, CollegeName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,12 +67,12 @@ public class profile_Fragment extends Fragment {
                     String name = userprofile.name;
                     String email = userprofile.email;
                     String uid = userprofile.id;
-                    String org = userprofile.organization;
+                    String org = userprofile.college;
 
                     Name.setText("Name: " + name);
                     Email.setText("Email: " + email);
-                    Uid.setText("ID: " + uid);
-                    OrgName.setText("Organization: " + org);
+                    CollegeID.setText("College ID: " + uid);
+                    CollegeName.setText("College Name: " + org);
                 }
             }
 
@@ -93,8 +93,8 @@ public class profile_Fragment extends Fragment {
         userID = user.getUid();
         Name = view.findViewById(R.id.name);
         Email = view.findViewById(R.id.email);
-        Uid = view.findViewById(R.id.uid);
-        OrgName = view.findViewById(R.id.orgname);
+        CollegeID = view.findViewById(R.id.uid);
+        CollegeName = view.findViewById(R.id.college_name);
     }
 
 }

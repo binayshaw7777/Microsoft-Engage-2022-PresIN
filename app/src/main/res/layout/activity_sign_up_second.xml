@@ -102,7 +102,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/stroked"
             android:ems="10"
-            android:hint="Work / College ID"
+            android:hint="College ID"
             android:inputType="text"
             android:paddingLeft="20dp"
             app:layout_constraintBottom_toTopOf="@+id/pass_box"
@@ -111,13 +111,13 @@
             app:layout_constraintStart_toStartOf="@+id/pass_box" />
 
         <EditText
-            android:id="@+id/orgname_box"
+            android:id="@+id/college_name_box"
             android:layout_width="330dp"
             android:layout_height="55dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/stroked"
             android:ems="10"
-            android:hint="Organization Name"
+            android:hint="College Name"
             android:inputType="text"
             android:paddingLeft="20dp"
             app:layout_constraintBottom_toTopOf="@+id/pass_box"

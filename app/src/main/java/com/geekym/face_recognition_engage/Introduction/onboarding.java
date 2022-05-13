@@ -64,8 +64,8 @@ public class onboarding extends AppCompatActivity {
                 position++;
                 screenPager.setCurrentItem(position);
             }
-            if (position == mList.size() - 1) { // when we rech to the last screen
-                // TODO : show the GETSTARTED Button and hide the indicator and the next button
+            if (position == mList.size() - 1) { // when we reach to the last screen
+                // TODO : show the GET STARTED Button and hide the indicator and the next button
                 loadLastScreen();
             }
         });
@@ -115,13 +115,13 @@ public class onboarding extends AppCompatActivity {
 
     private boolean restorePrefData() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs", MODE_PRIVATE);
-        return pref.getBoolean("isIntroOpnend", false);
+        return pref.getBoolean("isIntroOpened", false);
     }
 
     private void savePrefsData() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("isIntroOpnend", true);
+        editor.putBoolean("isIntroOpened", true);
         editor.apply();
     }
 
@@ -131,7 +131,7 @@ public class onboarding extends AppCompatActivity {
         btnGetStarted.setVisibility(View.VISIBLE);
         tvSkip.setVisibility(View.INVISIBLE);
         tabIndicator.setVisibility(View.INVISIBLE);
-        // TODO : ADD an animation the getstarted button
+        // TODO : ADD an animation the get started button
         // setup animation
         btnGetStarted.setAnimation(btnAnim);
     }

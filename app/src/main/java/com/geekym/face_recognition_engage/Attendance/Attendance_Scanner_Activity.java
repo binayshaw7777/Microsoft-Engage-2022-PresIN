@@ -69,14 +69,13 @@ import java.util.concurrent.Executors;
 public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     TextView FaceStatus;
-    HashMap<String, SimilarityClassifier.Recognition> map = new HashMap<String, SimilarityClassifier.Recognition>();
+    HashMap<String, SimilarityClassifier.Recognition> map = new HashMap<>();
     FaceDetector detector;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
     float distance = 1.0f;
-    boolean start = true, flipX = false;
     Context context = Attendance_Scanner_Activity.this;
     int cam_face = CameraSelector.LENS_FACING_FRONT; //Default Back Camera
     ProcessCameraProvider cameraProvider;
@@ -158,7 +157,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         Executor executor = Executors.newSingleThreadExecutor();
         imageAnalysis.setAnalyzer(executor, imageProxy -> {
             try {
-                Thread.sleep(0);  //Camera preview refreshed every 10 millisec(adjust as required)
+                Thread.sleep(0);  //Camera preview refreshed every 10 millis (adjust as required)
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -174,45 +173,48 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
             }
 
             //Process acquired image to detect faces
+            assert image != null;
             @SuppressLint("SetTextI18n") Task<List<Face>> result = detector.process(image).addOnSuccessListener(faces -> {
 
-                if (faces.size() != 0) {
+                        if (faces.size() != 0) {
 
-                    Face face = faces.get(0); //Get first face from detected faces
+                            Face face = faces.get(0); //Get first face from detected faces
 
-                    //mediaImage to Bitmap
-                    Bitmap frame_bmp = toBitmap(mediaImage);
+                            //mediaImage to Bitmap
+                            Bitmap frame_bmp = toBitmap(mediaImage);
 
-                    int rot = imageProxy.getImageInfo().getRotationDegrees();
+                            int rot = imageProxy.getImageInfo().getRotationDegrees();
 
-                    //Adjust orientation of Face
-                    Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false);
+                            //Adjust orientation of Face
+                            Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false);
 
 
-                    //Get bounding box of face
-                    RectF boundingBox = new RectF(face.getBoundingBox());
+                            //Get bounding box of face
+                            RectF boundingBox = new RectF(face.getBoundingBox());
 
-                    //Crop out bounding box from whole Bitmap(image)
-                    Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
+                            //Crop out bounding box from whole Bitmap(image)
+                            Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
 
-                    if (flipX)
-                        cropped_face = rotateBitmap(cropped_face, 0, flipX);
-                    //Scale the acquired Face to 112*112 which is required input for model
-                    Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
+                            cropped_face = rotateBitmap(cropped_face, 0, true);
 
-                    if (start) //If ImageView is running
-                        recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
+                            //Scale the acquired Face to 112*112 which is required input for model
+                            Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
 
-                } else {
-                    if (!map.isEmpty())
-                        FaceStatus.setText("No Face Detected");
-                }
-            })
+
+                            recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
+
+                        } else {
+
+                            if (!map.isEmpty())
+                                FaceStatus.setText("No Face Detected");
+                        }
+                    })
                     .addOnFailureListener(e -> {// Task failed with an exception
-                        })
+                    })
 
-                    .addOnCompleteListener(task -> { imageProxy.close(); //v.important to acquire next frame for analysis
-                        });
+                    .addOnCompleteListener(task -> {
+                        imageProxy.close(); //v.important to acquire next frame for analysis
+                    });
         });
         cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
     }
@@ -268,7 +270,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
             if (nearest.get(0) != null) {
 
-                final String name = nearest.get(0).first; //get name and distance of closest matching face
+                //final String name = nearest.get(0).first; //get name and distance of closest matching face
                 float distance_local = nearest.get(0).second;
 
                 if (distance_local < distance) {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
@@ -287,7 +289,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
      **/
     //Compare Faces by distance between face embeddings
     private List<Pair<String, Float>> findNearest(float[] emb) {
-        List<Pair<String, Float>> neighbour_list = new ArrayList<Pair<String, Float>>();
+        List<Pair<String, Float>> neighbour_list = new ArrayList<>();
         Pair<String, Float> ret = null; //to get closest match
         Pair<String, Float> prev_ret = null; //to get second closest match
         for (Map.Entry<String, SimilarityClassifier.Recognition> entry : map.entrySet()) {
@@ -337,19 +339,19 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     private static Bitmap getCropBitmapByCPU(Bitmap source, RectF cropRectF) {
         Bitmap resultBitmap = Bitmap.createBitmap((int) cropRectF.width(),
                 (int) cropRectF.height(), Bitmap.Config.ARGB_8888);
-        Canvas cavas = new Canvas(resultBitmap);
+        Canvas canvas = new Canvas(resultBitmap);
 
         // draw background
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
         paint.setColor(Color.WHITE);
-        cavas.drawRect(
+        canvas.drawRect(
                 new RectF(0, 0, cropRectF.width(), cropRectF.height()),
                 paint);
 
         Matrix matrix = new Matrix();
         matrix.postTranslate(-cropRectF.left, -cropRectF.top);
 
-        cavas.drawBitmap(source, matrix, paint);
+        canvas.drawBitmap(source, matrix, paint);
 
         if (source != null && !source.isRecycled()) {
             source.recycle();

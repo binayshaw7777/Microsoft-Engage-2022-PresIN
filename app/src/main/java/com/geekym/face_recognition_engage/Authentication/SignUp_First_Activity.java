@@ -75,7 +75,6 @@ public class SignUp_First_Activity extends AppCompatActivity {
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-    boolean flipX = false;
     Context context = SignUp_First_Activity.this;
     int cam_face = CameraSelector.LENS_FACING_FRONT; //Default Back Camera
     ProcessCameraProvider cameraProvider;
@@ -176,7 +175,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
         Executor executor = Executors.newSingleThreadExecutor();
         imageAnalysis.setAnalyzer(executor, imageProxy -> {
             try {
-                Thread.sleep(0);  //Camera preview refreshed every 10 millisec(adjust as required)
+                Thread.sleep(0);  //Camera preview refreshed every 10 millis (adjust as required)
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -195,47 +194,48 @@ public class SignUp_First_Activity extends AppCompatActivity {
             assert image != null;
             Task<List<Face>> result = detector.process(image).addOnSuccessListener(faces -> {
 
-                if (faces.size() != 0) {
+                        if (faces.size() != 0) {
 
-                    Face face = faces.get(0); //Get first face from detected faces
+                            Face face = faces.get(0); //Get first face from detected faces
 
-                    //mediaImage to Bitmap
-                    Bitmap frame_bmp = toBitmap(mediaImage);
+                            //mediaImage to Bitmap
+                            Bitmap frame_bmp = toBitmap(mediaImage);
 
-                    int rot = imageProxy.getImageInfo().getRotationDegrees();
+                            int rot = imageProxy.getImageInfo().getRotationDegrees();
 
-                    //Adjust orientation of Face
-                    Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false);
+                            //Adjust orientation of Face
+                            Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false);
 
 
-                    //Get bounding box of face
-                    RectF boundingBox = new RectF(face.getBoundingBox());
+                            //Get bounding box of face
+                            RectF boundingBox = new RectF(face.getBoundingBox());
 
-                    //Crop out bounding box from whole Bitmap(image)
-                    Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
+                            //Crop out bounding box from whole Bitmap(image)
+                            Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
 
-                    if (flipX)
-                        cropped_face = rotateBitmap(cropped_face, 0, flipX);
-                    //Scale the acquired Face to 112*112 which is required input for model
-                    Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
+                            cropped_face = rotateBitmap(cropped_face, 0, true);
 
-                   // if (start) //If ImageView is running
-                        recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
+                            //Scale the acquired Face to 112*112 which is required input for model
+                            Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
 
-                } else {
-                    addFace.setVisibility(View.INVISIBLE);
-                    if (!map.isEmpty()) {
+                            // if (start) //If ImageView is running
+                            recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
+
+                        } else {
+                            addFace.setVisibility(View.INVISIBLE);
+                            if (!map.isEmpty()) {
 //                                        addFace.setOnClickListener(view -> Toast.makeText(context, "Add Face", Toast.LENGTH_SHORT).show());
 //                                    } else {
-                        addFace.setOnClickListener(view -> Toast.makeText(context, "No Face Detected", Toast.LENGTH_SHORT).show());
-                    }
-                }
+                                addFace.setOnClickListener(view -> Toast.makeText(context, "No Face Detected", Toast.LENGTH_SHORT).show());
+                            }
+                        }
 
-            })
+                    })
                     .addOnFailureListener(e -> {// Task failed with an exception
-                            })
+                    })
 
-                    .addOnCompleteListener(task -> {imageProxy.close(); //v.important to acquire next frame for analysis
+                    .addOnCompleteListener(task -> {
+                        imageProxy.close(); //v.important to acquire next frame for analysis
                     });
 
         });
@@ -288,7 +288,9 @@ public class SignUp_First_Activity extends AppCompatActivity {
         tfLite.runForMultipleInputsOutputs(inputArray, outputMap); //Run model
     }
 
-    /**Bitmap Processing**/
+    /**
+     * Bitmap Processing
+     **/
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
         int height = bm.getHeight();
@@ -309,19 +311,19 @@ public class SignUp_First_Activity extends AppCompatActivity {
     private static Bitmap getCropBitmapByCPU(Bitmap source, RectF cropRectF) {
         Bitmap resultBitmap = Bitmap.createBitmap((int) cropRectF.width(),
                 (int) cropRectF.height(), Bitmap.Config.ARGB_8888);
-        Canvas cavas = new Canvas(resultBitmap);
+        Canvas canvas = new Canvas(resultBitmap);
 
         // draw background
         Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
         paint.setColor(Color.WHITE);
-        cavas.drawRect(
+        canvas.drawRect(
                 new RectF(0, 0, cropRectF.width(), cropRectF.height()),
                 paint);
 
         Matrix matrix = new Matrix();
         matrix.postTranslate(-cropRectF.left, -cropRectF.top);
 
-        cavas.drawBitmap(source, matrix, paint);
+        canvas.drawBitmap(source, matrix, paint);
 
         if (source != null && !source.isRecycled()) {
             source.recycle();
@@ -435,7 +437,9 @@ public class SignUp_First_Activity extends AppCompatActivity {
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
-    /**Bitmap Processing**/
+    /**
+     * Bitmap Processing
+     **/
 
     //Convert hashmap to string, basically to pass and store it in firebase
     private String getFromMap(HashMap<String, SimilarityClassifier.Recognition> json) {

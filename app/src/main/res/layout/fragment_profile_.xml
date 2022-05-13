@@ -120,17 +120,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
-                        android:text="Unique ID: "
+                        android:text="College ID: "
                         android:textColor="#2B2F3D"
                         android:textSize="15dp" />
 
                     <TextView
-                        android:id="@+id/orgname"
+                        android:id="@+id/college_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
-                        android:text="Organization: "
+                        android:text="College: "
                         android:textColor="#2B2F3D"
                         android:textSize="15dp" />
 

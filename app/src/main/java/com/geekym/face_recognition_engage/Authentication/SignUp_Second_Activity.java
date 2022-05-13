@@ -27,7 +27,7 @@ import java.util.Objects;
 
 public class SignUp_Second_Activity extends AppCompatActivity {
 
-    EditText Name, Email, OrgName, OrgID, Password;
+    EditText Name, Email, CollegeName, OrgID, Password;
     Button Signup;
     TextView LoginPage;
     private FirebaseAuth mAuth;
@@ -52,7 +52,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
             String sEmail = Email.getText().toString();
             String sPass = Password.getText().toString();
             String sID = OrgID.getText().toString();
-            String sOrg = OrgName.getText().toString();
+            String sCollege = CollegeName.getText().toString();
             String sName = Name.getText().toString();
 
             if (sName.isEmpty()) {
@@ -80,9 +80,9 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                 OrgID.setError("Field can't be empty");
                 OrgID.requestFocus();
                 return;
-            } else if (sOrg.isEmpty()) {
-                OrgName.setError("Field can't be empty");
-                OrgName.requestFocus();
+            } else if (sCollege.isEmpty()) {
+                CollegeName.setError("Field can't be empty");
+                CollegeName.requestFocus();
                 return;
             }
 
@@ -93,7 +93,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                     .addOnCompleteListener(SignUp_Second_Activity.this, task -> {
                         if (task.isSuccessful()) {
 
-                            Users users = new Users(sName, sEmail, sID, sOrg, Embeddings);
+                            Users users = new Users(sName, sEmail, sID, sCollege, Embeddings);
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
@@ -156,7 +156,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
     private void Initialization() {
         Name = findViewById(R.id.name_box);
         Email = findViewById(R.id.email_box);
-        OrgName = findViewById(R.id.orgname_box);
+        CollegeName = findViewById(R.id.college_name_box);
         OrgID = findViewById(R.id.id_box);
         Password = findViewById(R.id.pass_box);
         Signup = findViewById(R.id.signup_button);
