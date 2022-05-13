@@ -18,18 +18,16 @@ public class Forgot_Password_Activity extends AppCompatActivity {
 
     FirebaseAuth Auth2;
     EditText email;
-    Button resetpass;
+    Button reset_pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
-        Initialization();
+        Initialization(); //Initialize
 
-        resetpass.setOnClickListener(view -> {
-            ForgotPassword();
-        });
+        reset_pass.setOnClickListener(view -> ForgotPassword());
     }
 
     private void ForgotPassword() {
@@ -61,6 +59,6 @@ public class Forgot_Password_Activity extends AppCompatActivity {
     private void Initialization() {
         Auth2 = FirebaseAuth.getInstance();
         email = findViewById(R.id.reset_email);
-        resetpass = findViewById(R.id.reset_button);
+        reset_pass = findViewById(R.id.reset_button);
     }
 }

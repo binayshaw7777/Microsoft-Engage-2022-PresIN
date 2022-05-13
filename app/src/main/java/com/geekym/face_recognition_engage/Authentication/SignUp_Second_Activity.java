@@ -16,18 +16,14 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 public class SignUp_Second_Activity extends AppCompatActivity {
 
@@ -49,163 +45,113 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         LoginPage.setOnClickListener(view ->
                 startActivity(new Intent(getApplicationContext(), SignIn_Activity.class))); //Already have an account
 
-        Signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        Signup.setOnClickListener(view -> {
 
-                String Embeddings = getIntent().getStringExtra("Face_Embeddings");
+            String Embeddings = getIntent().getStringExtra("Face_Embeddings");
 
-                String sEmail = Email.getText().toString();
-                String sPass = Password.getText().toString();
-                String sID = OrgID.getText().toString();
-                String sOrg = OrgName.getText().toString();
-                String sName = Name.getText().toString();
+            String sEmail = Email.getText().toString();
+            String sPass = Password.getText().toString();
+            String sID = OrgID.getText().toString();
+            String sOrg = OrgName.getText().toString();
+            String sName = Name.getText().toString();
 
-                if (sName.isEmpty()) {
-                    Name.setError("Field can't be empty");
-                    Name.requestFocus();
-                    return;
-                }
-                if (sEmail.isEmpty()) {
-                    Email.setError("Field can't be empty");
-                    Email.requestFocus();
-                    return;
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(sEmail).matches()) {
-                    Email.setError("Please enter a valid email address");
-                    Email.requestFocus();
-                    return;
-                } else if (sPass.isEmpty()) {
-                    Password.setError("Field can't be empty");
-                    Password.requestFocus();
-                    return;
-                } else if (sPass.length() < 6) {
-                    Password.setError("Password must be at least 6 characters");
-                    Password.requestFocus();
-                    return;
-                } else if (sID.isEmpty()) {
-                    OrgID.setError("Field can't be empty");
-                    OrgID.requestFocus();
-                    return;
-                } else if (sOrg.isEmpty()) {
-                    OrgName.setError("Field can't be empty");
-                    OrgName.requestFocus();
-                    return;
-                }
-
-              //  validate(sName, sEmail, sPass, sID, sOrg);
-
-                progressBar.setVisibility(View.VISIBLE);
-                mAuth.createUserWithEmailAndPassword(sEmail, sPass)
-                        .addOnCompleteListener(SignUp_Second_Activity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-
-                                    Users users = new Users(sName, sEmail, sID, sOrg, Embeddings);
-
-                                    FirebaseDatabase.getInstance().getReference("Users")
-                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                            .setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                // Sign in success, update UI with the signed-in user's information
-                                                Log.d(TAG, "createUserWithEmail:success");
-                                                FirebaseUser user = mAuth.getCurrentUser();
-                                                startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
-                                                user.sendEmailVerification();
-                                                // updateUI(user);
-                                                Toast.makeText(SignUp_Second_Activity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                                                Toast.makeText(SignUp_Second_Activity.this, "Verification Mail Sent", Toast.LENGTH_SHORT).show();
-                                                progressBar.setVisibility(View.GONE);
-                                            } else {
-                                                // If sign in fails, display a message to the user.
-                                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                                Toast.makeText(getApplicationContext(), "User data failed.", Toast.LENGTH_SHORT).show();
-                                                //            progressBar.setVisibility(View.GONE);
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Authentication failed" + task.getException(), Toast.LENGTH_SHORT).show();
-                                    progressBar.setVisibility(View.GONE);
-                                    //  updateUI(null);
-                                }
-                            }
-                        });
+            if (sName.isEmpty()) {
+                Name.setError("Field can't be empty");
+                Name.requestFocus();
+                return;
             }
+            if (sEmail.isEmpty()) {
+                Email.setError("Field can't be empty");
+                Email.requestFocus();
+                return;
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(sEmail).matches()) {
+                Email.setError("Please enter a valid email address");
+                Email.requestFocus();
+                return;
+            } else if (sPass.isEmpty()) {
+                Password.setError("Field can't be empty");
+                Password.requestFocus();
+                return;
+            } else if (sPass.length() < 6) {
+                Password.setError("Password must be at least 6 characters");
+                Password.requestFocus();
+                return;
+            } else if (sID.isEmpty()) {
+                OrgID.setError("Field can't be empty");
+                OrgID.requestFocus();
+                return;
+            } else if (sOrg.isEmpty()) {
+                OrgName.setError("Field can't be empty");
+                OrgName.requestFocus();
+                return;
+            }
+
+          //  validate(sName, sEmail, sPass, sID, sOrg);
+
+            progressBar.setVisibility(View.VISIBLE);
+            mAuth.createUserWithEmailAndPassword(sEmail, sPass)
+                    .addOnCompleteListener(SignUp_Second_Activity.this, task -> {
+                        if (task.isSuccessful()) {
+
+                            Users users = new Users(sName, sEmail, sID, sOrg, Embeddings);
+
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                                    .setValue(users).addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            // Sign in success, update UI with the signed-in user's information
+                                            Log.d(TAG, "createUserWithEmail:success");
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
+                                            assert user != null;
+                                            user.sendEmailVerification();
+                                            Toast.makeText(SignUp_Second_Activity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SignUp_Second_Activity.this, "Verification Mail Sent", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+                                            Log.w(TAG, "createUserWithEmail:failure", task1.getException());
+                                            Toast.makeText(getApplicationContext(), "User data failed.", Toast.LENGTH_SHORT).show();
+                                        }
+                                        progressBar.setVisibility(View.GONE);
+                                    });
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(), "Authentication failed" + task.getException(), Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
         });
 
         // Function to see password and hide password
-        Password.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int Right = 2;
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= Password.getRight() - Password.getCompoundDrawables()[Right].getBounds().width()) {
-                        int selection = Password.getSelectionEnd();
-                        if (passwordVisible) {
-                            //set drawable image here
-                            Password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility_off, 0);
-                            //for hide password
-                            Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                            passwordVisible = false;
-                            Password.setLongClickable(false); //Handles Multiple option popups
-                        } else {
-                            //set drawable image here
-                            Password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility, 0);
-                            //for show password
-                            Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                            passwordVisible = true;
-                            Password.setLongClickable(false); //Handles Multiple option popups
-                        }
-                        Password.setSelection(selection);
-                        return true;
+        Password.setOnTouchListener((v, event) -> {
+            final int Right = 2;
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= Password.getRight() - Password.getCompoundDrawables()[Right].getBounds().width()) {
+                    int selection = Password.getSelectionEnd();
+                    //Handles Multiple option popups
+                    if (passwordVisible) {
+                        //set drawable image here
+                        Password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility_off, 0);
+                        //for hide password
+                        Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        passwordVisible = false;
+                    } else {
+                        //set drawable image here
+                        Password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility, 0);
+                        //for show password
+                        Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        passwordVisible = true;
                     }
+                    Password.setLongClickable(false); //Handles Multiple option popups
+                    Password.setSelection(selection);
+                    return true;
                 }
-                return false;
             }
+            return false;
         });
 
     }
-
-    private void validate(String sName, String sEmail, String sPass, String sID, String sOrg) {
-
-        if (sName.isEmpty()) {
-            Name.setError("Field can't be empty");
-            Name.requestFocus();
-            return;
-        }
-
-        if (sEmail.isEmpty()) {
-            Email.setError("Field can't be empty");
-            Email.requestFocus();
-            return;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(sEmail).matches()) {
-            Email.setError("Please enter a valid email address");
-            Email.requestFocus();
-            return;
-        } else if (sPass.isEmpty()) {
-            Password.setError("Field can't be empty");
-            Password.requestFocus();
-            return;
-        } else if (sPass.length() < 6) {
-            Password.setError("Password must be at least 6 characters");
-            Password.requestFocus();
-            return;
-        } else if (sID.isEmpty()) {
-            OrgID.setError("Field can't be empty");
-            OrgID.requestFocus();
-            return;
-        } else if (sOrg.isEmpty()) {
-            OrgName.setError("Field can't be empty");
-            OrgName.requestFocus();
-            return;
-        }
-    }
-
 
     private void Initialization() {
         Name = findViewById(R.id.name_box);

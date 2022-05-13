@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.util.Size;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,7 +31,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
@@ -40,9 +38,6 @@ import androidx.core.content.ContextCompat;
 
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.SimilarityClassifier;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
@@ -73,7 +68,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
 
     ImageView Info;
     Button Next, addFace;
-    HashMap<String, SimilarityClassifier.Recognition> map = new HashMap<String, SimilarityClassifier.Recognition>();
+    HashMap<String, SimilarityClassifier.Recognition> map = new HashMap<>();
 
     FaceDetector detector;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
@@ -114,18 +109,15 @@ public class SignUp_First_Activity extends AppCompatActivity {
         Info.setOnClickListener(view ->
                 Toast.makeText(this, "Please face the camera properly to register your face", Toast.LENGTH_SHORT).show());
 
-        Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (map.containsKey("added")) {
-                    String Json = getFromMap(map); //we convert the map into a string by calling a function and passing the map
-                    Intent intent = new Intent(getApplicationContext(), SignUp_Second_Activity.class);
-                    intent.putExtra("Face_Embeddings", Json); //Here we are passing face embeddings to the next activity
-                    startActivity(intent);
-                    finish();
-                } else
-                    Toast.makeText(context, "Face not added!", Toast.LENGTH_SHORT).show();
-            }
+        Next.setOnClickListener(view -> {
+            if (map.containsKey("added")) {
+                String Json = getFromMap(map); //we convert the map into a string by calling a function and passing the map
+                Intent intent = new Intent(getApplicationContext(), SignUp_Second_Activity.class);
+                intent.putExtra("Face_Embeddings", Json); //Here we are passing face embeddings to the next activity
+                startActivity(intent);
+                finish();
+            } else
+                Toast.makeText(context, "Face not added!", Toast.LENGTH_SHORT).show();
         });
 
         addFace.setOnClickListener(view -> AddFace()); //Adding Face to Hashmap
@@ -182,86 +174,70 @@ public class SignUp_First_Activity extends AppCompatActivity {
                 .build();
 
         Executor executor = Executors.newSingleThreadExecutor();
-        imageAnalysis.setAnalyzer(executor, new ImageAnalysis.Analyzer() {
-            @Override
-            public void analyze(@NonNull ImageProxy imageProxy) {
-                try {
-                    Thread.sleep(0);  //Camera preview refreshed every 10 millisec(adjust as required)
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                InputImage image = null;
+        imageAnalysis.setAnalyzer(executor, imageProxy -> {
+            try {
+                Thread.sleep(0);  //Camera preview refreshed every 10 millisec(adjust as required)
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            InputImage image = null;
 
-                @SuppressLint({"UnsafeExperimentalUsageError", "UnsafeOptInUsageError"})
-                // Camera Feed-->Analyzer-->ImageProxy-->mediaImage-->InputImage(needed for ML kit face detection)
+            @SuppressLint({"UnsafeExperimentalUsageError", "UnsafeOptInUsageError"})
+            // Camera Feed-->Analyzer-->ImageProxy-->mediaImage-->InputImage(needed for ML kit face detection)
 
-                Image mediaImage = imageProxy.getImage();
+            Image mediaImage = imageProxy.getImage();
 
-                if (mediaImage != null) {
-                    image = InputImage.fromMediaImage(mediaImage, imageProxy.getImageInfo().getRotationDegrees());
-                }
+            if (mediaImage != null) {
+                image = InputImage.fromMediaImage(mediaImage, imageProxy.getImageInfo().getRotationDegrees());
+            }
 
-                //Process acquired image to detect faces
-                /**ML Kit to detect faces**/
-                Task<List<Face>> result = detector.process(image).addOnSuccessListener(new OnSuccessListener<List<Face>>() {
-                            @Override
-                            public void onSuccess(List<Face> faces) {
+            //Process acquired image to detect faces
+            assert image != null;
+            Task<List<Face>> result = detector.process(image).addOnSuccessListener(faces -> {
 
-                                if (faces.size() != 0) {
+                if (faces.size() != 0) {
 
-                                    Face face = faces.get(0); //Get first face from detected faces
+                    Face face = faces.get(0); //Get first face from detected faces
 
-                                    //mediaImage to Bitmap
-                                    Bitmap frame_bmp = toBitmap(mediaImage);
+                    //mediaImage to Bitmap
+                    Bitmap frame_bmp = toBitmap(mediaImage);
 
-                                    int rot = imageProxy.getImageInfo().getRotationDegrees();
+                    int rot = imageProxy.getImageInfo().getRotationDegrees();
 
-                                    //Adjust orientation of Face
-                                    Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false, false);
+                    //Adjust orientation of Face
+                    Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false);
 
 
-                                    //Get bounding box of face
-                                    RectF boundingBox = new RectF(face.getBoundingBox());
+                    //Get bounding box of face
+                    RectF boundingBox = new RectF(face.getBoundingBox());
 
-                                    //Crop out bounding box from whole Bitmap(image)
-                                    Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
+                    //Crop out bounding box from whole Bitmap(image)
+                    Bitmap cropped_face = getCropBitmapByCPU(frame_bmp1, boundingBox);
 
-                                    if (flipX)
-                                        cropped_face = rotateBitmap(cropped_face, 0, flipX, false);
-                                    //Scale the acquired Face to 112*112 which is required input for model
-                                    Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
+                    if (flipX)
+                        cropped_face = rotateBitmap(cropped_face, 0, flipX);
+                    //Scale the acquired Face to 112*112 which is required input for model
+                    Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
 
-                                   // if (start) //If ImageView is running
-                                        recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
+                   // if (start) //If ImageView is running
+                        recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
 
-                                } else {
-                                    addFace.setVisibility(View.INVISIBLE);
-                                    if (!map.isEmpty()) {
+                } else {
+                    addFace.setVisibility(View.INVISIBLE);
+                    if (!map.isEmpty()) {
 //                                        addFace.setOnClickListener(view -> Toast.makeText(context, "Add Face", Toast.LENGTH_SHORT).show());
 //                                    } else {
-                                        addFace.setOnClickListener(view -> Toast.makeText(context, "No Face Detected", Toast.LENGTH_SHORT).show());
-                                    }
-                                }
+                        addFace.setOnClickListener(view -> Toast.makeText(context, "No Face Detected", Toast.LENGTH_SHORT).show());
+                    }
+                }
 
-                            }
-                        })
-                        .addOnFailureListener(
-                                new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        // Task failed with an exception
-                                    }
-                                })
-                        .addOnCompleteListener(new OnCompleteListener<List<Face>>() {
-                            @Override
-                            public void onComplete(@NonNull Task<List<Face>> task) {
+            })
+                    .addOnFailureListener(e -> {// Task failed with an exception
+                            })
 
-                                imageProxy.close(); //v.important to acquire next frame for analysis
-                            }
-                        });
+                    .addOnCompleteListener(task -> {imageProxy.close(); //v.important to acquire next frame for analysis
+                    });
 
-
-            }
         });
 
         cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
@@ -271,6 +247,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
     public void recognizeImage(final Bitmap bitmap) {
 
         addFace.setVisibility(View.VISIBLE);
+
         //Create ByteBuffer to store normalized image
         ByteBuffer imgData = ByteBuffer.allocateDirect(inputSize * inputSize * 3 * 4);
 
@@ -353,14 +330,14 @@ public class SignUp_First_Activity extends AppCompatActivity {
         return resultBitmap;
     }
 
-    private static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegrees, boolean flipX, boolean flipY) {
+    private static Bitmap rotateBitmap(Bitmap bitmap, int rotationDegrees, boolean flipX) {
         Matrix matrix = new Matrix();
 
         // Rotate the image back to straight.
         matrix.postRotate(rotationDegrees);
 
         // Mirror the image along the X or Y axis.
-        matrix.postScale(flipX ? -1.0f : 1.0f, flipY ? -1.0f : 1.0f);
+        matrix.postScale(flipX ? -1.0f : 1.0f, 1.0f);
         Bitmap rotatedBitmap =
                 Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
@@ -462,8 +439,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
 
     //Convert hashmap to string, basically to pass and store it in firebase
     private String getFromMap(HashMap<String, SimilarityClassifier.Recognition> json) {
-        String jsonString = new Gson().toJson(json);
-        return jsonString;
+        return new Gson().toJson(json);
     }
 
     //Initializing all the variables

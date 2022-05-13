@@ -1,6 +1,5 @@
 package com.geekym.face_recognition_engage.Authentication;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -19,9 +18,6 @@ import android.widget.Toast;
 
 import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -50,34 +46,31 @@ public class SignIn_Activity extends AppCompatActivity {
         SignUp.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SignUp_First_Activity.class))); //To SignUp Activity
 
         // Function to see password and hide password
-        Password_editText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int Right = 2;
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= Password_editText.getRight() - Password_editText.getCompoundDrawables()[Right].getBounds().width()) {
-                        int selection = Password_editText.getSelectionEnd();
-                        if (passwordVisible) {
-                            //set drawable image here
-                            Password_editText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility_off, 0);
-                            //for hide password
-                            Password_editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                            passwordVisible = false;
-                            Password_editText.setLongClickable(false); //Handles Multiple option popups
-                        } else {
-                            //set drawable image here
-                            Password_editText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility, 0);
-                            //for show password
-                            Password_editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                            passwordVisible = true;
-                            Password_editText.setLongClickable(false); //Handles Multiple option popups
-                        }
-                        Password_editText.setSelection(selection);
-                        return true;
+        Password_editText.setOnTouchListener((v, event) -> {
+            final int Right = 2;
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= Password_editText.getRight() - Password_editText.getCompoundDrawables()[Right].getBounds().width()) {
+                    int selection = Password_editText.getSelectionEnd();
+                    //Handles Multiple option popups
+                    if (passwordVisible) {
+                        //set drawable image here
+                        Password_editText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility_off, 0);
+                        //for hide password
+                        Password_editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        passwordVisible = false;
+                    } else {
+                        //set drawable image here
+                        Password_editText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility, 0);
+                        //for show password
+                        Password_editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        passwordVisible = true;
                     }
+                    Password_editText.setLongClickable(false); //Handles Multiple option popups
+                    Password_editText.setSelection(selection);
+                    return true;
                 }
-                return false;
             }
+            return false;
         });
 
     }
@@ -105,25 +98,23 @@ public class SignIn_Activity extends AppCompatActivity {
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    if (user.isEmailVerified()) {
-                        progressBar.setVisibility(View.GONE);
-                        Intent intent2 = new Intent(getApplicationContext(), HomeScreen.class);
-                        startActivity(intent2);
-                        finishAffinity();
-                    } else {
-                        progressBar.setVisibility(View.GONE);
-                        user.sendEmailVerification();
-                        Toast.makeText(getApplicationContext(), "Check your email to verify your account and Login again", Toast.LENGTH_SHORT).show();
-                    }
+        mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                assert user != null;
+                if (!user.isEmailVerified()) {
+                    progressBar.setVisibility(View.GONE);
+                    user.sendEmailVerification();
+                    Toast.makeText(getApplicationContext(), "Check your email to verify your account and Login again", Toast.LENGTH_SHORT).show();
                 } else {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), "Failed to Login! Please check your credentials", Toast.LENGTH_SHORT).show();
+                    Intent intent2 = new Intent(getApplicationContext(), HomeScreen.class);
+                    startActivity(intent2);
+                    finishAffinity();
                 }
+            } else {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(), "Failed to Login! Please check your credentials", Toast.LENGTH_SHORT).show();
             }
         });
     }
