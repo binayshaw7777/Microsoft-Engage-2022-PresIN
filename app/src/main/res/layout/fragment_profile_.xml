@@ -138,6 +138,23 @@
 
             </androidx.cardview.widget.CardView>
 
+            <Button
+                android:id="@+id/edit"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_button"
+                android:rotation="0"
+                android:rotationX="0"
+                android:rotationY="0"
+                android:layout_marginTop="40dp"
+                android:text="Edit Profile"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:visibility="visible"
+                tools:visibility="visible" />
+
         </LinearLayout>
 
 

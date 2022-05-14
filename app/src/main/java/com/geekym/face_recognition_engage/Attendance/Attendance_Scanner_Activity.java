@@ -76,7 +76,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     Interpreter tfLite;
     CameraSelector cameraSelector;
     float distance = 1.0f;
-    Context context = Attendance_Scanner_Activity.this;
     int cam_face = CameraSelector.LENS_FACING_FRONT; //Default Back Camera
     ProcessCameraProvider cameraProvider;
     ImageView info;
@@ -512,4 +511,3 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
     }
 }
-

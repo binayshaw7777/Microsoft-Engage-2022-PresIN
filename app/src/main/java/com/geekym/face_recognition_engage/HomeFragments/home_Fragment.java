@@ -87,7 +87,7 @@ public class home_Fragment extends Fragment {
                     String Replaced = Embeddings.replace("added", userID);
                     HashMap<String, String> map = new HashMap<>();
                     map.put("Embeddings", Replaced);
-                    reference.child("Embeddings").child(userID).setValue(map);
+                    reference.child("Embeddings").setValue(map);
                     reference.child("Users").child(userID).child("embeddings").setValue(Replaced);
                 }
             }
@@ -117,25 +117,6 @@ public class home_Fragment extends Fragment {
         }));
 
         return view;
-    }
-
-    //    Load Faces from Shared Preferences.Json String to Recognition object
-    private HashMap<String, SimilarityClassifier.Recognition> StringToMap(String Fetched) {
-        TypeToken<HashMap<String, SimilarityClassifier.Recognition>> token = new TypeToken<HashMap<String, SimilarityClassifier.Recognition>>() {
-        };
-        HashMap<String, SimilarityClassifier.Recognition> retrievedMap = new Gson().fromJson(Fetched, token.getType());
-        //During type conversion and save/load procedure,format changes(eg float converted to double).
-        //So embeddings need to be extracted from it in required format(eg.double to float).
-        for (Map.Entry<String, SimilarityClassifier.Recognition> entry : retrievedMap.entrySet()) {
-            float[][] output = new float[1][192];
-            ArrayList arrayList = (ArrayList) entry.getValue().getExtra();
-            arrayList = (ArrayList) arrayList.get(0);
-            for (int counter = 0; counter < arrayList.size(); counter++) {
-                output[0][counter] = ((Double) arrayList.get(counter)).floatValue();
-            }
-            entry.getValue().setExtra(output);
-        }
-        return retrievedMap;
     }
 
     private void Initialization(View view) {
