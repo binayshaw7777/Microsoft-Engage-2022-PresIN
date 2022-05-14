@@ -77,7 +77,6 @@ public class SignUp_First_Activity extends AppCompatActivity {
     Interpreter tfLite;
     CameraSelector cameraSelector;
     Context context = SignUp_First_Activity.this;
-    int cam_face = CameraSelector.LENS_FACING_FRONT; //Default Back Camera
     ProcessCameraProvider cameraProvider;
 
     int[] intValues;
@@ -89,7 +88,6 @@ public class SignUp_First_Activity extends AppCompatActivity {
     int OUTPUT_SIZE = 192; //Output size of model
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-
     String modelFile = "mobile_face_net.tflite"; //model name
 
 
@@ -167,7 +165,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
 
     void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
         Preview preview = new Preview.Builder().build();
-        cameraSelector = new CameraSelector.Builder().requireLensFacing(cam_face).build();
+        cameraSelector = new CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build();
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
 
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()

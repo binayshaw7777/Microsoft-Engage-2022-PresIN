@@ -11,9 +11,7 @@
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="PresIN"
-        android:largeHeap="true"
         android:roundIcon="@drawable/app_icon"
-        android:supportsRtl="true"
         android:theme="@style/Theme.Face_Recognition_Engage">
         <activity
             android:name=".HomeFragments.Attendees"

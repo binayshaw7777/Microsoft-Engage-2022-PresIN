@@ -1,5 +1,6 @@
 package com.geekym.face_recognition_engage.Attendance;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -31,33 +32,38 @@ public class Attendance_Result_Activity extends AppCompatActivity {
     private DatabaseReference reference;
     private String userID;
 
-    SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
-    Date today = new Date();
-    String date = dateFormat.format(today);
-    final String Time = timeFormat.format(today);
-
+    @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance_result);
+
         Initialize();
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
+        Date today = new Date();
+        String date = dateFormat.format(today);
+        final String Time = timeFormat.format(today);
 
         reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                Users userprofile = snapshot.getValue(Users.class);
+
+                assert userprofile != null;
+                String name = userprofile.name;
+                String id = userprofile.id;
+                Name.setText(name);
+
                 HashMap<String, String> map = new HashMap<>();
-                map.put("Time", Time);
-                map.put("Status", "Present");
+                map.put("time", Time);
+                map.put("status", "Present");
+                map.put("name", name);
+                map.put("id", id);
                 reference.child("Users").child(userID).child("Attendance").child(date).setValue(map);
                 reference.child("Attendance").child(date).child(userID).setValue(map);
-
-                Users userprofile = snapshot.getValue(Users.class);
-                if (userprofile != null) {
-                    String name = userprofile.name;
-                    Name.setText(name);
-                }
             }
 
             @Override

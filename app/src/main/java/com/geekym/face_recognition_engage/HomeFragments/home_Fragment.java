@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +15,6 @@ import androidx.fragment.app.Fragment;
 
 import com.geekym.face_recognition_engage.Attendance.Attendance_Scanner_Activity;
 import com.geekym.face_recognition_engage.R;
-import com.geekym.face_recognition_engage.SimilarityClassifier;
 import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,15 +23,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 
 public class home_Fragment extends Fragment {
 
@@ -41,7 +35,6 @@ public class home_Fragment extends Fragment {
     private String userID;
     ImageView clockInOut;
     TextView DateDis, PresentMark_Time;
-    TextClock clock;
     Calendar calendar;
     SimpleDateFormat dateFormat1;
 
@@ -67,9 +60,10 @@ public class home_Fragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChild(userID))
-                    PresentMark_Time.setText(snapshot.child(userID).child("Time").getValue().toString());
-                else
-                    view.findViewById(R.id.attendance_box).setVisibility(View.INVISIBLE);
+                    PresentMark_Time.setText(Objects.requireNonNull(snapshot.child(userID).child("time").getValue()).toString());
+                else {
+                    PresentMark_Time.setText("--/--");
+                }
             }
 
             @Override
@@ -126,7 +120,7 @@ public class home_Fragment extends Fragment {
         assert user != null;
         userID = user.getUid();
         DateDis = view.findViewById(R.id.text_view_date);
-        clock = view.findViewById(R.id.textClock);
+
         clockInOut = view.findViewById(R.id.clock_inout);
     }
 }

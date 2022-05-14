@@ -105,10 +105,10 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                                             Log.d(TAG, "createUserWithEmail:success");
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             DynamicToast.makeSuccess(this, "Registered Successfully").show();
+                                            DynamicToast.makeSuccess(this, "Verification Mail Sent").show();
                                             startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
                                             assert user != null;
                                             user.sendEmailVerification();
-                                            DynamicToast.makeSuccess(this, "Verification Mail Sent").show();
                                         } else {
                                             // If sign in fails, display a message to the user.
                                             Log.w(TAG, "createUserWithEmail:failure", task1.getException());

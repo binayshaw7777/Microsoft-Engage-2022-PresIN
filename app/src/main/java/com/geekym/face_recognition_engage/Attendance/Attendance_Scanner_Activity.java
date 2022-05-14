@@ -3,7 +3,6 @@ package com.geekym.face_recognition_engage.Attendance;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
@@ -76,7 +75,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     Interpreter tfLite;
     CameraSelector cameraSelector;
     float distance = 1.0f;
-    int cam_face = CameraSelector.LENS_FACING_FRONT; //Default Back Camera
     ProcessCameraProvider cameraProvider;
     ImageView info;
 
@@ -145,7 +143,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
         Preview preview = new Preview.Builder().build();
-        cameraSelector = new CameraSelector.Builder().requireLensFacing(cam_face).build();
+        cameraSelector = new CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build();
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
 
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()

@@ -2,7 +2,6 @@ package com.geekym.face_recognition_engage.HomeFragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,10 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
@@ -81,37 +78,26 @@ public class profile_Fragment extends Fragment {
                     CollegeID.setText("College ID: " + uid);
                     CollegeName.setText("College Name: " + org);
 
-                    EditProfile.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                            builder.setTitle("Enter Your New Name");
+                    EditProfile.setOnClickListener(view12 -> {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Enter Your New Name");
 
-                            // Set up the input
-                            final EditText input = new EditText(getContext());
+                        // Set up the input
+                        final EditText input = new EditText(getContext());
 
-                            input.setInputType(InputType.TYPE_CLASS_TEXT);
-                            builder.setView(input);
+                        input.setInputType(InputType.TYPE_CLASS_TEXT);
+                        builder.setView(input);
 
-                            // Set up the buttons
-                            builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    HashMap map = new HashMap();
-                                    map.put("name", input.getText().toString());
-                                    reference.child("Users").child(userID).updateChildren(map);
+                        // Set up the buttons
+                        builder.setPositiveButton("Update", (dialog, which) -> {
+                            HashMap map = new HashMap();
+                            map.put("name", input.getText().toString());
+                            reference.child("Users").child(userID).updateChildren(map);
 
-                                }
-                            });
-                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
+                        });
+                        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
-                            builder.show();
-                        }
+                        builder.show();
                     });
                 }
             }

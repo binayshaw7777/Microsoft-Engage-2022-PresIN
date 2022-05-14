@@ -46,8 +46,8 @@
                 android:id="@+id/statusDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Absent"
-                android:textColor="@color/red_desat"
+                android:text="Present"
+                android:textColor="@color/green_desat"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
@@ -56,8 +56,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="5dp"
-                    android:src="@drawable/indicator_default"
-                    app:tint="@color/red_desat" />
+                    android:src="@drawable/green_dot"/>
 
 
             </LinearLayout>

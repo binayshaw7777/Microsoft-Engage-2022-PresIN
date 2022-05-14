@@ -1,15 +1,14 @@
 package com.geekym.face_recognition_engage.HomeFragments;
 
 public class ModelClass {
-    String Name, ID, Time, Status;
+    String Name, ID, Time;
 
     ModelClass() { }
 
-    public ModelClass(String name, String id, String time, String status) {
+    public ModelClass(String name, String id, String time) {
         Name = name;
         ID = id;
         Time = time;
-        Status = status;
     }
 
     public String getName() {
@@ -36,11 +35,4 @@ public class ModelClass {
         Time = time;
     }
 
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String status) {
-        Status = status;
-    }
 }
