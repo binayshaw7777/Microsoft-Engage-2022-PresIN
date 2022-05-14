@@ -102,7 +102,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         Initialization();
 
         info.setOnClickListener(view ->
-                DynamicToast.make(this, "Please face the camera properly to register your face", getResources()
+                DynamicToast.make(this, "Bring your face in the camera to register", getResources()
                         .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
         String Embeddings = getIntent().getStringExtra("Embeddings");
         map.putAll(StringToMap(Embeddings));

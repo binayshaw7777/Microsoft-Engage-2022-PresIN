@@ -107,7 +107,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
         }
 
         Info.setOnClickListener(view ->
-                DynamicToast.make(this, "Please face the camera properly to register your face", getResources()
+                DynamicToast.make(this, "Bring your face in the camera to register", getResources()
                         .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
 
         Next.setOnClickListener(view -> {

@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.geekym.face_recognition_engage.Attendance.Attendance_Scanner_Activity;
 import com.geekym.face_recognition_engage.R;
+import com.geekym.face_recognition_engage.SimilarityClassifier;
 import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,10 +25,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class home_Fragment extends Fragment {
 
@@ -72,6 +78,26 @@ public class home_Fragment extends Fragment {
             }
         });
 
+        reference.child("Users").child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Users userprofile = snapshot.getValue(Users.class);
+                if (userprofile != null) {
+                    String Embeddings = userprofile.embeddings;
+                    String Replaced = Embeddings.replace("added", userID);
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("Embeddings", Replaced);
+                    reference.child("Embeddings").child(userID).setValue(map);
+                    reference.child("Users").child(userID).child("embeddings").setValue(Replaced);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         clockInOut.setOnClickListener(view1 -> reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -91,6 +117,25 @@ public class home_Fragment extends Fragment {
         }));
 
         return view;
+    }
+
+    //    Load Faces from Shared Preferences.Json String to Recognition object
+    private HashMap<String, SimilarityClassifier.Recognition> StringToMap(String Fetched) {
+        TypeToken<HashMap<String, SimilarityClassifier.Recognition>> token = new TypeToken<HashMap<String, SimilarityClassifier.Recognition>>() {
+        };
+        HashMap<String, SimilarityClassifier.Recognition> retrievedMap = new Gson().fromJson(Fetched, token.getType());
+        //During type conversion and save/load procedure,format changes(eg float converted to double).
+        //So embeddings need to be extracted from it in required format(eg.double to float).
+        for (Map.Entry<String, SimilarityClassifier.Recognition> entry : retrievedMap.entrySet()) {
+            float[][] output = new float[1][192];
+            ArrayList arrayList = (ArrayList) entry.getValue().getExtra();
+            arrayList = (ArrayList) arrayList.get(0);
+            for (int counter = 0; counter < arrayList.size(); counter++) {
+                output[0][counter] = ((Double) arrayList.get(counter)).floatValue();
+            }
+            entry.getValue().setExtra(output);
+        }
+        return retrievedMap;
     }
 
     private void Initialization(View view) {

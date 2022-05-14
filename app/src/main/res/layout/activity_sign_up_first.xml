@@ -54,9 +54,17 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please hold your phone in Portrait Mode"
+            android:textColor="@color/lightblue"
+            android:textSize="17dp"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="300dp"
-            android:layout_height="300dp">
+            android:layout_height="300dp"
+            android:layout_marginTop="40dp">
 
             <ImageView
                 android:id="@+id/info_icon"
@@ -101,7 +109,6 @@
             android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
