@@ -53,10 +53,15 @@ public class home_Fragment extends Fragment {
 
         calendar = Calendar.getInstance();
         dateFormat1 = new SimpleDateFormat("EEEE, MMM d");
-        String date = dateFormat1.format(calendar.getTime());
-        DateDis.setText(date);
+        String date1 = dateFormat1.format(calendar.getTime());
+        DateDis.setText(date1);
 
-        reference.child("Attendance").child(date1).addValueEventListener(new ValueEventListener() {
+        Calendar cal = Calendar.getInstance();
+        String year = new SimpleDateFormat("yyyy").format(cal.getTime());
+        String month = new SimpleDateFormat("MMM").format(cal.getTime());
+        String date = new SimpleDateFormat("dd").format(cal.getTime());
+
+        reference.child("Attendance").child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChild(userID))
@@ -78,11 +83,13 @@ public class home_Fragment extends Fragment {
                 Users userprofile = snapshot.getValue(Users.class);
                 if (userprofile != null) {
                     String Embeddings = userprofile.embeddings;
-                    String Replaced = Embeddings.replace("added", userID);
-                    HashMap<String, String> map = new HashMap<>();
-                    map.put("Embeddings", Replaced);
-                    reference.child("Embeddings").setValue(map);
-                    reference.child("Users").child(userID).child("embeddings").setValue(Replaced);
+                    if (Embeddings.contains("added")) {
+                        String Replaced = Embeddings.replace("added", userID);
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("Embeddings", Replaced);
+                        reference.child("Embeddings").child(userID).setValue(map);
+                        reference.child("Users").child(userID).child("embeddings").setValue(Replaced);
+                    }
                 }
             }
 

@@ -2,6 +2,7 @@ package com.geekym.face_recognition_engage.Authentication;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -43,10 +44,13 @@ public class Forgot_Password_Activity extends AppCompatActivity {
         } else {
             Auth2.sendPasswordResetEmail(Email).addOnCompleteListener(task -> {
                 try {
-                    if (task.isSuccessful())
-                        DynamicToast.makeSuccess(this, "Password Reset email sent!").show();
+                    if (task.isSuccessful()) {
+                        DynamicToast.make(this, "Password reset email sent!", getResources()
+                                .getColor(R.color.white), getResources().getColor(R.color.green_desat)).show();
+                        startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
+                    }
                     else
-                        DynamicToast.makeSuccess(this, "Something went wrong").show();
+                        DynamicToast.makeError(this, "Something went wrong").show();
 
                 } catch (Exception e) {
                     e.printStackTrace();

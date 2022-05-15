@@ -34,6 +34,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 
+import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.SimilarityClassifier;
 import com.google.android.gms.tasks.Task;
@@ -98,16 +99,16 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
         Initialization();
 
+        //Camera Permission
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
+        }
+
         info.setOnClickListener(view ->
                 DynamicToast.make(this, "Bring your face in the camera to register", getResources()
                         .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
         String Embeddings = getIntent().getStringExtra("Embeddings");
         map.putAll(StringToMap(Embeddings));
-
-        //Camera Permission
-        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
-        }
 
         //Load model
         try {
@@ -495,6 +496,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                 DynamicToast.makeSuccess(this, "Camera permission granted").show();
             } else {
                 DynamicToast.makeError(this, "Camera permission denied").show();
+                startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
             }
         }
     }

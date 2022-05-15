@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_main"
-    tools:context=".HomeFragments.status_Fragment">
+    tools:context=".HomeFragments.Status.status_Fragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -171,7 +171,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/status"
+                android:id="@+id/user_progress"
                 android:layout_width="360dp"
                 android:layout_height="95dp"
                 android:layout_marginTop="25dp"

@@ -224,11 +224,6 @@ public class SignUp_First_Activity extends AppCompatActivity {
 
                         } else {
                             addFace.setVisibility(View.INVISIBLE);
-                            if (!map.isEmpty()) {
-//                                        addFace.setOnClickListener(view -> Toast.makeText(context, "Add Face", Toast.LENGTH_SHORT).show());
-//                                    } else {
-                                addFace.setOnClickListener(view -> Toast.makeText(context, "No Face Detected", Toast.LENGTH_SHORT).show());
-                            }
                         }
 
                     })
@@ -461,8 +456,10 @@ public class SignUp_First_Activity extends AppCompatActivity {
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 DynamicToast.makeSuccess(this, "Camera permission granted").show();
-            else
+            else {
                 DynamicToast.makeError(this, "Camera permission denied").show();
+                startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
+            }
         }
     }
 

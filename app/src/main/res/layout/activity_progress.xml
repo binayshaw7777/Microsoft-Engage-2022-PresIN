@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_main"
-    tools:context=".HomeFragments.Status.Attendees.Attendees">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomeFragments.Status.Progress_Activity"
+    android:background="@drawable/background_main">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Attendees List"
+                android:text="Status"
                 android:textColor="@color/white"
                 android:textSize="35dp"
                 android:textStyle="bold"
@@ -55,19 +55,19 @@
             android:layout_height="match_parent"
             android:layout_marginTop="140dp"
             android:background="@drawable/white_bar"
-            android:gravity="center"
             android:orientation="vertical"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_marginTop="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-            </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/counter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="TextView" />
 
         </LinearLayout>
 

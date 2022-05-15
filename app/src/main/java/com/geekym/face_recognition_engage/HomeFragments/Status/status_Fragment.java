@@ -1,4 +1,4 @@
-package com.geekym.face_recognition_engage.HomeFragments;
+package com.geekym.face_recognition_engage.HomeFragments.Status;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,12 @@ import android.view.ViewGroup;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.geekym.face_recognition_engage.HomeFragments.Status.Attendees.Attendees;
 import com.geekym.face_recognition_engage.R;
 
 public class status_Fragment extends Fragment {
 
-    CardView attendeesList;
+    CardView attendeesList, userProgress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,10 +25,13 @@ public class status_Fragment extends Fragment {
 
         attendeesList.setOnClickListener(view1 -> startActivity(new Intent(getContext(), Attendees.class)));
 
+        userProgress.setOnClickListener(view1 -> startActivity(new Intent(getContext(), Progress_Activity.class)));
+
         return view;
     }
 
     private void Initialization(View view) {
         attendeesList = view.findViewById(R.id.attendees_list);
+        userProgress = view.findViewById(R.id.user_progress);
     }
 }

@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -43,8 +44,13 @@ public class Attendance_Result_Activity extends AppCompatActivity {
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
         Date today = new Date();
-        String date = dateFormat.format(today);
+        String date1 = dateFormat.format(today);
         final String Time = timeFormat.format(today);
+
+        Calendar cal = Calendar.getInstance();
+        String year = new SimpleDateFormat("yyyy").format(cal.getTime());
+        String month = new SimpleDateFormat("MMM").format(cal.getTime());
+        String date = new SimpleDateFormat("dd").format(cal.getTime());
 
         reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
             @Override
@@ -62,8 +68,8 @@ public class Attendance_Result_Activity extends AppCompatActivity {
                 map.put("status", "Present");
                 map.put("name", name);
                 map.put("id", id);
-                reference.child("Users").child(userID).child("Attendance").child(date).setValue(map);
-                reference.child("Attendance").child(date).child(userID).setValue(map);
+                reference.child("Users").child(userID).child("Attendance").child(year).child(month).child(date).setValue(map);
+                reference.child("Attendance").child(year).child(month).child(date).child(userID).setValue(map);
             }
 
             @Override

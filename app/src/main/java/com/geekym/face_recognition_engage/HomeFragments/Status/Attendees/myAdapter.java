@@ -1,4 +1,4 @@
-package com.geekym.face_recognition_engage.HomeFragments;
+package com.geekym.face_recognition_engage.HomeFragments.Status.Attendees;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
