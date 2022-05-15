@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 
 
@@ -37,12 +39,18 @@ public class profile_Fragment extends Fragment {
     TextView Name, Email, CollegeID, CollegeName;
     Button EditProfile;
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_, container, false);
 
         Initialization(view);
+
+        Calendar cal = Calendar.getInstance();
+        String year = new SimpleDateFormat("yyyy").format(cal.getTime());
+        String month = new SimpleDateFormat("MMM").format(cal.getTime());
+        String date = new SimpleDateFormat("dd").format(cal.getTime());
 
         Logout.setOnClickListener(view1 -> {
 
@@ -88,11 +96,27 @@ public class profile_Fragment extends Fragment {
                         input.setInputType(InputType.TYPE_CLASS_TEXT);
                         builder.setView(input);
 
+
                         // Set up the buttons
                         builder.setPositiveButton("Update", (dialog, which) -> {
+                            String inName = input.getText().toString();
                             HashMap map = new HashMap();
-                            map.put("name", input.getText().toString());
+                            map.put("name", inName);
                             reference.child("Users").child(userID).updateChildren(map);
+
+                            reference.child("Attendance").child(year).child(month).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.hasChild(userID)) {
+                                        reference.child("Attendance").child(year).child(month).child(date).child(userID).child("name").setValue(inName);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
 
                         });
                         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());

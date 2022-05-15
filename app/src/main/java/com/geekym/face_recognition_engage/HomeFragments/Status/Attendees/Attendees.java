@@ -3,6 +3,7 @@ package com.geekym.face_recognition_engage.HomeFragments.Status.Attendees;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ public class Attendees extends AppCompatActivity {
     com.geekym.face_recognition_engage.HomeFragments.Status.Attendees.myAdapter myAdapter;
 
     private ShimmerFrameLayout ShimmerViewContainer;
+    TextView dateDisplay;
 
 
     @SuppressLint("SimpleDateFormat")
@@ -38,6 +40,9 @@ public class Attendees extends AppCompatActivity {
         String year = new SimpleDateFormat("yyyy").format(cal.getTime());
         String month = new SimpleDateFormat("MMM").format(cal.getTime());
         String date = new SimpleDateFormat("dd").format(cal.getTime());
+        String fullDate = new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
+
+        dateDisplay.setText(fullDate);
 
         FirebaseRecyclerOptions<ModelClass> options =
                 new FirebaseRecyclerOptions.Builder<ModelClass>()
@@ -75,21 +80,10 @@ public class Attendees extends AppCompatActivity {
         }
     }
 
-    /*
-    When Minimized, stop method causes the app to crash.
-    The adapter stops loading data and after reopening it caused to crash.
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        myAdapter.stopListening();
-    }
- */
-
     private void Initialization() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ShimmerViewContainer = findViewById(R.id.shimmerFrameLayout);
-
+        dateDisplay = findViewById(R.id.date);
     }
 }

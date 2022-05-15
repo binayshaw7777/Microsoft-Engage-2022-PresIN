@@ -49,6 +49,18 @@
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date: "
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="212dp"
+                tools:layout_editor_absoluteY="220dp" />
+
         </LinearLayout>
 
         <LinearLayout
