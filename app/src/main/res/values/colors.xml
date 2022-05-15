@@ -11,4 +11,5 @@
     <color name="deepblue">#0059D4</color>
     <color name="red_desat">#FF3F3F</color>
     <color name="green_desat">#4CA456</color>
+    <color name="background">#dddddd</color>
 </resources>

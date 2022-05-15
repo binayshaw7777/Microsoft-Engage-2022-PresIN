@@ -72,4 +72,7 @@ dependencies {
 
     //Custom Toasts
     implementation 'com.pranavpandey.android:dynamic-toasts:4.1.0'
+
+    //Shimmer Effect
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 }

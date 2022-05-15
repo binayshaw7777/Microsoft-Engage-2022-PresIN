@@ -44,7 +44,7 @@ public class Splash_Screen_Activity extends AppCompatActivity {
                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(loginIntent);
                 finish();
-            }, 2500);
+            }, 2000);
         }
 
     }
