@@ -18,7 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
-import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,21 +75,13 @@ public class profile_Fragment extends Fragment {
             title.setText("Confirm Logout");
             description.setText("Do you really want to logout?");
 
-            Proceed.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    startActivity(new Intent(getContext(), SignIn_Activity.class));
-                    requireActivity().finish();
-                }
+            Proceed.setOnClickListener(v -> {
+                dialog.dismiss();
+                startActivity(new Intent(getContext(), SignIn_Activity.class));
+                requireActivity().finish();
             });
 
-            Cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
+            Cancel.setOnClickListener(v -> dialog.dismiss());
             dialog.show();
         });
 

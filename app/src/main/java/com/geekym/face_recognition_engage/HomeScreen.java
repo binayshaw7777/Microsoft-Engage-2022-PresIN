@@ -1,11 +1,9 @@
 package com.geekym.face_recognition_engage;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -80,20 +78,12 @@ public class HomeScreen extends AppCompatActivity {
         title.setText("Confirm Exit");
         description.setText("Do you really want to exit?");
 
-        Proceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                finishAffinity();
-            }
+        Proceed.setOnClickListener(v -> {
+            dialog.dismiss();
+            finishAffinity();
         });
 
-        Cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        Cancel.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }
 }
