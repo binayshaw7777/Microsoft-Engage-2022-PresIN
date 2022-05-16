@@ -23,13 +23,18 @@ public class status_Fragment extends Fragment {
 
         Initialization(view);
 
-        attendeesList.setOnClickListener(view1 -> startActivity(new Intent(getContext(), Attendees.class)));
+        attendeesList.setOnClickListener(view1 -> intentNow(Attendees.class));
 
-        userProgress.setOnClickListener(view1 -> startActivity(new Intent(getContext(), Progress_Activity.class)));
+        userProgress.setOnClickListener(view1 -> intentNow(Progress_Activity.class));
 
-        userNotes.setOnClickListener(view1 -> startActivity(new Intent(getContext(), Notes_Activity.class)));
+        userNotes.setOnClickListener(view1 -> intentNow(Notes_Activity.class));
 
         return view;
+    }
+
+    //Single Method to handle Intents in this activity
+    private void intentNow(Class targetClass) {
+        startActivity(new Intent(getContext(), targetClass));
     }
 
     private void Initialization(View view) {

@@ -38,12 +38,11 @@ public class SignIn_Activity extends AppCompatActivity {
 
         Initialization();
 
-        ForgotPass.setOnClickListener(view ->
-                startActivity(new Intent(getApplicationContext(), Forgot_Password_Activity.class)));
+        ForgotPass.setOnClickListener(view -> intentNow(Forgot_Password_Activity.class, false));
 
         Login_Button.setOnClickListener(view -> Login()); //Login Button CTA
 
-        SignUp.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SignUp_First_Activity.class))); //To SignUp Activity
+        SignUp.setOnClickListener(view -> intentNow(SignUp_First_Activity.class, false)); //To SignUp Activity
 
         // Function to see password and hide password
         Password_editText.setOnTouchListener((v, event) -> {
@@ -72,6 +71,14 @@ public class SignIn_Activity extends AppCompatActivity {
             }
             return false;
         });
+
+    }
+
+    //Handles intent -> Individual intent to one single method
+    private void intentNow(Class targetActivity, boolean b) {
+        Intent intent = new Intent(getApplicationContext(), targetActivity);
+        startActivity(intent);
+        if (b) finishAffinity(); //if b is true, apply finishAffinity(); method!
 
     }
 
@@ -108,9 +115,7 @@ public class SignIn_Activity extends AppCompatActivity {
                     DynamicToast.make(this, "Check your email to verify your account and Login again", getResources().getColor(R.color.white), getResources().getColor(R.color.lightblue)).show();
                 } else {
                     progressBar.setVisibility(View.GONE);
-                    Intent intent2 = new Intent(getApplicationContext(), HomeScreen.class);
-                    startActivity(intent2);
-                    finishAffinity();
+                    intentNow(HomeScreen.class, true);
                 }
             } else {
                 progressBar.setVisibility(View.GONE);

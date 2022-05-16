@@ -35,9 +35,7 @@ public class onboarding extends AppCompatActivity {
 
         // when this activity is about to be launch we need to check if its opened before or not
         if (restorePrefData()) {
-            Intent login = new Intent(getApplicationContext(), SignIn_Activity.class);
-            startActivity(login);
-            finish();
+            intentNow(SignIn_Activity.class);
         }
         setContentView(R.layout.activity_onboarding);
 
@@ -93,17 +91,21 @@ public class onboarding extends AppCompatActivity {
         btnGetStarted.setOnClickListener(v -> {
 
             //open main activity
-            Intent login = new Intent(getApplicationContext(), SignIn_Activity.class);
-            startActivity(login);
+            savePrefsData();
+            intentNow(SignIn_Activity.class);
             // also we need to save a boolean value to storage so next time when the user run the app
             // we could know that he is already checked the intro screen activity
             // i'm going to use shared preferences to that process
-            savePrefsData();
-            finish();
         });
 
         // skip button click listener
         tvSkip.setOnClickListener(v -> screenPager.setCurrentItem(mList.size()));
+    }
+
+    private void intentNow(Class targetActivity) {
+        Intent intent = new Intent(getApplicationContext(), targetActivity);
+        startActivity(intent);
+        finish();
     }
 
     private void Initialization() {

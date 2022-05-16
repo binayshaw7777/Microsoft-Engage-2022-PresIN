@@ -68,34 +68,32 @@ public class Progress_Activity extends AppCompatActivity {
                 requireDays.setText("Attendance if you attend daily this month: "+String.format("%.2f", expected)+"%");
 
                 if (percent >= 0 && percent < 30) {
-                    mChart.setProgressColor(getResources().getColor(R.color.red_desat));
-                    mChart.setBackgroundBarColor(getResources().getColor(R.color.shallow_red));
-                    mChart.setTextColor(getResources().getColor(R.color.red_desat));
+                    setThis(getResources().getColor(R.color.red_desat), getResources().getColor(R.color.shallow_red));
+
                 } else if (percent >= 30 && percent < 50) {
-                    mChart.setProgressColor(getResources().getColor(R.color.orange));
-                    mChart.setBackgroundBarColor(getResources().getColor(R.color.shallow_orange_yellow));
-                    mChart.setTextColor(getResources().getColor(R.color.orange));
+                    setThis(getResources().getColor(R.color.orange), getResources().getColor(R.color.shallow_orange_yellow));
+
                 } else if (percent >= 50 && percent < 65) {
-                    mChart.setProgressColor(getResources().getColor(R.color.orange_yellow));
-                    mChart.setBackgroundBarColor(getResources().getColor(R.color.shallow_orange_yellow));
-                    mChart.setTextColor(getResources().getColor(R.color.orange_yellow));
+                    setThis(getResources().getColor(R.color.orange_yellow), getResources().getColor(R.color.shallow_orange_yellow));
+
                 } else if (percent >= 65 && percent < 75) {
-                    mChart.setProgressColor(getResources().getColor(R.color.yellow));
-                    mChart.setBackgroundBarColor(getResources().getColor(R.color.shallow_orange_yellow));
-                    mChart.setTextColor(getResources().getColor(R.color.yellow));
+                    setThis(getResources().getColor(R.color.yellow), getResources().getColor(R.color.shallow_orange_yellow));
+
                 } else {
-                    mChart.setProgressColor(getResources().getColor(R.color.green_desat));
-                    mChart.setBackgroundBarColor(getResources().getColor(R.color.shallow_green));
-                    mChart.setTextColor(getResources().getColor(R.color.green_desat));
+                    setThis(getResources().getColor(R.color.green_desat), getResources().getColor(R.color.shallow_green));
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
+    }
+
+    private void setThis(int first, int second) {
+        mChart.setProgressColor(first);
+        mChart.setBackgroundBarColor(second);
+        mChart.setTextColor(first);
     }
 
     private void Initialization() {

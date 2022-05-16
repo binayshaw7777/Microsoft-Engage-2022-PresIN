@@ -44,8 +44,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
 
         Initialization();
 
-        LoginPage.setOnClickListener(view ->
-                startActivity(new Intent(getApplicationContext(), SignIn_Activity.class))); //Already have an account
+        LoginPage.setOnClickListener(view -> intentNow()); //Already have an account
 
         Signup.setOnClickListener(view -> {
 
@@ -106,7 +105,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             DynamicToast.makeSuccess(this, "Registered Successfully").show();
                                             DynamicToast.makeSuccess(this, "Verification Mail Sent").show();
-                                            startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
+                                            intentNow();
                                             assert user != null;
                                             user.sendEmailVerification();
                                         } else {
@@ -153,6 +152,10 @@ public class SignUp_Second_Activity extends AppCompatActivity {
             return false;
         });
 
+    }
+
+    private void intentNow() {
+        startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
     }
 
     private void Initialization() {

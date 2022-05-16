@@ -45,7 +45,7 @@ public class Attendees extends AppCompatActivity {
         String fullDate = new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
 
         dateDisplay.setText(fullDate);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.emptyState);
+        LinearLayout layout = findViewById(R.id.emptyState);
 
         FirebaseRecyclerOptions<ModelClass> options =
                 new FirebaseRecyclerOptions.Builder<ModelClass>()

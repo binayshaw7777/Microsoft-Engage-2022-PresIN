@@ -24,7 +24,6 @@ import android.util.Size;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -111,10 +110,11 @@ public class SignUp_First_Activity extends AppCompatActivity {
         Next.setOnClickListener(view -> {
             if (map.containsKey("added")) {
                 String Json = getFromMap(map); //we convert the map into a string by calling a function and passing the map
-                Intent intent = new Intent(getApplicationContext(), SignUp_Second_Activity.class);
-                intent.putExtra("Face_Embeddings", Json); //Here we are passing face embeddings to the next activity
-                startActivity(intent);
-                finish();
+                intentNow(SignUp_Second_Activity.class, "Face_Embeddings", Json, true);
+//                Intent intent = new Intent(getApplicationContext(), SignUp_Second_Activity.class);
+//                intent.putExtra("Face_Embeddings", Json); //Here we are passing face embeddings to the next activity
+//                startActivity(intent);
+//                finish();
             } else
                 DynamicToast.makeError(this, "Face not Added").show();
         });
@@ -135,6 +135,15 @@ public class SignUp_First_Activity extends AppCompatActivity {
         detector = FaceDetection.getClient(highAccuracyOpts);
 
         cameraBind();
+    }
+
+    private void intentNow(Class targetActivity, String face_embeddings, String json, boolean b) {
+        Intent intent = new Intent(getApplicationContext(), targetActivity);
+        if (b) {
+            intent.putExtra(face_embeddings, json);
+        }
+        startActivity(intent);
+        finish();
     }
 
     private void AddFace() {
@@ -459,6 +468,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
             else {
                 DynamicToast.makeError(this, "Camera permission denied").show();
                 startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
+                intentNow(SignIn_Activity.class, "", "", false);
             }
         }
     }

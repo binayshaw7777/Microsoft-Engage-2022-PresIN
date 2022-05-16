@@ -35,6 +35,7 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
+import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.SimilarityClassifier;
 import com.google.android.gms.tasks.Task;
@@ -273,9 +274,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
                 if (distance_local < distance) {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
                     distance = Float.MIN_VALUE;
-                    Intent intent = new Intent(getApplicationContext(), Attendance_Result_Activity.class);
-                    startActivity(intent);
-                    finish();
+                    intentNow(Attendance_Result_Activity.class, true);
                 } else
                     FaceStatus.setText("Unknown");
             }
@@ -496,9 +495,15 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                 DynamicToast.makeSuccess(this, "Camera permission granted").show();
             } else {
                 DynamicToast.makeError(this, "Camera permission denied").show();
-                startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
+                intentNow(HomeScreen.class, false);
             }
         }
+    }
+
+    private void intentNow(Class targetActivity, boolean b) {
+        Intent intent = new Intent(getApplicationContext(), targetActivity);
+        startActivity(intent);
+        if (b) finish(); //if b is true, apply finish(); method!
     }
 
     //Loads model file
