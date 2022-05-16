@@ -67,7 +67,7 @@ public class Attendees extends AppCompatActivity {
             ShimmerViewContainer.setVisibility(View.VISIBLE);
             new Handler().postDelayed(() -> {
                 ShimmerViewContainer.setVisibility(View.INVISIBLE);
-                if (myAdapter.getItemCount() == 0) layout.setVisibility(View.VISIBLE);
+                if (myAdapter.getItemCount() == 0) layout.setVisibility(View.VISIBLE); //Checking again to handle slow internet or firebase issues
             }, 2000);
 
         } else {

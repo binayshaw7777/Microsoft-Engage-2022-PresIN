@@ -2,7 +2,9 @@ package com.geekym.face_recognition_engage.HomeFragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
+import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +42,7 @@ public class profile_Fragment extends Fragment {
     TextView Name, Email, CollegeID, CollegeName;
     Button EditProfile;
 
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint({"SimpleDateFormat", "SetTextI18n", "UseCompatLoadingForDrawables", "ObsoleteSdkInt"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,20 +57,41 @@ public class profile_Fragment extends Fragment {
 
         Logout.setOnClickListener(view1 -> {
 
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-            alertDialogBuilder.setTitle("Confirm Logout");
-            alertDialogBuilder.setIcon(R.drawable.logo);
-            alertDialogBuilder.setMessage("Do you really want to logout?");
-            alertDialogBuilder.setCancelable(false);
-            alertDialogBuilder.setPositiveButton("Logout", (dialogInterface, i) -> {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getContext(), SignIn_Activity.class));
-                requireActivity().finish();
+            Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.custom_dialog);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                dialog.getWindow().setBackgroundDrawable(requireContext().getDrawable(R.drawable.custom_dialog_background));
+            }
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.setCancelable(false); //Optional
+            dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
+
+            Button Proceed = dialog.findViewById(R.id.proceed);
+            Button Cancel = dialog.findViewById(R.id.cancel);
+            TextView title = dialog.findViewById(R.id.dialog_title);
+            TextView description = dialog.findViewById(R.id.dialog_description);
+
+            Proceed.setText("Logout");
+            Proceed.setBackground(getResources().getDrawable(R.drawable.negative));
+            title.setText("Confirm Logout");
+            description.setText("Do you really want to logout?");
+
+            Proceed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    startActivity(new Intent(getContext(), SignIn_Activity.class));
+                    requireActivity().finish();
+                }
             });
-            alertDialogBuilder.setNegativeButton("Cancel", (dialogInterface, i) -> {
+
+            Cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
             });
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+            dialog.show();
         });
 
         reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view

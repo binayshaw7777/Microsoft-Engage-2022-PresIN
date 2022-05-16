@@ -40,6 +40,7 @@
         <entry key="..\:/Users/vinay/AndroidStudioProjects/Face_Recognition_Engage/app/src/main/res/xml/activity_main_scene.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/drawable-v24/secondary_button.xml" value="0.1825" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/drawable/card_bg.xml" value="0.2065" />
+        <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/drawable/custom_dialog_background.xml" value="0.1825" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/drawable/graph.xml" value="0.148" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/drawable/green_dot.xml" value="0.173" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/drawable/indicator_default.xml" value="0.2" />
@@ -60,6 +61,7 @@
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_sign_up_first.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_sign_up_second.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_splash_screen.xml" value="0.2" />
+        <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/custom_dialog.xml" value="0.19895833333333332" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/fragment_home_.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/fragment_profile_.xml" value="0.25" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/fragment_status_.xml" value="0.2" />

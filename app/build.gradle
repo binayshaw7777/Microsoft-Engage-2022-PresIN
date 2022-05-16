@@ -77,7 +77,7 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-
+    //RingProgress Bar Library
     implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.1'
 
 }
