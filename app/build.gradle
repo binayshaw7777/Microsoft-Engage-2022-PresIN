@@ -74,7 +74,9 @@ dependencies {
     implementation 'com.pranavpandey.android:dynamic-toasts:4.1.0'
 
     //Shimmer Effect
-    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 
     implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.1'
 

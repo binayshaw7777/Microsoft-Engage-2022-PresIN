@@ -1,7 +1,9 @@
 package com.geekym.face_recognition_engage.HomeFragments.Status.Attendees;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
+import com.geekym.face_recognition_engage.HomeScreen;
+import com.geekym.face_recognition_engage.Introduction.Splash_Screen_Activity;
 import com.geekym.face_recognition_engage.R;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,7 +40,7 @@ public class Attendees extends AppCompatActivity {
 
         Initialization();
 
-        ShimmerViewContainer.startShimmerAnimation();
+        ShimmerViewContainer.startShimmer();
         ShimmerViewContainer.setVisibility(View.VISIBLE);
 
         Calendar cal = Calendar.getInstance();
@@ -54,7 +59,23 @@ public class Attendees extends AppCompatActivity {
 
 
         myAdapter = new myAdapter(options);
-        
+
+        if (myAdapter.getItemCount()==0) {
+            recyclerView.setVisibility(View.GONE);
+            ShimmerViewContainer.startShimmer();
+            layout.setVisibility(View.INVISIBLE);
+            ShimmerViewContainer.setVisibility(View.VISIBLE);
+            new Handler().postDelayed(() -> {
+                ShimmerViewContainer.setVisibility(View.INVISIBLE);
+                if (myAdapter.getItemCount() == 0) layout.setVisibility(View.VISIBLE);
+            }, 2000);
+
+        } else {
+            layout.setVisibility(View.INVISIBLE);
+            ShimmerViewContainer.setVisibility(View.GONE);
+            recyclerView.setAdapter(myAdapter);
+        }
+
         myAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
@@ -75,12 +96,17 @@ public class Attendees extends AppCompatActivity {
             }
             void checkEmpty() {
                 if (myAdapter.getItemCount()==0) {
-                    layout.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
+                    layout.setVisibility(View.INVISIBLE);
+                    ShimmerViewContainer.setVisibility(View.VISIBLE);
+                    new Handler().postDelayed(() -> {
+                        ShimmerViewContainer.setVisibility(View.INVISIBLE);
+                        layout.setVisibility(View.VISIBLE);
+                    }, 2000);
+
                 } else {
-                    layout.setVisibility(View.GONE);
+                    layout.setVisibility(View.INVISIBLE);
                     ShimmerViewContainer.setVisibility(View.GONE);
-                    ShimmerViewContainer.stopShimmerAnimation();
                     recyclerView.setAdapter(myAdapter);
                 }
             }
@@ -91,20 +117,19 @@ public class Attendees extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-            ShimmerViewContainer.stopShimmerAnimation();
-            ShimmerViewContainer.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            myAdapter.startListening();
+        recyclerView.setVisibility(View.VISIBLE);
+        myAdapter.startListening();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         if (myAdapter != null) {
-            ShimmerViewContainer.setVisibility(View.VISIBLE);
-            ShimmerViewContainer.startShimmerAnimation();
             myAdapter.stopListening();
             recyclerView.setVisibility(View.GONE);
+        } else {
+            LinearLayout layout = findViewById(R.id.emptyState);
+            layout.setVisibility(View.INVISIBLE);
         }
     }
 
