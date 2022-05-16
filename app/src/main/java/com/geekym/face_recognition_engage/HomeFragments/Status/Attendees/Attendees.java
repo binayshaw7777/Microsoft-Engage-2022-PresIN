@@ -3,6 +3,7 @@ package com.geekym.face_recognition_engage.HomeFragments.Status.Attendees;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,7 @@ public class Attendees extends AppCompatActivity {
         Initialization();
 
         ShimmerViewContainer.startShimmerAnimation();
+        ShimmerViewContainer.setVisibility(View.VISIBLE);
 
         Calendar cal = Calendar.getInstance();
         String year = new SimpleDateFormat("yyyy").format(cal.getTime());
@@ -43,30 +45,56 @@ public class Attendees extends AppCompatActivity {
         String fullDate = new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
 
         dateDisplay.setText(fullDate);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.emptyState);
 
         FirebaseRecyclerOptions<ModelClass> options =
                 new FirebaseRecyclerOptions.Builder<ModelClass>()
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendance").child(year).child(month).child(date), ModelClass.class)
                         .build();
 
+
         myAdapter = new myAdapter(options);
-        ShimmerViewContainer.setVisibility(View.GONE);
-        ShimmerViewContainer.stopShimmerAnimation();
-        recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setAdapter(myAdapter);
+        
+        myAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkEmpty();
+            }
 
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                checkEmpty();
+            }
 
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                checkEmpty();
+            }
+            void checkEmpty() {
+                if (myAdapter.getItemCount()==0) {
+                    layout.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    layout.setVisibility(View.GONE);
+                    ShimmerViewContainer.setVisibility(View.GONE);
+                    ShimmerViewContainer.stopShimmerAnimation();
+                    recyclerView.setAdapter(myAdapter);
+                }
+            }
+        });
     }
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (myAdapter != null) {
             ShimmerViewContainer.stopShimmerAnimation();
             ShimmerViewContainer.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             myAdapter.startListening();
-        }
     }
 
     @Override
