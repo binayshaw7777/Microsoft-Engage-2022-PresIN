@@ -1,7 +1,6 @@
 package com.geekym.face_recognition_engage.HomeFragments.Status;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -52,6 +51,7 @@ public class Progress_Activity extends AppCompatActivity {
 
 
         reference.child("Users").child(userID).child("Attendance").child(year).child(monthName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint({"SetTextI18n", "DefaultLocale"})
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 c = snapshot.getChildrenCount();
@@ -59,12 +59,13 @@ public class Progress_Activity extends AppCompatActivity {
                 float count = c;
                 float absent = todayDate - count;
                 float percent = (count / todayDate) * 100;
+                float expected = ((c + (daysInMonth - todayDate)) / daysInMonth) * 100;
                 mChart.setProgress(percent, true);
 
                 totalDays.setText("Total Days in this month: "+daysInMonth+" days");
                 presentDays.setText("No. of days you were present: "+(int)count+" days");
                 absentDays.setText("No. of days you were absent: "+(int)absent+" days");
-                requireDays.setText("To reach 75% attend: "+"XX days");
+                requireDays.setText("Attendance if you attend daily this month: "+String.format("%.2f", expected)+"%");
 
                 if (percent >= 0 && percent < 30) {
                     mChart.setProgressColor(getResources().getColor(R.color.red_desat));
@@ -73,15 +74,19 @@ public class Progress_Activity extends AppCompatActivity {
                 } else if (percent >= 30 && percent < 50) {
                     mChart.setProgressColor(getResources().getColor(R.color.orange));
                     mChart.setBackgroundBarColor(getResources().getColor(R.color.shallow_orange_yellow));
+                    mChart.setTextColor(getResources().getColor(R.color.orange));
                 } else if (percent >= 50 && percent < 65) {
                     mChart.setProgressColor(getResources().getColor(R.color.orange_yellow));
                     mChart.setBackgroundBarColor(getResources().getColor(R.color.shallow_orange_yellow));
+                    mChart.setTextColor(getResources().getColor(R.color.orange_yellow));
                 } else if (percent >= 65 && percent < 75) {
                     mChart.setProgressColor(getResources().getColor(R.color.yellow));
                     mChart.setBackgroundBarColor(getResources().getColor(R.color.shallow_orange_yellow));
+                    mChart.setTextColor(getResources().getColor(R.color.yellow));
                 } else {
                     mChart.setProgressColor(getResources().getColor(R.color.green_desat));
                     mChart.setBackgroundBarColor(getResources().getColor(R.color.shallow_green));
+                    mChart.setTextColor(getResources().getColor(R.color.green_desat));
                 }
             }
 
