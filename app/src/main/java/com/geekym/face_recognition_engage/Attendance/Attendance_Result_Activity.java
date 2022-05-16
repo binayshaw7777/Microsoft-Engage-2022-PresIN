@@ -42,9 +42,7 @@ public class Attendance_Result_Activity extends AppCompatActivity {
         Initialize();
 
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
         Date today = new Date();
-        String date1 = dateFormat.format(today);
         final String Time = timeFormat.format(today);
 
         Calendar cal = Calendar.getInstance();
@@ -66,9 +64,9 @@ public class Attendance_Result_Activity extends AppCompatActivity {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("time", Time);
                 map.put("status", "Present");
+                reference.child("Users").child(userID).child("Attendance").child(year).child(month).child(date).setValue(map);
                 map.put("name", name);
                 map.put("id", id);
-                reference.child("Users").child(userID).child("Attendance").child(year).child(month).child(date).setValue(map);
                 reference.child("Attendance").child(year).child(month).child(date).child(userID).setValue(map);
             }
 
