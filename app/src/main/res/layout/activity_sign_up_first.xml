@@ -121,22 +121,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
-                android:background="@drawable/gradient_button"
-                android:elevation="5dp"
+                android:background="@drawable/secondary_button"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:text="Add Face"
+                android:textStyle="bold"
+                android:stateListAnimator="@null"
                 android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:textColor="@color/lightblue" />
 
             <Button
                 android:id="@+id/next"
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/positive"
+                android:background="@drawable/gradient_button"
                 android:rotation="0"
                 android:rotationX="0"
                 android:rotationY="0"
+                android:stateListAnimator="@null"
                 android:text="Next"
                 android:textAlignment="center"
                 android:textAllCaps="false"

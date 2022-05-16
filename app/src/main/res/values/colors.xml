@@ -8,8 +8,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFF</color>
     <color name="lightblue">#006BFF</color>
+    <color name="shallow_blue">#C9E0FF</color>
     <color name="deepblue">#0059D4</color>
     <color name="red_desat">#FF3F3F</color>
+    <color name="shallow_red">#FFCECE</color>
     <color name="green_desat">#4CA456</color>
+    <color name="shallow_green">#CEFFD4</color>
     <color name="background">#dddddd</color>
+    <color name="orange_yellow">#FF9900</color>
+    <color name="shallow_orange_yellow">#FFECCF</color>
+    <color name="yellow">#FFDD00</color>
+    <color name="orange">#FF5100</color>
 </resources>

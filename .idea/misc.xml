@@ -38,6 +38,7 @@
         <entry key="..\:/Users/vinay/AndroidStudioProjects/Face_Recognition_Engage/app/src/main/res/menu/menu.xml" value="0.2" />
         <entry key="..\:/Users/vinay/AndroidStudioProjects/Face_Recognition_Engage/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/vinay/AndroidStudioProjects/Face_Recognition_Engage/app/src/main/res/xml/activity_main_scene.xml" value="0.2" />
+        <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/drawable-v24/secondary_button.xml" value="0.1825" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/drawable/card_bg.xml" value="0.2065" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/drawable/graph.xml" value="0.148" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/drawable/green_dot.xml" value="0.173" />
@@ -52,9 +53,10 @@
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_attendees.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_forgot_password.xml" value="0.1" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_homescreen.xml" value="0.2" />
+        <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_notes.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_onboarding.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_progress.xml" value="0.2" />
-        <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_sign_in.xml" value="0.1" />
+        <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_sign_in.xml" value="0.18" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_sign_up_first.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_sign_up_second.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_splash_screen.xml" value="0.2" />

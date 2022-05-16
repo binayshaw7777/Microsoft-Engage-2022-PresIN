@@ -41,7 +41,7 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Status"
+                android:text="Progress"
                 android:textColor="@color/white"
                 android:textSize="35dp"
                 android:textStyle="bold"
@@ -56,18 +56,74 @@
             android:layout_marginTop="140dp"
             android:background="@drawable/white_bar"
             android:orientation="vertical"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:textColor="@color/lightblue"
+                android:layout_margin="40dp"
+                android:textStyle="bold"
+                android:text="Attendance Percentage"/>
+
+            <com.ramijemli.percentagechartview.PercentageChartView
+                android:id="@+id/ring_progress"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:pcv_mode="ring"
+                app:pcv_backgroundBarColor="@color/white"
+                app:pcv_progressColor="@color/white"
+                app:pcv_orientation="clockwise"
+                app:pcv_animDuration="800"
+                app:pcv_textSize="25dp"
+                app:pcv_animInterpolator="anticipate_overshoot"
+                app:pcv_progress="10"
+                app:pcv_startAngle="90"/>
 
             <TextView
-                android:id="@+id/counter"
-                android:layout_width="match_parent"
+                android:id="@+id/totalDays"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15dp"
                 android:gravity="center"
-                android:text="TextView" />
+                android:textColor="@color/black"
+                android:layout_margin="20dp"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/presentDays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_margin="20dp"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/absentDays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_margin="20dp"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/requireDays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_margin="20dp"
+                android:text=""/>
 
         </LinearLayout>
 

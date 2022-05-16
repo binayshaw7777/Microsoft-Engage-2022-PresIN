@@ -75,4 +75,7 @@ dependencies {
 
     //Shimmer Effect
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
+    implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.1'
+
 }

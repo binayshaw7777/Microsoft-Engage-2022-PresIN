@@ -14,7 +14,7 @@ import com.geekym.face_recognition_engage.R;
 
 public class status_Fragment extends Fragment {
 
-    CardView attendeesList, userProgress;
+    CardView attendeesList, userProgress, userNotes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,11 +27,14 @@ public class status_Fragment extends Fragment {
 
         userProgress.setOnClickListener(view1 -> startActivity(new Intent(getContext(), Progress_Activity.class)));
 
+        userNotes.setOnClickListener(view1 -> startActivity(new Intent(getContext(), Notes_Activity.class)));
+
         return view;
     }
 
     private void Initialization(View view) {
-        attendeesList = view.findViewById(R.id.attendees_list);
-        userProgress = view.findViewById(R.id.user_progress);
+        attendeesList = view.findViewById(R.id.attendees_card);
+        userProgress = view.findViewById(R.id.progress_card);
+        userNotes = view.findViewById(R.id.notes_card);
     }
 }

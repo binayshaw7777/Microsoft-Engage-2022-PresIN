@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.geekym.face_recognition_engage" >
+    package="com.geekym.face_recognition_engage">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -12,16 +12,19 @@
         android:icon="@drawable/app_icon"
         android:label="PresIN"
         android:roundIcon="@drawable/app_icon"
-        android:theme="@style/Theme.Face_Recognition_Engage" >
+        android:theme="@style/Theme.Face_Recognition_Engage">
+        <activity
+            android:name=".HomeFragments.Status.Notes_Activity"
+            android:exported="true" />
         <activity
             android:name=".HomeFragments.Status.Progress_Activity"
             android:exported="true" />
         <activity
             android:name=".HomeFragments.Status.Attendees.Attendees"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Attendance.Attendance_Result_Activity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Attendance.Attendance_Scanner_Activity"
             android:exported="true" />
@@ -39,7 +42,7 @@
             android:exported="true" />
         <activity
             android:name=".Introduction.Splash_Screen_Activity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
