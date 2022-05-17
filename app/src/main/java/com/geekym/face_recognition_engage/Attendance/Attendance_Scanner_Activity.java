@@ -26,6 +26,7 @@ import android.util.Pair;
 import android.util.Size;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -42,6 +43,13 @@ import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.SimilarityClassifier;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.mlkit.vision.common.InputImage;
@@ -78,7 +86,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-    float distance = 1.0f;
+   // float distance = 1.0f;
+    float distance = 0.765f;
     ProcessCameraProvider cameraProvider;
     ImageView info;
 
@@ -90,7 +99,12 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     float IMAGE_STD = 128.0f;
     int OUTPUT_SIZE = 192; //Output size of model
 
+    private DatabaseReference reference;
+    private String userID;
+
     private static final int MY_CAMERA_REQUEST_CODE = 100;
+
+    HashMap<String, SimilarityClassifier.Recognition> global = new HashMap<>();
 
     String modelFile = "mobile_face_net.tflite"; //model name
 
@@ -110,8 +124,22 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         info.setOnClickListener(view ->
                 DynamicToast.make(this, "Bring your face in the camera to register", getResources()
                         .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
-        String Embeddings = getIntent().getStringExtra("Embeddings");
-        map.putAll(StringToMap(Embeddings));
+//        String Embeddings = getIntent().getStringExtra("Embeddings");
+//        map.putAll(StringToMap(Embeddings)); //Get String json from home_fragment
+
+        reference.child("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    global.putAll(StringToMap(ds.child("embeddings").getValue().toString()));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         //Load model
         try {
@@ -206,7 +234,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
                         } else {
 
-                            if (!map.isEmpty())
+                            if (!global.isEmpty())
                                 FaceStatus.setText("No Face Detected");
                         }
                     })
@@ -265,17 +293,18 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
         //For Recognize
         //Compare new face with saved Faces.
-        if (map.size() > 0) {
+        if (global.size() > 0) {
 
             final List<Pair<String, Float>> nearest = findNearest(embeddings[0]);//Find 2 closest matching face
 
             if (nearest.get(0) != null) {
 
-                //final String name = nearest.get(0).first; //get name and distance of closest matching face
-                float distance_local = nearest.get(0).second;
+                final String key = nearest.get(0).first; //get userID of closest matching face
+                float distance_local = nearest.get(0).second; //get distance of closest matching face
 
-                if (distance_local < distance) {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
-                    distance = Float.MIN_VALUE;
+                if (distance_local < distance && key.equals(userID)) {  //If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
+                    distance = Float.MIN_VALUE; //setting min value because camera is running all the time in this activity
+                                                // and hence the if condition gets true more than one time
                     if (isConnected()) { //Check if the user is connected or not
                         intentNow(Attendance_Result_Activity.class, true);
                     }
@@ -305,7 +334,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         List<Pair<String, Float>> neighbour_list = new ArrayList<>();
         Pair<String, Float> ret = null; //to get closest match
         Pair<String, Float> prev_ret = null; //to get second closest match
-        for (Map.Entry<String, SimilarityClassifier.Recognition> entry : map.entrySet()) {
+        for (Map.Entry<String, SimilarityClassifier.Recognition> entry : global.entrySet()) {
 
             final String name = entry.getKey();
             final float[] knownEmb = ((float[][]) entry.getValue().getExtra())[0];
@@ -481,6 +510,10 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     private void Initialization() {
         FaceStatus = findViewById(R.id.face_status);
         info = findViewById(R.id.info_icon_scanner);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference();
+        assert user != null;
+        userID = user.getUid();
     }
 
     //    Load Faces from Shared Preferences.Json String to Recognition object
