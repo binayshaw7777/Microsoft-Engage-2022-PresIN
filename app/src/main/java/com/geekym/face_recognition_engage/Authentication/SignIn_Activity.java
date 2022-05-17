@@ -1,7 +1,10 @@
 package com.geekym.face_recognition_engage.Authentication;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -38,11 +41,13 @@ public class SignIn_Activity extends AppCompatActivity {
 
         Initialization();
 
-        ForgotPass.setOnClickListener(view -> intentNow(Forgot_Password_Activity.class, false));
+        ForgotPass.setOnClickListener(view -> intentNow(Forgot_Password_Activity.class));
 
-        Login_Button.setOnClickListener(view -> Login()); //Login Button CTA
+        Login_Button.setOnClickListener(view -> {
+            if (isConnected()) Login();
+        });  //Login Button CTA
 
-        SignUp.setOnClickListener(view -> intentNow(SignUp_First_Activity.class, false)); //To SignUp Activity
+        SignUp.setOnClickListener(view -> intentNow(SignUp_First_Activity.class)); //To SignUp Activity
 
         // Function to see password and hide password
         Password_editText.setOnTouchListener((v, event) -> {
@@ -75,11 +80,9 @@ public class SignIn_Activity extends AppCompatActivity {
     }
 
     //Handles intent -> Individual intent to one single method
-    private void intentNow(Class targetActivity, boolean b) {
+    private void intentNow(Class targetActivity) {
         Intent intent = new Intent(getApplicationContext(), targetActivity);
         startActivity(intent);
-        if (b) finishAffinity(); //if b is true, apply finishAffinity(); method!
-
     }
 
     private void Login() {
@@ -115,13 +118,26 @@ public class SignIn_Activity extends AppCompatActivity {
                     DynamicToast.make(this, "Check your email to verify your account and Login again", getResources().getColor(R.color.white), getResources().getColor(R.color.lightblue)).show();
                 } else {
                     progressBar.setVisibility(View.GONE);
-                    intentNow(HomeScreen.class, true);
+                    Intent intent2 = new Intent(getApplicationContext(), HomeScreen.class);
+                    startActivity(intent2);
+                    finishAffinity();
                 }
             } else {
                 progressBar.setVisibility(View.GONE);
                 DynamicToast.makeError(this, "Failed to Login! Please check your credentials").show();
             }
         });
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+            return true;
+
+        DynamicToast.makeError(getApplicationContext(), "You're not connected to Internet!").show();
+        return false;
     }
 
     private void Initialization() {

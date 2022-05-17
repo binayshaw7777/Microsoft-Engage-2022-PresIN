@@ -3,6 +3,7 @@ package com.geekym.face_recognition_engage.Attendance;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
@@ -17,6 +18,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.YuvImage;
 import android.media.Image;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
@@ -34,7 +37,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 
-import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
 import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.SimilarityClassifier;
@@ -274,11 +276,25 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
                 if (distance_local < distance) {//If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
                     distance = Float.MIN_VALUE;
-                    intentNow(Attendance_Result_Activity.class, true);
+                    if (isConnected()) { //Check if the user is connected or not
+                        intentNow(Attendance_Result_Activity.class, true);
+                    }
                 } else
                     FaceStatus.setText("Unknown");
             }
         }
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+            return true;
+
+        DynamicToast.makeError(getApplicationContext(), "You're not connected to Internet!").show();
+        intentNow(HomeScreen.class, false);
+        return false;
     }
 
     /**
@@ -488,7 +504,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     //To ask permission for camera
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -507,7 +524,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     }
 
     //Loads model file
-    private MappedByteBuffer loadModelFile(Activity activity, String MODEL_FILE) throws IOException {
+    private MappedByteBuffer loadModelFile(Activity activity, String MODEL_FILE) throws
+            IOException {
         AssetFileDescriptor fileDescriptor = activity.getAssets().openFd(MODEL_FILE);
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
         FileChannel fileChannel = inputStream.getChannel();

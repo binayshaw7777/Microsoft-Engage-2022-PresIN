@@ -2,7 +2,10 @@ package com.geekym.face_recognition_engage.Authentication;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -28,7 +31,8 @@ public class Forgot_Password_Activity extends AppCompatActivity {
 
         Initialization(); //Initialize
 
-        reset_pass.setOnClickListener(view -> ForgotPassword());
+        reset_pass.setOnClickListener(view -> {
+            if (isConnected()) {ForgotPassword(); }});
     }
 
     private void ForgotPassword() {
@@ -58,6 +62,17 @@ public class Forgot_Password_Activity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+            return true;
+
+        DynamicToast.makeError(getApplicationContext(), "You're not connected to Internet!").show();
+        return false;
     }
 
     private void Initialization() {

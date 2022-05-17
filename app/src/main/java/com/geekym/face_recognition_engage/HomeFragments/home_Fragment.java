@@ -1,7 +1,10 @@
 package com.geekym.face_recognition_engage.HomeFragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +26,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -37,11 +41,6 @@ public class home_Fragment extends Fragment {
     TextView DateDis, PresentMark_Time;
     Calendar calendar;
     SimpleDateFormat dateFormat1;
-
-    @SuppressLint("SimpleDateFormat")
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
-    Date today = new Date();
-    String date1 = dateFormat.format(today);
 
     @SuppressLint("SimpleDateFormat")
     @Override
@@ -77,47 +76,64 @@ public class home_Fragment extends Fragment {
             }
         });
 
-        reference.child("Users").child(userID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Users userprofile = snapshot.getValue(Users.class);
-                if (userprofile != null) {
-                    String Embeddings = userprofile.embeddings;
-                    if (Embeddings.contains("added")) {
-                        String Replaced = Embeddings.replace("added", userID);
-                        HashMap<String, String> map = new HashMap<>();
-                        map.put("Embeddings", Replaced);
-                        reference.child("Embeddings").child(userID).setValue(map);
-                        reference.child("Users").child(userID).child("embeddings").setValue(Replaced);
+        if (isConnected()) {
+            reference.child("Users").child(userID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Users userprofile = snapshot.getValue(Users.class);
+                    if (userprofile != null) {
+                        String Embeddings = userprofile.embeddings;
+                        if (Embeddings.contains("added")) {
+                            String Replaced = Embeddings.replace("added", userID);
+                            HashMap<String, String> map = new HashMap<>();
+                            map.put("Embeddings", Replaced);
+                            reference.child("Embeddings").child(userID).setValue(map);
+                            reference.child("Users").child(userID).child("embeddings").setValue(Replaced);
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
+                }
+            });
+        }
+
+        clockInOut.setOnClickListener(view1 -> {
+            if (isConnected()) {
+                reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Users userprofile = snapshot.getValue(Users.class);
+                        if (userprofile != null) {
+                            String Embeddings = userprofile.embeddings;
+                            Intent intent = new Intent(getContext(), Attendance_Scanner_Activity.class);
+                            intent.putExtra("Embeddings", Embeddings);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
-        clockInOut.setOnClickListener(view1 -> reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Users userprofile = snapshot.getValue(Users.class);
-                if (userprofile != null) {
-                    String Embeddings = userprofile.embeddings;
-                    Intent intent = new Intent(getContext(), Attendance_Scanner_Activity.class);
-                    intent.putExtra("Embeddings", Embeddings);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
-            }
-        }));
-
         return view;
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+            return true;
+
+        DynamicToast.makeError(requireContext(), "You're not connected to Internet!").show();
+        return false;
     }
 
     private void Initialization(View view) {

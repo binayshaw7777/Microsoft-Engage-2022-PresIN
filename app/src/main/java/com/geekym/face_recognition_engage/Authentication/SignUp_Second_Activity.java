@@ -3,7 +3,10 @@ package com.geekym.face_recognition_engage.Authentication;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -48,81 +51,86 @@ public class SignUp_Second_Activity extends AppCompatActivity {
 
         Signup.setOnClickListener(view -> {
 
-            String Embeddings = getIntent().getStringExtra("Face_Embeddings");
+            if (isConnected()) {
 
-            String sEmail = Email.getText().toString();
-            String sPass = Password.getText().toString();
-            String sID = OrgID.getText().toString();
-            String sCollege = CollegeName.getText().toString();
-            String sName = Name.getText().toString();
+                String Embeddings = getIntent().getStringExtra("Face_Embeddings");
 
-            if (sName.isEmpty()) {
-                Name.setError("Field can't be empty");
-                Name.requestFocus();
-                return;
+                String sEmail = Email.getText().toString();
+                String sPass = Password.getText().toString();
+                String sID = OrgID.getText().toString();
+                String sCollege = CollegeName.getText().toString();
+                String sName = Name.getText().toString();
+
+                if (sName.isEmpty()) {
+                    Name.setError("Field can't be empty");
+                    Name.requestFocus();
+                    return;
+                }
+                if (sEmail.isEmpty()) {
+                    Email.setError("Field can't be empty");
+                    Email.requestFocus();
+                    return;
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(sEmail).matches()) {
+                    Email.setError("Please enter a valid email address");
+                    Email.requestFocus();
+                    return;
+                } else if (sPass.isEmpty()) {
+                    Password.setError("Field can't be empty");
+                    Password.requestFocus();
+                    return;
+                } else if (sPass.length() < 6) {
+                    Password.setError("Password must be at least 6 characters");
+                    Password.requestFocus();
+                    return;
+                } else if (sID.isEmpty()) {
+                    OrgID.setError("Field can't be empty");
+                    OrgID.requestFocus();
+                    return;
+                } else if (sCollege.isEmpty()) {
+                    CollegeName.setError("Field can't be empty");
+                    CollegeName.requestFocus();
+                    return;
+                }
+
+                //  validate(sName, sEmail, sPass, sID, sOrg);
+
+                progressBar.setVisibility(View.VISIBLE);
+                mAuth.createUserWithEmailAndPassword(sEmail, sPass)
+                        .addOnCompleteListener(SignUp_Second_Activity.this, task -> {
+                            if (task.isSuccessful()) {
+
+                                Users users = new Users(sName, sEmail, sID, sCollege, Embeddings);
+
+                                FirebaseDatabase.getInstance().getReference("Users")
+                                        .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                                        .setValue(users).addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful()) {
+                                                // Sign in success, update UI with the signed-in user's information
+                                                Log.d(TAG, "createUserWithEmail:success");
+                                                FirebaseUser user = mAuth.getCurrentUser();
+                                                DynamicToast.makeSuccess(this, "Registered Successfully").show();
+                                                DynamicToast.makeSuccess(this, "Verification Mail Sent").show();
+                                                intentNow();
+                                                assert user != null;
+                                                user.sendEmailVerification();
+                                            } else {
+                                                // If sign in fails, display a message to the user.
+                                                Log.w(TAG, "createUserWithEmail:failure", task1.getException());
+                                                DynamicToast.makeError(this, "Failed").show();
+                                            }
+                                            progressBar.setVisibility(View.GONE);
+                                        });
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                DynamicToast.makeError(this, "Authentication Failed").show();
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
             }
-            if (sEmail.isEmpty()) {
-                Email.setError("Field can't be empty");
-                Email.requestFocus();
-                return;
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(sEmail).matches()) {
-                Email.setError("Please enter a valid email address");
-                Email.requestFocus();
-                return;
-            } else if (sPass.isEmpty()) {
-                Password.setError("Field can't be empty");
-                Password.requestFocus();
-                return;
-            } else if (sPass.length() < 6) {
-                Password.setError("Password must be at least 6 characters");
-                Password.requestFocus();
-                return;
-            } else if (sID.isEmpty()) {
-                OrgID.setError("Field can't be empty");
-                OrgID.requestFocus();
-                return;
-            } else if (sCollege.isEmpty()) {
-                CollegeName.setError("Field can't be empty");
-                CollegeName.requestFocus();
-                return;
-            }
 
-            //  validate(sName, sEmail, sPass, sID, sOrg);
-
-            progressBar.setVisibility(View.VISIBLE);
-            mAuth.createUserWithEmailAndPassword(sEmail, sPass)
-                    .addOnCompleteListener(SignUp_Second_Activity.this, task -> {
-                        if (task.isSuccessful()) {
-
-                            Users users = new Users(sName, sEmail, sID, sCollege, Embeddings);
-
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                                    .setValue(users).addOnCompleteListener(task1 -> {
-                                        if (task1.isSuccessful()) {
-                                            // Sign in success, update UI with the signed-in user's information
-                                            Log.d(TAG, "createUserWithEmail:success");
-                                            FirebaseUser user = mAuth.getCurrentUser();
-                                            DynamicToast.makeSuccess(this, "Registered Successfully").show();
-                                            DynamicToast.makeSuccess(this, "Verification Mail Sent").show();
-                                            intentNow();
-                                            assert user != null;
-                                            user.sendEmailVerification();
-                                        } else {
-                                            // If sign in fails, display a message to the user.
-                                            Log.w(TAG, "createUserWithEmail:failure", task1.getException());
-                                            DynamicToast.makeError(this, "Failed").show();
-                                        }
-                                        progressBar.setVisibility(View.GONE);
-                                    });
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            DynamicToast.makeSuccess(this, "Authentication Failed").show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    });
         });
+
 
         // Function to see password and hide password
         Password.setOnTouchListener((v, event) -> {
@@ -152,6 +160,17 @@ public class SignUp_Second_Activity extends AppCompatActivity {
             return false;
         });
 
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
+            return true;
+
+        DynamicToast.makeError(getApplicationContext(), "You're not connected to Internet!").show();
+        return false;
     }
 
     private void intentNow() {

@@ -1,7 +1,9 @@
 package com.geekym.face_recognition_engage.HomeFragments.Status.Attendees;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -14,9 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
-import com.geekym.face_recognition_engage.HomeScreen;
-import com.geekym.face_recognition_engage.Introduction.Splash_Screen_Activity;
 import com.geekym.face_recognition_engage.R;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,13 +31,15 @@ public class Attendees extends AppCompatActivity {
     TextView dateDisplay;
 
 
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendees);
 
         Initialization();
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         ShimmerViewContainer.startShimmer();
         ShimmerViewContainer.setVisibility(View.VISIBLE);
@@ -60,14 +61,24 @@ public class Attendees extends AppCompatActivity {
 
         myAdapter = new myAdapter(options);
 
-        if (myAdapter.getItemCount()==0) {
+        if (myAdapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
             ShimmerViewContainer.startShimmer();
             layout.setVisibility(View.INVISIBLE);
             ShimmerViewContainer.setVisibility(View.VISIBLE);
             new Handler().postDelayed(() -> {
                 ShimmerViewContainer.setVisibility(View.INVISIBLE);
-                if (myAdapter.getItemCount() == 0) layout.setVisibility(View.VISIBLE); //Checking again to handle slow internet or firebase issues
+
+                if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                        connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+                    if (myAdapter.getItemCount() == 0)
+                        layout.setVisibility(View.VISIBLE); //Checking again to handle slow internet or firebase issues
+                } else { //If no internet connection
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    TextView error = layout.findViewById(R.id.error);
+                    error.setText("Please check Internet!");
+                    layout.setVisibility(View.VISIBLE);
+                }
             }, 2000);
 
         } else {
@@ -94,8 +105,9 @@ public class Attendees extends AppCompatActivity {
                 super.onItemRangeRemoved(positionStart, itemCount);
                 checkEmpty();
             }
+
             void checkEmpty() {
-                if (myAdapter.getItemCount()==0) {
+                if (myAdapter.getItemCount() == 0) {
                     recyclerView.setVisibility(View.GONE);
                     layout.setVisibility(View.INVISIBLE);
                     ShimmerViewContainer.setVisibility(View.VISIBLE);
