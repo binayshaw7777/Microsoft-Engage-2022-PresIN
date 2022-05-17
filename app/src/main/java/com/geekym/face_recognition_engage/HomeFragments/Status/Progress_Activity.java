@@ -19,9 +19,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ramijemli.percentagechartview.PercentageChartView;
 
+import org.eazegraph.lib.charts.ValueLineChart;
+import org.eazegraph.lib.models.ValueLinePoint;
+import org.eazegraph.lib.models.ValueLineSeries;
+
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class Progress_Activity extends AppCompatActivity {
 
@@ -30,6 +35,8 @@ public class Progress_Activity extends AppCompatActivity {
     private String userID;
     long c = 0;
     PercentageChartView mChart;
+    ValueLineChart mCubicValueLineChart;
+    ValueLineSeries series = new ValueLineSeries();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
@@ -50,6 +57,8 @@ public class Progress_Activity extends AppCompatActivity {
         float todayDate = Float.parseFloat(date);
 
 
+
+
         reference.child("Users").child(userID).child("Attendance").child(year).child(monthName).addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint({"SetTextI18n", "DefaultLocale"})
             @Override
@@ -63,25 +72,47 @@ public class Progress_Activity extends AppCompatActivity {
                 mChart.setProgress(percent, true);
 
                 totalDays.setText("Total Days in this month: "+daysInMonth+" days");
-                presentDays.setText("No. of days you were present: "+(int)count+" days");
-                absentDays.setText("No. of days you were absent: "+(int)absent+" days");
-                requireDays.setText("Attendance if you attend daily this month: "+String.format("%.2f", expected)+"%");
+                presentDays.setText("Present: "+(int)count+" days");
+                absentDays.setText("Absent: "+(int)absent+" days");
+                requireDays.setText("Attendance if daily attended: "+String.format("%.2f", expected)+"%");
 
                 if (percent >= 0 && percent < 30) {
                     setThis(getResources().getColor(R.color.red_desat), getResources().getColor(R.color.shallow_red));
+                    series.setColor(0xFFFF3F3F);
 
                 } else if (percent >= 30 && percent < 50) {
                     setThis(getResources().getColor(R.color.orange), getResources().getColor(R.color.shallow_orange_yellow));
+                    series.setColor(0xFFFF5100);
 
                 } else if (percent >= 50 && percent < 65) {
                     setThis(getResources().getColor(R.color.orange_yellow), getResources().getColor(R.color.shallow_orange_yellow));
+                    series.setColor(0xFFFF9900);
 
                 } else if (percent >= 65 && percent < 75) {
                     setThis(getResources().getColor(R.color.yellow), getResources().getColor(R.color.shallow_orange_yellow));
+                    series.setColor(0xFFFFDD00);
 
                 } else {
                     setThis(getResources().getColor(R.color.green_desat), getResources().getColor(R.color.shallow_green));
+                    series.setColor(0xFF4CA456);
                 }
+
+                int[] graphArray = new int[daysInMonth];
+
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    int i = Integer.parseInt(Objects.requireNonNull(ds.getKey()));
+                    graphArray[i] = 1;
+                }
+
+                for (int i=0; i<graphArray.length; i++) {
+                    series.addPoint(new ValueLinePoint(String.valueOf(i), graphArray[i]));
+                }
+
+                mCubicValueLineChart.addSeries(series);
+                mCubicValueLineChart.startAnimation();
+
+
+
             }
 
             @Override
@@ -106,5 +137,6 @@ public class Progress_Activity extends AppCompatActivity {
         presentDays = findViewById(R.id.presentDays);
         absentDays = findViewById(R.id.absentDays);
         requireDays = findViewById(R.id.requireDays);
+        mCubicValueLineChart = findViewById(R.id.lineChart);
     }
 }

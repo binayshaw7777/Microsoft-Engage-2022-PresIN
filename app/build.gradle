@@ -80,4 +80,8 @@ dependencies {
     //RingProgress Bar Library
     implementation 'com.ramijemli.percentagechartview:percentagechartview:0.3.1'
 
+    //Graph
+    implementation 'com.github.blackfizz:eazegraph:1.2.5l@aar'
+    implementation 'com.nineoldandroids:library:2.4.0'
+
 }
