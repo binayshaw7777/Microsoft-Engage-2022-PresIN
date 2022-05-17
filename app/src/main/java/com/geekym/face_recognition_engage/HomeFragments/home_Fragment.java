@@ -60,7 +60,7 @@ public class home_Fragment extends Fragment {
         String month = new SimpleDateFormat("MMM").format(cal.getTime());
         String date = new SimpleDateFormat("dd").format(cal.getTime());
 
-        reference.child("Attendance").child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
+        reference.child("Attendees").child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChild(userID))
@@ -87,8 +87,6 @@ public class home_Fragment extends Fragment {
                             String Replaced = Embeddings.replace("added", userID); //Replacing custom key "added" with userID
                             HashMap<String, String> map = new HashMap<>();
                             map.put("Embeddings", Replaced);
-                            //Creates a new Global node that stores the embeddings of the user as value and userID as key
-//                            reference.child("Embeddings").child(userID).setValue(map);
                             reference.child("Users").child(userID).child("embeddings").setValue(Replaced); //replacing the key of embeddings in user node
                         }
                     }
@@ -104,24 +102,6 @@ public class home_Fragment extends Fragment {
         clockInOut.setOnClickListener(view1 -> {
             if (isConnected()) {
                 startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class));
-//                reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        Users userprofile = snapshot.getValue(Users.class);
-//                        if (userprofile != null) {
-//                            String Embeddings = userprofile.embeddings;
-//                            Intent intent = new Intent(getContext(), Attendance_Scanner_Activity.class);
-//                            //Passing Embeddings via intent to Attendance_Scanner activity
-////                            intent.putExtra("Embeddings", Embeddings);
-//                            startActivity(intent);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                        Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
             }
         });
 

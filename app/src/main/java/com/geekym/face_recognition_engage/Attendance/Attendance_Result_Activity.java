@@ -67,7 +67,7 @@ public class Attendance_Result_Activity extends AppCompatActivity {
                 reference.child("Users").child(userID).child("Attendance").child(year).child(month).child(date).setValue(map);
                 map.put("name", name);
                 map.put("id", id);
-                reference.child("Attendance").child(year).child(month).child(date).child(userID).setValue(map);
+                reference.child("Attendees").child(year).child(month).child(date).child(userID).setValue(map);
             }
 
             @Override

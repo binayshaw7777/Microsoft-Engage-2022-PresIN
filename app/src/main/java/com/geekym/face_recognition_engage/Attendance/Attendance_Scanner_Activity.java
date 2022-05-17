@@ -124,8 +124,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         info.setOnClickListener(view ->
                 DynamicToast.make(this, "Bring your face in the camera to register", getResources()
                         .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
-//        String Embeddings = getIntent().getStringExtra("Embeddings");
-//        map.putAll(StringToMap(Embeddings)); //Get String json from home_fragment
 
         reference.child("Users").addValueEventListener(new ValueEventListener() {
             @Override

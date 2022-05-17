@@ -55,7 +55,7 @@ public class Attendees extends AppCompatActivity {
 
         FirebaseRecyclerOptions<ModelClass> options =
                 new FirebaseRecyclerOptions.Builder<ModelClass>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendance").child(year).child(month).child(date), ModelClass.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(year).child(month).child(date), ModelClass.class)
                         .build();
 
 
