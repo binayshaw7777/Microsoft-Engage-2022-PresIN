@@ -2,6 +2,7 @@ package com.geekym.face_recognition_engage.Authentication;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -9,8 +10,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
-import android.widget.Button;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,16 +25,20 @@ public class Forgot_Password_Activity extends AppCompatActivity {
 
     FirebaseAuth Auth2;
     EditText email;
-    Button reset_pass;
+    View buttonView;
+    ProgressBar buttonProgress;
+    TextView buttonText;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
         Initialization(); //Initialize
+        buttonText.setText("Send Password Reset Email");
 
-        reset_pass.setOnClickListener(view -> {
+        buttonView.setOnClickListener(view -> {
             if (isConnected()) {ForgotPassword(); }});
     }
 
@@ -46,17 +53,25 @@ public class Forgot_Password_Activity extends AppCompatActivity {
             email.requestFocus();
 
         } else {
+            buttonProgress.setVisibility(View.VISIBLE);
+            buttonText.setVisibility(View.GONE);
             Auth2.sendPasswordResetEmail(Email).addOnCompleteListener(task -> {
                 try {
                     if (task.isSuccessful()) {
+                        buttonProgress.setVisibility(View.GONE);
+                        buttonText.setVisibility(View.VISIBLE);
                         DynamicToast.make(this, "Password reset email sent!", getResources()
                                 .getColor(R.color.white), getResources().getColor(R.color.green_desat)).show();
                         startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
                     }
-                    else
+                    else {
+                        buttonProgress.setVisibility(View.GONE);
+                        buttonText.setText(View.VISIBLE);
                         DynamicToast.makeError(this, "Something went wrong").show();
+                    }
 
                 } catch (Exception e) {
+                    buttonText.setVisibility(View.VISIBLE);
                     e.printStackTrace();
                     Log.d(TAG, "Email sent");
                 }
@@ -78,6 +93,8 @@ public class Forgot_Password_Activity extends AppCompatActivity {
     private void Initialization() {
         Auth2 = FirebaseAuth.getInstance();
         email = findViewById(R.id.reset_email);
-        reset_pass = findViewById(R.id.reset_button);
+        buttonView = findViewById(R.id.login_button);
+        buttonProgress = findViewById(R.id.buttonProgress);
+        buttonText = findViewById(R.id.buttonText);
     }
 }

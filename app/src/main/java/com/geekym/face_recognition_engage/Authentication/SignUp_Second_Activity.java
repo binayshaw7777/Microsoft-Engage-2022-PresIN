@@ -14,12 +14,12 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
@@ -33,13 +33,14 @@ import java.util.Objects;
 public class SignUp_Second_Activity extends AppCompatActivity {
 
     EditText Name, Email, CollegeName, OrgID, Password;
-    Button Signup;
     TextView LoginPage;
     private FirebaseAuth mAuth;
-    ProgressBar progressBar;
     boolean passwordVisible;
+    View buttonView;
+    ProgressBar buttonProgress;
+    TextView buttonText;
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,19 +48,23 @@ public class SignUp_Second_Activity extends AppCompatActivity {
 
         Initialization();
 
+        buttonText.setText("Create Account");
+        ConstraintLayout cl = findViewById(R.id.progress_button_bg);
+        cl.setBackground(getResources().getDrawable(R.drawable.positive));
+
         LoginPage.setOnClickListener(view -> intentNow()); //Already have an account
 
-        Signup.setOnClickListener(view -> {
+        buttonView.setOnClickListener(view -> {
 
             if (isConnected()) {
 
                 String Embeddings = getIntent().getStringExtra("Face_Embeddings");
 
-                String sEmail = Email.getText().toString();
-                String sPass = Password.getText().toString();
-                String sID = OrgID.getText().toString();
-                String sCollege = CollegeName.getText().toString();
-                String sName = Name.getText().toString();
+                String sEmail = Email.getText().toString().trim();
+                String sPass = Password.getText().toString().trim();
+                String sID = OrgID.getText().toString().trim();
+                String sCollege = CollegeName.getText().toString().trim();
+                String sName = Name.getText().toString().trim();
 
                 if (sName.isEmpty()) {
                     Name.setError("Field can't be empty");
@@ -92,9 +97,8 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                     return;
                 }
 
-                //  validate(sName, sEmail, sPass, sID, sOrg);
-
-                progressBar.setVisibility(View.VISIBLE);
+                buttonProgress.setVisibility(View.VISIBLE);
+                buttonText.setVisibility(View.GONE);
                 mAuth.createUserWithEmailAndPassword(sEmail, sPass)
                         .addOnCompleteListener(SignUp_Second_Activity.this, task -> {
                             if (task.isSuccessful()) {
@@ -105,7 +109,6 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                                         .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                                         .setValue(users).addOnCompleteListener(task1 -> {
                                             if (task1.isSuccessful()) {
-                                                // Sign in success, update UI with the signed-in user's information
                                                 Log.d(TAG, "createUserWithEmail:success");
                                                 FirebaseUser user = mAuth.getCurrentUser();
                                                 DynamicToast.makeSuccess(this, "Registered Successfully").show();
@@ -118,13 +121,15 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                                                 Log.w(TAG, "createUserWithEmail:failure", task1.getException());
                                                 DynamicToast.makeError(this, "Failed").show();
                                             }
-                                            progressBar.setVisibility(View.GONE);
+                                            buttonProgress.setVisibility(View.GONE);
+                                            buttonText.setVisibility(View.VISIBLE);
                                         });
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                 DynamicToast.makeError(this, "Authentication Failed").show();
-                                progressBar.setVisibility(View.GONE);
+                                buttonProgress.setVisibility(View.GONE);
+                                buttonText.setVisibility(View.VISIBLE);
                             }
                         });
             }
@@ -183,9 +188,10 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         CollegeName = findViewById(R.id.college_name_box);
         OrgID = findViewById(R.id.id_box);
         Password = findViewById(R.id.pass_box);
-        Signup = findViewById(R.id.signup_button);
         LoginPage = findViewById(R.id.SignIn_tv);
         mAuth = FirebaseAuth.getInstance();
-        progressBar = findViewById(R.id.progressBar_SignUp1);
+        buttonView = findViewById(R.id.login_button);
+        buttonProgress = findViewById(R.id.buttonProgress);
+        buttonText = findViewById(R.id.buttonText);
     }
 }

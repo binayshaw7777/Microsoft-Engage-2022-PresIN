@@ -52,7 +52,7 @@
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_attendance_result.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_attendance_scanner.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_attendees.xml" value="0.2" />
-        <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_forgot_password.xml" value="0.1" />
+        <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_forgot_password.xml" value="0.25" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_homescreen.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_notes.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/activity_onboarding.xml" value="0.2" />
@@ -67,6 +67,7 @@
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/fragment_status_.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/layout_screen.xml" value="0.2" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/list_layout.xml" value="0.25" />
+        <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/progress_button.xml" value="0.25" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/layout/shimmer_layout.xml" value="0.25" />
         <entry key="..\:/Users/vinay/StudioProjects/Face-Recognition_Engage-2022/app/src/main/res/menu/menu.xml" value="0.2" />
       </map>

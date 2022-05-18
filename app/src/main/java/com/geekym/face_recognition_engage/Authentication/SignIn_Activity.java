@@ -27,11 +27,11 @@ import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 public class SignIn_Activity extends AppCompatActivity {
 
     EditText Email_editText, Password_editText;
-    Button Login_Button;
-    TextView SignUp, ForgotPass;
+    TextView SignUp, ForgotPass, buttonText;
     private FirebaseAuth mAuth;
-    ProgressBar progressBar;
+    ProgressBar buttonProgress;
     boolean passwordVisible;
+    View buttonView;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -43,7 +43,7 @@ public class SignIn_Activity extends AppCompatActivity {
 
         ForgotPass.setOnClickListener(view -> intentNow(Forgot_Password_Activity.class));
 
-        Login_Button.setOnClickListener(view -> {
+        buttonView.setOnClickListener(view -> {
             if (isConnected()) Login();
         });  //Login Button CTA
 
@@ -86,8 +86,8 @@ public class SignIn_Activity extends AppCompatActivity {
     }
 
     private void Login() {
-        String email = Email_editText.getText().toString();
-        String pass = Password_editText.getText().toString();
+        String email = Email_editText.getText().toString().trim();
+        String pass = Password_editText.getText().toString().trim();
 
         if (email.isEmpty()) {
             Email_editText.setError("Field can't be empty");
@@ -107,23 +107,27 @@ public class SignIn_Activity extends AppCompatActivity {
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        buttonProgress.setVisibility(View.VISIBLE);
+        buttonText.setVisibility(View.GONE);
         mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 assert user != null;
                 if (!user.isEmailVerified()) {
-                    progressBar.setVisibility(View.GONE);
+                    buttonProgress.setVisibility(View.GONE);
+                    buttonText.setVisibility(View.VISIBLE);
                     user.sendEmailVerification();
                     DynamicToast.make(this, "Check your email to verify your account and Login again", getResources().getColor(R.color.white), getResources().getColor(R.color.lightblue)).show();
                 } else {
-                    progressBar.setVisibility(View.GONE);
+                    buttonProgress.setVisibility(View.GONE);
+                    buttonText.setVisibility(View.VISIBLE);
                     Intent intent2 = new Intent(getApplicationContext(), HomeScreen.class);
                     startActivity(intent2);
                     finishAffinity();
                 }
             } else {
-                progressBar.setVisibility(View.GONE);
+                buttonProgress.setVisibility(View.GONE);
+                buttonText.setVisibility(View.VISIBLE);
                 DynamicToast.makeError(this, "Failed to Login! Please check your credentials").show();
             }
         });
@@ -145,8 +149,9 @@ public class SignIn_Activity extends AppCompatActivity {
         Password_editText = findViewById(R.id.pass_box);
         SignUp = findViewById(R.id.SignUp_tv);
         mAuth = FirebaseAuth.getInstance();
-        Login_Button = findViewById(R.id.login_button);
-        progressBar = findViewById(R.id.progressBar_SignIn);
         ForgotPass = findViewById(R.id.forgotpass_tv);
+        buttonView = findViewById(R.id.login_button);
+        buttonProgress = findViewById(R.id.buttonProgress);
+        buttonText = findViewById(R.id.buttonText);
     }
 }
