@@ -11,6 +11,11 @@
         android:title="status" />
 
     <item
+        android:id="@+id/tools"
+        android:icon="@drawable/tools"
+        android:title="tools" />
+
+    <item
         android:id="@+id/profile"
         android:icon="@drawable/profile"
         android:title="profile" />
