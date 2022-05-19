@@ -13,10 +13,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
@@ -27,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,10 +40,12 @@ import java.util.HashMap;
 public class profile_Fragment extends Fragment {
 
     ImageButton Logout;
+    ImageView EditProfile;
     private DatabaseReference reference;
     private String userID;
+    private FirebaseAuth mAuth;
     TextView Name, Email, CollegeID, CollegeName;
-    Button EditProfile;
+    Button Delete;
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "UseCompatLoadingForDrawables", "ObsoleteSdkInt"})
     @Override
@@ -53,6 +59,37 @@ public class profile_Fragment extends Fragment {
         String year = new SimpleDateFormat("yyyy").format(cal.getTime());
         String month = new SimpleDateFormat("MMM").format(cal.getTime());
         String date = new SimpleDateFormat("dd").format(cal.getTime());
+
+        Delete.setOnClickListener(view1 -> {
+            Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.custom_dialog);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                dialog.getWindow().setBackgroundDrawable(requireContext().getDrawable(R.drawable.custom_dialog_background));
+            }
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.setCancelable(false); //Optional
+            dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
+
+            Button Proceed = dialog.findViewById(R.id.proceed);
+            Button Cancel = dialog.findViewById(R.id.cancel);
+            TextView title = dialog.findViewById(R.id.dialog_title);
+            TextView description = dialog.findViewById(R.id.dialog_description);
+
+            Proceed.setText("Delete");
+            Proceed.setBackground(getResources().getDrawable(R.drawable.negative));
+            title.setText("Confirm Delete");
+            description.setText("Do you really want to delete your account?");
+
+            Proceed.setOnClickListener(v -> {
+                dialog.dismiss();
+
+                deleteAccount();
+
+            });
+
+            Cancel.setOnClickListener(v -> dialog.dismiss());
+            dialog.show();
+        });
 
         Logout.setOnClickListener(view1 -> {
 
@@ -150,6 +187,21 @@ public class profile_Fragment extends Fragment {
         return view;
     }
 
+    private void deleteAccount() {
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        assert currentUser != null;
+        currentUser.delete().addOnCompleteListener(task -> {
+            reference.child("Users").child(userID).setValue(null);
+            if (task.isSuccessful()) {
+                DynamicToast.makeSuccess(requireContext(), "Account Deleted Successfully!").show();
+                startActivity(new Intent(getContext(), SignIn_Activity.class));
+                requireActivity().finish();
+            } else {
+                DynamicToast.makeError(requireContext(), "Something went wrong!").show();
+            }
+        });
+    }
+
     private void Initialization(View view) {
         Logout = view.findViewById(R.id.logout_button);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -159,8 +211,10 @@ public class profile_Fragment extends Fragment {
         Name = view.findViewById(R.id.name);
         Email = view.findViewById(R.id.email);
         CollegeID = view.findViewById(R.id.uid);
+        mAuth = FirebaseAuth.getInstance();
         CollegeName = view.findViewById(R.id.college_name);
         EditProfile = view.findViewById(R.id.edit);
+        Delete = view.findViewById(R.id.delete);
     }
 
 }

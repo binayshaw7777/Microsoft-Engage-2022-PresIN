@@ -78,9 +78,10 @@
                 android:id="@+id/cardView"
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp"
-                android:layout_marginTop="35dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="35dp"
+                android:elevation="5dp"
+                app:cardCornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/textView5"
                 app:layout_constraintHorizontal_bias="0.503"
@@ -94,6 +95,35 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="16dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Account details"
+                            android:textColor="@color/lightblue"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/edit"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/edit_icon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
                         android:id="@+id/name"
@@ -139,16 +169,17 @@
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/edit"
+                android:id="@+id/delete"
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/gradient_button"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/negative"
+                android:gravity="center"
                 android:rotation="0"
                 android:rotationX="0"
                 android:rotationY="0"
-                android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                android:text="Edit Profile"
+                android:text="Delete Account"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
