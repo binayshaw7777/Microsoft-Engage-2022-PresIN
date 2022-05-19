@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:gravity="center"
-                android:text="Enter your new name"
+                android:text="Edit profile"
                 android:layout_marginTop="30dp"
                 android:textColor="@color/black"
                 android:textSize="20dp"
@@ -44,7 +44,7 @@
                 android:layout_gravity="center"
                 android:textColor="@color/black"
                 android:paddingLeft="10dp"
-                android:textColorHint="@color/black"
+                android:hint="Enter your new name"
                 android:background="@drawable/stroked"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
