@@ -87,7 +87,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     Interpreter tfLite;
     CameraSelector cameraSelector;
    // float distance = 1.0f;
-    float distance = 0.765f;
+    float distance = 0.88f;
     ProcessCameraProvider cameraProvider;
     ImageView info;
 
@@ -299,8 +299,10 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
                 final String key = nearest.get(0).first; //get userID of closest matching face
                 float distance_local = nearest.get(0).second; //get distance of closest matching face
+//                Toast.makeText(this, String.valueOf(distance_local), Toast.LENGTH_SHORT).show();
 
                 if (distance_local < distance && key.equals(userID)) {  //If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
+//                    Toast.makeText(this, String.valueOf(distance_local), Toast.LENGTH_SHORT).show();
                     distance = Float.MIN_VALUE; //setting min value because camera is running all the time in this activity
                                                 // and hence the if condition gets true more than one time
                     if (isConnected()) { //Check if the user is connected or not

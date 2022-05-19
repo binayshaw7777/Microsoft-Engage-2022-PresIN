@@ -1,12 +1,10 @@
 package com.geekym.face_recognition_engage.HomeFragments;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +32,6 @@ import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 
 
 public class profile_Fragment extends Fragment {
@@ -138,42 +135,52 @@ public class profile_Fragment extends Fragment {
                     CollegeID.setText("College ID: " + uid);
                     CollegeName.setText("College Name: " + org);
 
-                    EditProfile.setOnClickListener(view12 -> {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Enter Your New Name");
+                    EditProfile.setOnClickListener(view1 -> {
 
-                        // Set up the input
-                        final EditText input = new EditText(getContext());
+                        Dialog dialog = new Dialog(getContext());
+                        dialog.setContentView(R.layout.edittext_dialog);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            dialog.getWindow().setBackgroundDrawable(requireContext().getDrawable(R.drawable.custom_dialog_background));
+                        }
+                        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        dialog.setCancelable(false); //Optional
+                        dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
 
-                        input.setInputType(InputType.TYPE_CLASS_TEXT);
-                        builder.setView(input);
+                        Button Proceed = dialog.findViewById(R.id.proceed);
+                        Button Cancel = dialog.findViewById(R.id.cancel);
+                        EditText editText = dialog.findViewById(R.id.edittext_box);
 
+                        Proceed.setOnClickListener(v -> {
 
-                        // Set up the buttons
-                        builder.setPositiveButton("Update", (dialog, which) -> {
-                            String inName = input.getText().toString();
-                            HashMap map = new HashMap();
-                            map.put("name", inName);
-                            reference.child("Users").child(userID).updateChildren(map);
+                            String inName = editText.getText().toString().trim();
 
-                            reference.child("Attendance").child(year).child(month).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.hasChild(userID)) {
-                                        reference.child("Attendance").child(year).child(month).child(date).child(userID).child("name").setValue(inName);
+                            if (!inName.isEmpty()) {
+
+                                reference.child("Users").child(userID).child("name").setValue(inName);
+                                Name.setText("Name: " + inName);
+
+                                reference.child("Attendees").child(year).child(month).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                                        if (snapshot1.hasChild(userID)) {
+                                            reference.child("Attendees").child(year).child(month).child(date).child(userID).child("name").setValue(inName);
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                }
-                            });
+                                    }
+                                });
 
+                            } else DynamicToast.makeError(requireContext(), "Please enter something").show();
+
+                            dialog.dismiss();
                         });
-                        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
-                        builder.show();
+                        Cancel.setOnClickListener(v -> dialog.dismiss());
+                        dialog.show();
+
                     });
                 }
             }
