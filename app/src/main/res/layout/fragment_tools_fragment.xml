@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_main"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".HomeFragments.tools_fragment">
+    tools:context=".HomeFragments.Tools.tools_fragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/notes_card"
+            android:id="@+id/pdf_card"
             android:layout_width="360dp"
             android:layout_height="95dp"
             android:layout_marginTop="25dp"
@@ -94,7 +94,7 @@
                     android:layout_toStartOf="@+id/st_icon"
                     android:gravity="center|left"
                     android:paddingLeft="20dp"
-                    android:text="Notes"
+                    android:text="PDF and Docs"
                     android:textColor="@color/lightblue"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -109,7 +109,7 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="0dp"
                     android:layout_marginBottom="0dp"
-                    android:background="@drawable/notes"
+                    android:background="@drawable/pdf_cardicon"
                     android:foregroundGravity="right"
                     android:scaleType="centerCrop" />
             </RelativeLayout>

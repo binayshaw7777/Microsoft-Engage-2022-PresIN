@@ -1,4 +1,4 @@
-package com.geekym.face_recognition_engage.HomeFragments;
+package com.geekym.face_recognition_engage.HomeFragments.Tools;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.geekym.face_recognition_engage.HomeFragments.Status.Notes_Activity;
+import com.geekym.face_recognition_engage.HomeFragments.Tools.PDFs.PDFs_Activity;
 import com.geekym.face_recognition_engage.R;
 
 public class tools_fragment extends Fragment {
 
-    CardView userNotes, dictionary, studyTimer;
+    CardView userPDFs, dictionary, studyTimer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,14 +24,14 @@ public class tools_fragment extends Fragment {
 
         Initialization(view);
 
-        userNotes.setOnClickListener(view1 -> startActivity(new Intent(getContext(), Notes_Activity.class)));
+        userPDFs.setOnClickListener(view1 -> startActivity(new Intent(getContext(), PDFs_Activity.class)));
 
 
         return view;
     }
 
     private void Initialization(View view) {
-        userNotes = view.findViewById(R.id.notes_card);
+        userPDFs = view.findViewById(R.id.pdf_card);
         dictionary = view.findViewById(R.id.dictionary_card);
         studyTimer = view.findViewById(R.id.timer_card);
     }
