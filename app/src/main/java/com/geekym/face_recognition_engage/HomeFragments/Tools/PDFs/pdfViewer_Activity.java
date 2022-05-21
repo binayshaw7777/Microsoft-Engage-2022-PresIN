@@ -1,5 +1,6 @@
 package com.geekym.face_recognition_engage.HomeFragments.Tools.PDFs;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ public class pdfViewer_Activity extends AppCompatActivity {
 
     WebView pdfview;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class pdfViewer_Activity extends AppCompatActivity {
 
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setTitle(filename);
-        pd.setMessage("Opening....!!!");
+        pd.setMessage("Opening PDF");
 
 
         pdfview.setWebViewClient(new WebViewClient() {

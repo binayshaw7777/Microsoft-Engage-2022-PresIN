@@ -73,6 +73,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.262"
                 android:text="All File"
+                android:stateListAnimator="@null"
+                android:textColor="@color/lightblue"
                 android:textAllCaps="false"
                 android:background="@drawable/secondary_button"/>
 
@@ -87,6 +89,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.841"
                 android:text="Upload File"
+                android:stateListAnimator="@null"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
                 android:background="@drawable/primary_button"/>

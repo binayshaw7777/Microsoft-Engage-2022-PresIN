@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -11,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,12 +26,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class PDFs_Activity extends AppCompatActivity {
 
-    FloatingActionButton addNote;
+    ImageView addNote;
     RecyclerView notesList;
     PDFAdapter notesAdapter;
     private String userID;
     private ShimmerFrameLayout ShimmerViewContainer;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

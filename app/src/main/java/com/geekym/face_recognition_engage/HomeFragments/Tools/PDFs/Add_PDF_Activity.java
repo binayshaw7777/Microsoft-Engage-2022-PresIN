@@ -111,7 +111,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
 
     public void processupload(Uri filepath) {
         final ProgressDialog pd = new ProgressDialog(this);
-        pd.setTitle("File Uploading....!!!");
+        pd.setTitle("Uploading PDF");
         pd.show();
 
         final StorageReference reference = storageReference.child("uploads/" + System.currentTimeMillis() + ".pdf");
