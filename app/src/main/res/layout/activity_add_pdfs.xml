@@ -92,6 +92,8 @@
                 android:stateListAnimator="@null"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
+                android:outlineAmbientShadowColor="@color/lightblue"
+                android:outlineSpotShadowColor="@color/lightblue"
                 android:background="@drawable/primary_button"/>
 
             <EditText

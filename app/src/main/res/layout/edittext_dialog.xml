@@ -78,6 +78,8 @@
                     android:paddingRight="15dp"
                     android:paddingLeft="15dp"
                     android:textAllCaps="false"
+                    android:outlineAmbientShadowColor="@color/lightblue"
+                    android:outlineSpotShadowColor="@color/lightblue"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

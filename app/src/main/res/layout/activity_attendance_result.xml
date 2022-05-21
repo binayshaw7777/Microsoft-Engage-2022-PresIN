@@ -92,6 +92,8 @@
             android:background="@drawable/positive"
             android:text="Back to Home"
             android:textAllCaps="false"
+            android:outlineAmbientShadowColor="@color/green_desat"
+            android:outlineSpotShadowColor="@color/green_desat"
             android:textColor="@color/white"
             android:textSize="17dp" />
 

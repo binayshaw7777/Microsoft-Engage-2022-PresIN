@@ -179,6 +179,8 @@
                 android:rotation="0"
                 android:rotationX="0"
                 android:rotationY="0"
+                android:outlineAmbientShadowColor="@color/red_desat"
+                android:outlineSpotShadowColor="@color/red_desat"
                 android:text="Delete Account"
                 android:textAlignment="center"
                 android:textAllCaps="false"
