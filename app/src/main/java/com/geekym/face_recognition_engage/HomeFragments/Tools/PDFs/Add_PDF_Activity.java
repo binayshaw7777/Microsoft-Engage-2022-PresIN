@@ -119,7 +119,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> reference.getDownloadUrl().addOnSuccessListener(uri -> {
 
                     PDFsModel obj = new PDFsModel(file_title.getText().toString(), uri.toString());
-                    databaseReference.child("Users").child(userID).child("Notes").child(databaseReference.push().getKey()).setValue(obj);
+                    databaseReference.child("Users").child(userID).child("PDF").child(databaseReference.push().getKey()).setValue(obj);
 
                     pd.dismiss();
                     Toast.makeText(getApplicationContext(), "File Uploaded", Toast.LENGTH_LONG).show();

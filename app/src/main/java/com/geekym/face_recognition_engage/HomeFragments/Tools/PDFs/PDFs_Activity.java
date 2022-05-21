@@ -59,7 +59,7 @@ public class PDFs_Activity extends AppCompatActivity {
 
         FirebaseRecyclerOptions<PDFsModel> options =
                 new FirebaseRecyclerOptions.Builder<PDFsModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference("Users").child(userID).child("Notes"), PDFsModel.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference("Users").child(userID).child("PDF"), PDFsModel.class)
                         .build();
 
         notesAdapter = new PDFAdapter(options);
