@@ -80,20 +80,19 @@ import java.util.concurrent.Executors;
 public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     TextView FaceStatus;
-    HashMap<String, SimilarityClassifier.Recognition> map = new HashMap<>();
     FaceDetector detector;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-   // float distance = 1.0f;
-    float distance = 0.88f;
+    float distance = 1.0f;
+//    float distance = 0.88f;
     ProcessCameraProvider cameraProvider;
     ImageView info;
 
-    float[][] embeddings;
+    float[][] embeddings; //Stores the embeddings of the Face (Column Array)
     int[] intValues;
-    int inputSize = 112;  //Input size for model
+    int inputSize = 112;  //Input size of model
     boolean isModelQuantized = false;
     float IMAGE_MEAN = 128.0f;
     float IMAGE_STD = 128.0f;
@@ -114,32 +113,33 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance_scanner);
 
-        Initialization();
+        Initialization();    //Function to initialize the variables in different
 
         //Camera Permission
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
         }
 
+        //Assist the user with instructions
         info.setOnClickListener(view ->
                 DynamicToast.make(this, "Bring your face in the camera to register", getResources()
                         .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
 
+        //Get Embeddings of all the registered Users and store it in hashmap
         reference.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
+                    //Converting Snapshot children -> embeddings String and getting hashmap in return
                     global.putAll(StringToMap(ds.child("embeddings").getValue().toString()));
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
-        //Load model
+        //Load model file
         try {
             tfLite = new Interpreter(loadModelFile(Attendance_Scanner_Activity.this, modelFile));
         } catch (IOException e) {
@@ -153,7 +153,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                         .build();
         detector = FaceDetection.getClient(highAccuracyOpts);
 
-        cameraBind();
+        cameraBind(); //Runs the camera
     }
 
     //Bind camera and preview view
@@ -184,7 +184,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         Executor executor = Executors.newSingleThreadExecutor();
         imageAnalysis.setAnalyzer(executor, imageProxy -> {
             try {
-                Thread.sleep(0);  //Camera preview refreshed every 10 millis (adjust as required)
+                Thread.sleep(10);  //Camera preview refreshed every 10 millis (adjust as required)
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -215,7 +215,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                             //Adjust orientation of Face
                             Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false);
 
-
                             //Get bounding box of face
                             RectF boundingBox = new RectF(face.getBoundingBox());
 
@@ -227,16 +226,14 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                             //Scale the acquired Face to 112*112 which is required input for model
                             Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
 
-
                             recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
 
                         } else {
-
                             if (!global.isEmpty())
                                 FaceStatus.setText("No Face Detected");
                         }
                     })
-                    .addOnFailureListener(e -> {// Task failed with an exception
+                    .addOnFailureListener(e -> {    // Task failed with an exception
                     })
 
                     .addOnCompleteListener(task -> {
@@ -250,7 +247,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     public void recognizeImage(final Bitmap bitmap) {
 
         //Create ByteBuffer to store normalized image
-
         ByteBuffer imgData = ByteBuffer.allocateDirect(inputSize * inputSize * 3 * 4);
 
         imgData.order(ByteOrder.nativeOrder());
@@ -270,7 +266,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                     imgData.put((byte) ((pixelValue >> 16) & 0xFF));
                     imgData.put((byte) ((pixelValue >> 8) & 0xFF));
                     imgData.put((byte) (pixelValue & 0xFF));
-                } else { // Float model
+                } else {
+                    // Float model
                     imgData.putFloat((((pixelValue >> 16) & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
                     imgData.putFloat((((pixelValue >> 8) & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
                     imgData.putFloat(((pixelValue & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
@@ -299,10 +296,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
                 final String key = nearest.get(0).first; //get userID of closest matching face
                 float distance_local = nearest.get(0).second; //get distance of closest matching face
-//                Toast.makeText(this, String.valueOf(distance_local), Toast.LENGTH_SHORT).show();
 
                 if (distance_local < distance && key.equals(userID)) {  //If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
-//                    Toast.makeText(this, String.valueOf(distance_local), Toast.LENGTH_SHORT).show();
                     distance = Float.MIN_VALUE; //setting min value because camera is running all the time in this activity
                                                 // and hence the if condition gets true more than one time
                     if (isConnected()) { //Check if the user is connected or not
@@ -326,9 +321,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         return false;
     }
 
-    /**
-     * For Recognizing
-     **/
+    //Recognizing Part
+
     //Compare Faces by distance between face embeddings
     private List<Pair<String, Float>> findNearest(float[] emb) {
         List<Pair<String, Float>> neighbour_list = new ArrayList<>();
@@ -358,9 +352,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     }
 
-    /**
-     * Bitmap Processing
-     **/
+    //Bitmap Processing
+
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
         int height = bm.getHeight();
@@ -497,7 +490,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
         byte[] nv21 = YUV_420_888toNV21(image);
 
-
         YuvImage yuvImage = new YuvImage(nv21, ImageFormat.NV21, image.getWidth(), image.getHeight(), null);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -507,6 +499,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
+    //Function to initialize the variables in different
     private void Initialization() {
         FaceStatus = findViewById(R.id.face_status);
         info = findViewById(R.id.info_icon_scanner);
@@ -516,10 +509,9 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         userID = user.getUid();
     }
 
-    //    Load Faces from Shared Preferences.Json String to Recognition object
+    //Load Faces from Shared Preferences.Json String to Recognition object
     private HashMap<String, SimilarityClassifier.Recognition> StringToMap(String Fetched) {
-        TypeToken<HashMap<String, SimilarityClassifier.Recognition>> token = new TypeToken<HashMap<String, SimilarityClassifier.Recognition>>() {
-        };
+        TypeToken<HashMap<String, SimilarityClassifier.Recognition>> token = new TypeToken<HashMap<String, SimilarityClassifier.Recognition>>() {};
         HashMap<String, SimilarityClassifier.Recognition> retrievedMap = new Gson().fromJson(Fetched, token.getType());
         //During type conversion and save/load procedure,format changes(eg float converted to double).
         //So embeddings need to be extracted from it in required format(eg.double to float).
@@ -537,8 +529,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     //To ask permission for camera
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -557,8 +548,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     }
 
     //Loads model file
-    private MappedByteBuffer loadModelFile(Activity activity, String MODEL_FILE) throws
-            IOException {
+    private MappedByteBuffer loadModelFile(Activity activity, String MODEL_FILE) throws IOException {
         AssetFileDescriptor fileDescriptor = activity.getAssets().openFd(MODEL_FILE);
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
         FileChannel fileChannel = inputStream.getChannel();

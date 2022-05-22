@@ -39,34 +39,37 @@ public class Attendance_Result_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance_result);
 
-        Initialize();
+        Initialize(); //Function to initialize the variables in different
 
-        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
-        Date today = new Date();
-        final String Time = timeFormat.format(today);
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a"); //Eg: 12:33 AM & 12:33 PM
+        final String Time = timeFormat.format(new Date());      //Storing current time in string of the above mentioned format
 
-        Calendar cal = Calendar.getInstance();
-        String year = new SimpleDateFormat("yyyy").format(cal.getTime());
-        String month = new SimpleDateFormat("MMM").format(cal.getTime());
-        String date = new SimpleDateFormat("dd").format(cal.getTime());
+        Calendar cal = Calendar.getInstance(); //Creating a calendar instance
+        String year = new SimpleDateFormat("yyyy").format(cal.getTime());   //Storing year as string
+        String month = new SimpleDateFormat("MMM").format(cal.getTime());   //Storing month name as string
+        String date = new SimpleDateFormat("dd").format(cal.getTime());     //Storing date as string
 
-        reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
+        reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {    //To display user's data in card view
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                Users userprofile = snapshot.getValue(Users.class);
+                Users userprofile = snapshot.getValue(Users.class);     //Creating User class from the Firebase Database
 
                 assert userprofile != null;
-                String name = userprofile.name;
-                String id = userprofile.id;
-                Name.setText(name);
+                String name = userprofile.name;     //Storing the name of the user in a String
+                String id = userprofile.id;     //Storing the College ID of the user in a String
+                Name.setText(name);     //Setting the textView text -> User's Name
 
-                HashMap<String, String> map = new HashMap<>();
+                HashMap<String, String> map = new HashMap<>(); //Creating a Hashmap to store the attendance status
                 map.put("time", Time);
                 map.put("status", "Present");
+
+                //Pushing the data in User's node
                 reference.child("Users").child(userID).child("Attendance").child(year).child(month).child(date).setValue(map);
                 map.put("name", name);
                 map.put("id", id);
+
+                //Pushing the data in Global Attendance Node with extra data like name and College ID
                 reference.child("Attendees").child(year).child(month).child(date).child(userID).setValue(map);
             }
 
@@ -76,10 +79,12 @@ public class Attendance_Result_Activity extends AppCompatActivity {
             }
         });
 
+        //Takes the user to Home Fragment after successfully taking the Attendance
         Home.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), HomeScreen.class)));
 
     }
 
+    //Function to initialize the variables in different
     private void Initialize() {
         Home = findViewById(R.id.back_home);
         Name = findViewById(R.id.name_display);
