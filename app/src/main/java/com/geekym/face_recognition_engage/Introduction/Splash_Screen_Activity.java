@@ -21,17 +21,17 @@ public class Splash_Screen_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance(); //initialize Firebase Auth
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = mAuth.getCurrentUser(); //Get the current user
 
         if (currentUser == null)
 
             SendUserToLoginActivity(); //If the user has not logged in, send them to On-Boarding Activity
 
         else {
-
             //If user was logged in last time
+
             new Handler().postDelayed(() -> {
 
                 Intent loginIntent;

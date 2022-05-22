@@ -19,7 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeScreen extends AppCompatActivity {
 
-    BottomNavigationView bottomBar;
+    BottomNavigationView bottomBar; //Bottom navigation bar
     Dialog dialog;
 
     @SuppressLint("NonConstantResourceId")
@@ -28,7 +28,8 @@ public class HomeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homescreen);
 
-        Initialization();
+        Initialization();     //Function to initialize the variables
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.main, new home_Fragment()).commit();
 
@@ -36,15 +37,19 @@ public class HomeScreen extends AppCompatActivity {
         bottomBar.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
             switch (item.getItemId()) {
+
                 case R.id.home:
                     fragment = new home_Fragment();
                     break;
+
                 case R.id.scan:
                     fragment = new status_Fragment();
                     break;
+
                 case R.id.tools:
                     fragment = new tools_fragment();
                     break;
+
                 case R.id.profile:
                     fragment = new profile_Fragment();
                     break;
@@ -56,6 +61,7 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
+    //Function to initialize the variables
     private void Initialization() {
         bottomBar = findViewById(R.id.bottomBar);
     }
@@ -63,10 +69,12 @@ public class HomeScreen extends AppCompatActivity {
     @SuppressLint({"UseCompatLoadingForDrawables", "ObsoleteSdkInt", "SetTextI18n"})
     public void onBackPressed() {
 
+        //Pop-up Dialog box when back pressed -> ask the user if they want to exit or not.
+
         dialog = new Dialog(HomeScreen.this);
         dialog.setContentView(R.layout.custom_dialog);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                dialog.getWindow().setBackgroundDrawable(HomeScreen.this.getDrawable(R.drawable.custom_dialog_background));
+            dialog.getWindow().setBackgroundDrawable(HomeScreen.this.getDrawable(R.drawable.custom_dialog_background));
         }
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false); //Optional

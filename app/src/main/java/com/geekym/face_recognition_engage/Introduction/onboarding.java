@@ -39,7 +39,7 @@ public class onboarding extends AppCompatActivity {
         }
         setContentView(R.layout.activity_onboarding);
 
-        Initialization();
+        Initialization();   //Function to initialize the variables
 
         // fill list screen
         final List<com.geekym.face_recognition_engage.Introduction.ScreenItem> mList = new ArrayList<>();
@@ -63,7 +63,6 @@ public class onboarding extends AppCompatActivity {
                 screenPager.setCurrentItem(position);
             }
             if (position == mList.size() - 1) { // when we reach to the last screen
-                // TODO : show the GET STARTED Button and hide the indicator and the next button
                 loadLastScreen();
             }
         });
@@ -102,12 +101,14 @@ public class onboarding extends AppCompatActivity {
         tvSkip.setOnClickListener(v -> screenPager.setCurrentItem(mList.size()));
     }
 
+    //To handle all the intents
     private void intentNow(Class targetActivity) {
         Intent intent = new Intent(getApplicationContext(), targetActivity);
         startActivity(intent);
         finish();
     }
 
+    //Function to initialize the variables
     private void Initialization() {
         btnNext = findViewById(R.id.btn_next);
         btnGetStarted = findViewById(R.id.btn_get_started);
@@ -135,7 +136,6 @@ public class onboarding extends AppCompatActivity {
         btnGetStarted.setVisibility(View.VISIBLE);
         tvSkip.setVisibility(View.INVISIBLE);
         tabIndicator.setVisibility(View.INVISIBLE);
-        // TODO : ADD an animation the get started button
         // setup animation
         btnGetStarted.setAnimation(btnAnim);
     }
