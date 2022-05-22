@@ -39,7 +39,17 @@ public class PDFs_Activity extends AppCompatActivity {
 
         Initialization();    //Function to initialize the variables
 
-        addNote.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), Add_PDF_Activity.class)));
+        Intent intent = getIntent();
+        String CollegeName = intent.getStringExtra("CollegeName");
+
+        addNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Add_PDF_Activity.class);
+                intent.putExtra("CollegeName", CollegeName);
+                startActivity(intent);
+            }
+        });
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -53,7 +63,7 @@ public class PDFs_Activity extends AppCompatActivity {
 
         FirebaseRecyclerOptions<PDFsModel> options =
                 new FirebaseRecyclerOptions.Builder<PDFsModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference("Users").child(userID).child("PDF"), PDFsModel.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference("PDFs").child(CollegeName), PDFsModel.class)
                         .build();
 
         //Setting up the adapter with the Firebase UI variable -> 'options'

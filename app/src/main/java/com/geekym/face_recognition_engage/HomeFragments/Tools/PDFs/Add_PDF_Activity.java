@@ -45,6 +45,9 @@ public class Add_PDF_Activity extends AppCompatActivity {
 
         Initialization();  //Function to initialize the variables
 
+        Intent intent = getIntent();
+        String CollegeName = intent.getStringExtra("CollegeName");
+
         //Cancel button (x)
         cancel.setOnClickListener(view -> {
             file_icon.setVisibility(View.INVISIBLE);
@@ -73,7 +76,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
                     }
                 }).check());
 
-        upload.setOnClickListener(view -> process_upload(filepath));
+        upload.setOnClickListener(view -> process_upload(filepath, CollegeName));
 
     }
 
@@ -107,7 +110,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
     }
 
 
-    public void process_upload(Uri filepath) {
+    public void process_upload(Uri filepath, String CollegeName) {
         //When the user Clicks on Upload Button
 
         final ProgressDialog pd = new ProgressDialog(this);
@@ -119,7 +122,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> reference.getDownloadUrl().addOnSuccessListener(uri -> {
 
                     PDFsModel obj = new PDFsModel(file_title.getText().toString(), uri.toString());
-                    databaseReference.child("Users").child(userID).child("PDF").child(databaseReference.push().getKey()).setValue(obj);
+                    databaseReference.child("PDFs").child(CollegeName).child(databaseReference.push().getKey()).setValue(obj);
 
                     pd.dismiss();
                     DynamicToast.makeSuccess(getApplicationContext(),"File Uploaded").show();
