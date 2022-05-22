@@ -30,20 +30,31 @@
 
         <TextView
             android:id="@+id/notes_title"
-            android:layout_width="308dp"
-            android:layout_height="35dp"
+            android:layout_width="269dp"
+            android:layout_height="match_parent"
             android:layout_toRightOf="@id/pdf_img"
             android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:text="This is Header Text"
             android:textColor="@color/black"
             android:textSize="15dp"
-            android:paddingLeft="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.428"
             app:layout_constraintStart_toEndOf="@+id/pdf_img"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.511" />
+            app:layout_constraintVertical_bias="0.666" />
+
+        <ImageView
+            android:id="@+id/download_button"
+            android:layout_width="33dp"
+            android:layout_height="30dp"
+            android:background="@drawable/donwload"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="25dp"
+            app:layout_constraintStart_toEndOf="@+id/notes_title"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

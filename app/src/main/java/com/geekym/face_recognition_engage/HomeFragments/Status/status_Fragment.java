@@ -21,11 +21,11 @@ public class status_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_status_, container, false);
 
-        Initialization(view);
+        Initialization(view); //Function to initialize the variables
 
-        attendeesList.setOnClickListener(view1 -> intentNow(Attendees.class));
+        attendeesList.setOnClickListener(view1 -> intentNow(Attendees.class)); //Starts the Attendees Activity
 
-        userProgress.setOnClickListener(view1 -> intentNow(Progress_Activity.class));
+        userProgress.setOnClickListener(view1 -> intentNow(Progress_Activity.class));   //Starts the Progress Activity
 
         return view;
     }
@@ -35,6 +35,7 @@ public class status_Fragment extends Fragment {
         startActivity(new Intent(getContext(), targetClass));
     }
 
+    //Function to initialize the variables
     private void Initialization(View view) {
         attendeesList = view.findViewById(R.id.attendees_card);
         userProgress = view.findViewById(R.id.progress_card);

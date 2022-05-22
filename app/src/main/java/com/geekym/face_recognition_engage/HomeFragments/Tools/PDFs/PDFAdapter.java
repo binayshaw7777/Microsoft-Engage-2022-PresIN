@@ -1,6 +1,7 @@
 package com.geekym.face_recognition_engage.HomeFragments.Tools.PDFs;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +24,21 @@ public class PDFAdapter extends FirebaseRecyclerAdapter<PDFsModel, PDFAdapter.my
     @Override
     protected void onBindViewHolder(@NonNull final myviewholder holder, int position, @NonNull final PDFsModel model) {
 
-        holder.header.setText(model.getFilename());
+        holder.header.setText(model.getFilename()); //Settings the file name
 
-        holder.view.setOnClickListener(view -> {
+        holder.view.setOnClickListener(view -> { //When the cardView is clicked
             Intent intent=new Intent(holder.view.getContext(), pdfViewer_Activity.class);
             intent.putExtra("filename",model.getFilename());
             intent.putExtra("fileurl",model.getFileurl());
 
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             holder.view.getContext().startActivity(intent);
+        });
+
+        holder.download.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(model.getFileurl()));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            holder.download.getContext().startActivity(intent);
         });
 
     }
@@ -46,11 +53,13 @@ public class PDFAdapter extends FirebaseRecyclerAdapter<PDFsModel, PDFAdapter.my
     public static class myviewholder extends RecyclerView.ViewHolder {
         TextView header;
         View view;
+        ImageView download;
 
         public myviewholder(@NonNull View itemView) {
             super(itemView);
             header=itemView.findViewById(R.id.notes_title);
             view = itemView;
+            download = itemView.findViewById(R.id.download_button);
         }
     }
 }

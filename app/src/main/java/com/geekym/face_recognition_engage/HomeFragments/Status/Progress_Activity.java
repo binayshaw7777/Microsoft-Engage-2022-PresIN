@@ -33,7 +33,7 @@ public class Progress_Activity extends AppCompatActivity {
     TextView totalDays, presentDays, absentDays, requireDays;
     private DatabaseReference reference;
     private String userID;
-    long c = 0;
+    long c = 0; //count number of children (days present) in the user's Attendance node
     PercentageChartView mChart;
     ValueLineChart mCubicValueLineChart;
     ValueLineSeries series = new ValueLineSeries();
@@ -45,7 +45,7 @@ public class Progress_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
 
-        Initialization();
+        Initialization(); //Function to initialize the variables
 
         Calendar cal = Calendar.getInstance();
         String year = new SimpleDateFormat("yyyy").format(cal.getTime());
@@ -55,9 +55,6 @@ public class Progress_Activity extends AppCompatActivity {
         YearMonth yearMonthObject = YearMonth.of(Integer.parseInt(year), Integer.parseInt(month));
         int daysInMonth = yearMonthObject.lengthOfMonth();
         float todayDate = Float.parseFloat(date);
-
-
-
 
         reference.child("Users").child(userID).child("Attendance").child(year).child(monthName).addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint({"SetTextI18n", "DefaultLocale"})
@@ -71,11 +68,13 @@ public class Progress_Activity extends AppCompatActivity {
                 float expected = ((c + (daysInMonth - todayDate)) / daysInMonth) * 100;
                 mChart.setProgress(percent, true);
 
+                //Set calculated data in TextView
                 totalDays.setText("Total Days in this month: "+daysInMonth+" days");
                 presentDays.setText("Present: "+(int)count+" days");
                 absentDays.setText("Absent: "+(int)absent+" days");
                 requireDays.setText("Attendance if daily attended: "+String.format("%.2f", expected)+"%");
 
+                //Set color of the Progress Bar and Graph According to the Attendance Percentage %
                 if (percent >= 0 && percent < 30) {
                     setThis(getResources().getColor(R.color.red_desat), getResources().getColor(R.color.shallow_red));
                     series.setColor(0xFFFF3F3F);
@@ -97,21 +96,19 @@ public class Progress_Activity extends AppCompatActivity {
                     series.setColor(0xFF4CA456);
                 }
 
-                int[] graphArray = new int[daysInMonth];
+                int[] graphArray = new int[daysInMonth]; //Store the days present in a new array of no. of days in that month. Eg: 31 for January
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     int i = Integer.parseInt(Objects.requireNonNull(ds.getKey()));
-                    graphArray[i] = 1;
+                    graphArray[i] = 1; //Storing the value 1 on the index (date) the user was present
                 }
 
                 for (int i=0; i<graphArray.length; i++) {
-                    series.addPoint(new ValueLinePoint(String.valueOf(i), graphArray[i]));
+                    series.addPoint(new ValueLinePoint(String.valueOf(i), graphArray[i])); //adding the point in the graph on that index
                 }
 
                 mCubicValueLineChart.addSeries(series);
                 mCubicValueLineChart.startAnimation();
-
-
 
             }
 
@@ -121,12 +118,14 @@ public class Progress_Activity extends AppCompatActivity {
 
     }
 
+    //Function to set colors for the Progress Bar
     private void setThis(int first, int second) {
         mChart.setProgressColor(first);
         mChart.setBackgroundBarColor(second);
         mChart.setTextColor(first);
     }
 
+    //Function to initialize the variables
     private void Initialization() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference();

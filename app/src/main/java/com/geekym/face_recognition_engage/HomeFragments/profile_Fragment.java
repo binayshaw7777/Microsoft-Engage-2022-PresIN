@@ -50,14 +50,18 @@ public class profile_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_, container, false);
 
-        Initialization(view);
+        Initialization(view); //Function to initialize the variables
 
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance(); //Initializing Calendar
+
+        //year, month name, date to Stirngs
         String year = new SimpleDateFormat("yyyy").format(cal.getTime());
         String month = new SimpleDateFormat("MMM").format(cal.getTime());
         String date = new SimpleDateFormat("dd").format(cal.getTime());
 
         Delete.setOnClickListener(view1 -> {
+            //Pop a dialog when the user clicks on Delete Account Button, warn them
+
             Dialog dialog = new Dialog(getContext());
             dialog.setContentView(R.layout.custom_dialog);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -77,18 +81,19 @@ public class profile_Fragment extends Fragment {
             title.setText("Confirm Delete");
             description.setText("Do you really want to delete your account?");
 
-            Proceed.setOnClickListener(v -> {
+            Proceed.setOnClickListener(v -> { //On Delete button press -> Call delete function
                 dialog.dismiss();
 
                 deleteAccount();
 
             });
 
-            Cancel.setOnClickListener(v -> dialog.dismiss());
+            Cancel.setOnClickListener(v -> dialog.dismiss()); //On Cancel
             dialog.show();
         });
 
         Logout.setOnClickListener(view1 -> {
+            //Pop up a Dialog when the user clicks on logout button, ask them whether they really want to logout or not.
 
             Dialog dialog = new Dialog(getContext());
             dialog.setContentView(R.layout.custom_dialog);
@@ -109,13 +114,13 @@ public class profile_Fragment extends Fragment {
             title.setText("Confirm Logout");
             description.setText("Do you really want to logout?");
 
-            Proceed.setOnClickListener(v -> {
+            Proceed.setOnClickListener(v -> { //On logout -> Logout the current logged in user
                 dialog.dismiss();
                 startActivity(new Intent(getContext(), SignIn_Activity.class));
                 requireActivity().finish();
             });
 
-            Cancel.setOnClickListener(v -> dialog.dismiss());
+            Cancel.setOnClickListener(v -> dialog.dismiss()); //On Cancel
             dialog.show();
         });
 
@@ -123,19 +128,23 @@ public class profile_Fragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Users userprofile = snapshot.getValue(Users.class);
+                Users userprofile = snapshot.getValue(Users.class); //Creating user object from the firebase user node
                 if (userprofile != null) {
+
+                    //User object -> Strings
                     String name = userprofile.name;
                     String email = userprofile.email;
                     String uid = userprofile.id;
                     String org = userprofile.college;
 
+                    //Setting up textViews
                     Name.setText("Name: " + name);
                     Email.setText("Email: " + email);
                     CollegeID.setText("College ID: " + uid);
                     CollegeName.setText("College Name: " + org);
 
                     EditProfile.setOnClickListener(view1 -> {
+                        //Dialog Popup of EditText
 
                         Dialog dialog = new Dialog(getContext());
                         dialog.setContentView(R.layout.edittext_dialog);
@@ -154,11 +163,12 @@ public class profile_Fragment extends Fragment {
 
                             String inName = editText.getText().toString().trim();
 
-                            if (!inName.isEmpty()) {
+                            if (!inName.isEmpty()) { //If the user's input is not Empty
 
-                                reference.child("Users").child(userID).child("name").setValue(inName);
-                                Name.setText("Name: " + inName);
+                                reference.child("Users").child(userID).child("name").setValue(inName); //Updating the name of the user
+                                Name.setText("Name: " + inName); //also updating the name in the TextView of Profile Fragment
 
+                                //Changing the name of user in Attendance Node of the Firebase
                                 reference.child("Attendees").child(year).child(month).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot1) {
@@ -173,7 +183,7 @@ public class profile_Fragment extends Fragment {
                                     }
                                 });
 
-                            } else DynamicToast.makeError(requireContext(), "Please enter something").show();
+                            } else DynamicToast.makeError(requireContext(), "Please enter something").show(); //If the user's input is empty
 
                             dialog.dismiss();
                         });
@@ -194,8 +204,9 @@ public class profile_Fragment extends Fragment {
         return view;
     }
 
+    //To delete account of the current user
     private void deleteAccount() {
-        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        final FirebaseUser currentUser = mAuth.getCurrentUser(); //get the current user
         assert currentUser != null;
         currentUser.delete().addOnCompleteListener(task -> {
             reference.child("Users").child(userID).setValue(null);
@@ -209,6 +220,7 @@ public class profile_Fragment extends Fragment {
         });
     }
 
+    //Function to initialize the variables
     private void Initialization(View view) {
         Logout = view.findViewById(R.id.logout_button);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

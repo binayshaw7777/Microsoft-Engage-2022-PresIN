@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +26,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 public class Add_PDF_Activity extends AppCompatActivity {
 
@@ -43,32 +43,16 @@ public class Add_PDF_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pdfs);
 
-        storageReference = FirebaseStorage.getInstance().getReference();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        Initialization();  //Function to initialize the variables
 
-        file_title = findViewById(R.id.filetitle);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
-        userID = user.getUid();
-
-        browse = findViewById(R.id.imagebrowse);
-        upload = findViewById(R.id.imageupload);
-
-        file_icon = findViewById(R.id.filelogo);
-        cancel = findViewById(R.id.cancelfile);
-
-
-        file_icon.setVisibility(View.INVISIBLE);
-        cancel.setVisibility(View.INVISIBLE);
-
+        //Cancel button (x)
         cancel.setOnClickListener(view -> {
             file_icon.setVisibility(View.INVISIBLE);
             cancel.setVisibility(View.INVISIBLE);
             browse.setVisibility(View.VISIBLE);
         });
 
-
+        //Browse PDF from the file manager
         browse.setOnClickListener(view -> Dexter.withContext(getApplicationContext())
                 .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 .withListener(new PermissionListener() {
@@ -81,9 +65,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-
-                    }
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {}
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
@@ -91,8 +73,24 @@ public class Add_PDF_Activity extends AppCompatActivity {
                     }
                 }).check());
 
-        upload.setOnClickListener(view -> processupload(filepath));
+        upload.setOnClickListener(view -> process_upload(filepath));
 
+    }
+
+    //Function to initialize the variables
+    private void Initialization() {
+        storageReference = FirebaseStorage.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        file_title = findViewById(R.id.filetitle);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        userID = user.getUid();
+        browse = findViewById(R.id.imagebrowse);
+        upload = findViewById(R.id.imageupload);
+        file_icon = findViewById(R.id.filelogo);
+        cancel = findViewById(R.id.cancelfile);
+        file_icon.setVisibility(View.INVISIBLE);
+        cancel.setVisibility(View.INVISIBLE);
     }
 
 
@@ -109,7 +107,9 @@ public class Add_PDF_Activity extends AppCompatActivity {
     }
 
 
-    public void processupload(Uri filepath) {
+    public void process_upload(Uri filepath) {
+        //When the user Clicks on Upload Button
+
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setTitle("Uploading PDF");
         pd.show();
@@ -122,7 +122,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
                     databaseReference.child("Users").child(userID).child("PDF").child(databaseReference.push().getKey()).setValue(obj);
 
                     pd.dismiss();
-                    Toast.makeText(getApplicationContext(), "File Uploaded", Toast.LENGTH_LONG).show();
+                    DynamicToast.makeSuccess(getApplicationContext(),"File Uploaded").show();
 
                     file_icon.setVisibility(View.INVISIBLE);
                     cancel.setVisibility(View.INVISIBLE);
@@ -134,7 +134,6 @@ public class Add_PDF_Activity extends AppCompatActivity {
                     float percent = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                     pd.setMessage("Uploaded :" + (int) percent + "%");
                 });
-
 
     }
 }

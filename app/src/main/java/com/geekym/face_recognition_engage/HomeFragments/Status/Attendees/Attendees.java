@@ -37,51 +37,61 @@ public class Attendees extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendees);
 
-        Initialization();
+        Initialization(); //Function to initialize the variables
 
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE); //Check internet connection
 
-        ShimmerViewContainer.startShimmer();
+        ShimmerViewContainer.startShimmer(); //start shimmer animation
         ShimmerViewContainer.setVisibility(View.VISIBLE);
 
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance(); //get calendar instance
+
+        //Getting the values of year, month name, date and full date format in the form of string.
         String year = new SimpleDateFormat("yyyy").format(cal.getTime());
         String month = new SimpleDateFormat("MMM").format(cal.getTime());
         String date = new SimpleDateFormat("dd").format(cal.getTime());
         String fullDate = new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
 
         dateDisplay.setText(fullDate);
-        LinearLayout layout = findViewById(R.id.emptyState);
 
+        LinearLayout layout = findViewById(R.id.emptyState); //Initializing (Empty state illustration)
+
+        //Firebase data -> RecyclerView
         FirebaseRecyclerOptions<ModelClass> options =
                 new FirebaseRecyclerOptions.Builder<ModelClass>()
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(year).child(month).child(date), ModelClass.class)
                         .build();
 
 
+        //Setting up the adapter with the Firebase UI variable -> 'options'
         myAdapter = new myAdapter(options);
 
-        if (myAdapter.getItemCount() == 0) {
-            recyclerView.setVisibility(View.GONE);
+        if (myAdapter.getItemCount() == 0) {        //If no item is found in the recycler view
+            recyclerView.setVisibility(View.GONE);      //Disable recycler view
             ShimmerViewContainer.startShimmer();
-            layout.setVisibility(View.INVISIBLE);
+            layout.setVisibility(View.INVISIBLE);       //Disable Empty State Illustration
             ShimmerViewContainer.setVisibility(View.VISIBLE);
-            new Handler().postDelayed(() -> {
-                ShimmerViewContainer.setVisibility(View.INVISIBLE);
+            new Handler().postDelayed(() -> { //Perform some task after some delay
 
+                ShimmerViewContainer.setVisibility(View.INVISIBLE); //Disable shimmering effect after the delay time
+
+                //If connected to internet
                 if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                         connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-                    if (myAdapter.getItemCount() == 0)
-                        layout.setVisibility(View.VISIBLE); //Checking again to handle slow internet or firebase issues
-                } else { //If no internet connection
+
+                    if (myAdapter.getItemCount() == 0) //If still the adapter is empty (we give time to the app to fetch data from firebase and check here)
+                        layout.setVisibility(View.VISIBLE); //Checking again to handle slow internet or firebase issues, show Empty State Illustration
+                } else {
+                    //If no internet connection found
                     recyclerView.setVisibility(View.INVISIBLE);
                     TextView error = layout.findViewById(R.id.error);
                     error.setText("Please check Internet!");
                     layout.setVisibility(View.VISIBLE);
                 }
-            }, 2000);
+            }, 2000); //Delay Time
 
         } else {
+            //If data/item is present in Adapter
             layout.setVisibility(View.INVISIBLE);
             ShimmerViewContainer.setVisibility(View.GONE);
             recyclerView.setAdapter(myAdapter);
@@ -106,17 +116,19 @@ public class Attendees extends AppCompatActivity {
                 checkEmpty();
             }
 
+            //Handle the condition when there's any change in item count of the adapter
             void checkEmpty() {
-                if (myAdapter.getItemCount() == 0) {
-                    recyclerView.setVisibility(View.GONE);
+                if (myAdapter.getItemCount() == 0) { //If no item found in adapter
+                    recyclerView.setVisibility(View.GONE); //Disable recyclerView
                     layout.setVisibility(View.INVISIBLE);
-                    ShimmerViewContainer.setVisibility(View.VISIBLE);
-                    new Handler().postDelayed(() -> {
-                        ShimmerViewContainer.setVisibility(View.INVISIBLE);
-                        layout.setVisibility(View.VISIBLE);
-                    }, 2000);
+                    ShimmerViewContainer.setVisibility(View.VISIBLE); //Show shimmering effect
 
-                } else {
+                    new Handler().postDelayed(() -> {
+                        ShimmerViewContainer.setVisibility(View.INVISIBLE); //Disable shimmering effect after the delay time
+                        layout.setVisibility(View.VISIBLE); //Show Empty State Illustration
+                    }, 2000); //Delay time
+
+                } else { //If item is found in adapter
                     layout.setVisibility(View.INVISIBLE);
                     ShimmerViewContainer.setVisibility(View.GONE);
                     recyclerView.setAdapter(myAdapter);
@@ -125,7 +137,7 @@ public class Attendees extends AppCompatActivity {
         });
     }
 
-
+    //When the activity starts
     @Override
     protected void onStart() {
         super.onStart();
@@ -133,10 +145,11 @@ public class Attendees extends AppCompatActivity {
         myAdapter.startListening();
     }
 
+    //When the activity is stopped
     @Override
     protected void onStop() {
         super.onStop();
-        if (myAdapter != null) {
+        if (myAdapter != null) { //checking if adapter is not empty
             myAdapter.stopListening();
             recyclerView.setVisibility(View.GONE);
         } else {
@@ -145,6 +158,7 @@ public class Attendees extends AppCompatActivity {
         }
     }
 
+    //Function to initialize the variables
     private void Initialization() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

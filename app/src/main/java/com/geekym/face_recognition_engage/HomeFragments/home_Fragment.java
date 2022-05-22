@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -48,42 +47,43 @@ public class home_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_, container, false);
 
-        Initialization(view);
+        Initialization(view);   //Function to initialize the variables
 
         calendar = Calendar.getInstance();
         dateFormat1 = new SimpleDateFormat("EEEE, MMM d");
         String date1 = dateFormat1.format(calendar.getTime());
         DateDis.setText(date1);
 
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();  //Creating a calendar instance
+        //Storing formats of date, year and month name in Strings
         String year = new SimpleDateFormat("yyyy").format(cal.getTime());
         String month = new SimpleDateFormat("MMM").format(cal.getTime());
         String date = new SimpleDateFormat("dd").format(cal.getTime());
 
+        //Check if the User is present 'today'
         reference.child("Attendees").child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChild(userID))
-                    PresentMark_Time.setText(Objects.requireNonNull(snapshot.child(userID).child("time").getValue()).toString());
+                    PresentMark_Time.setText(Objects.requireNonNull(snapshot.child(userID).child("time").getValue()).toString());  //If the user is present
                 else {
-                    PresentMark_Time.setText("--/--");
+                    PresentMark_Time.setText("--/--");   //If not present or absent, set the text to empty time or "--/--"
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
-        if (isConnected()) {
+        if (isConnected()) {    //To check Internet Connectivity
+
             reference.child("Users").child(userID).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Users userprofile = snapshot.getValue(Users.class);
+                    Users userprofile = snapshot.getValue(Users.class); //Get User Object from the Firebase User Node
                     if (userprofile != null) {
-                        String Embeddings = userprofile.embeddings;
-                        if (Embeddings.contains("added")) {
+                        String Embeddings = userprofile.embeddings; //Retrieving the Embeddings Json String from User Object
+                        if (Embeddings.contains("added")) { //If the embeddings's key is has not been replaced yet with UserID (Important for Face Recognition)
                             String Replaced = Embeddings.replace("added", userID); //Replacing custom key "added" with userID
                             HashMap<String, String> map = new HashMap<>();
                             map.put("Embeddings", Replaced);
@@ -93,21 +93,20 @@ public class home_Fragment extends Fragment {
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
+                public void onCancelled(@NonNull DatabaseError error) {}
             });
         }
 
         clockInOut.setOnClickListener(view1 -> {
-            if (isConnected()) {
-                startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class));
+            if (isConnected()) {    //To check Internet Connectivity
+                startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
             }
         });
 
         return view;
     }
 
+    //To check Internet Connectivity
     private boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -119,6 +118,7 @@ public class home_Fragment extends Fragment {
         return false;
     }
 
+    //Function to initialize the variables
     private void Initialization(View view) {
         PresentMark_Time = view.findViewById(R.id.in_count);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -126,7 +126,6 @@ public class home_Fragment extends Fragment {
         assert user != null;
         userID = user.getUid();
         DateDis = view.findViewById(R.id.text_view_date);
-
         clockInOut = view.findViewById(R.id.clock_inout);
     }
 }

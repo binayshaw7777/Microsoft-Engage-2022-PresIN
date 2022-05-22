@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -38,20 +37,15 @@ public class PDFs_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdfs);
 
-        addNote = findViewById(R.id.notes_fab);
+        Initialization();    //Function to initialize the variables
+
         addNote.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), Add_PDF_Activity.class)));
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        ShimmerViewContainer = findViewById(R.id.shimmerFrameLayout);
         ShimmerViewContainer.startShimmer();
         ShimmerViewContainer.setVisibility(View.VISIBLE);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
-        userID = user.getUid();
-
-        notesList = findViewById(R.id.notes_list);
         notesList.setLayoutManager(new LinearLayoutManager(this));
 
         LinearLayout layout = findViewById(R.id.emptyState);
@@ -62,30 +56,37 @@ public class PDFs_Activity extends AppCompatActivity {
                         .setQuery(FirebaseDatabase.getInstance().getReference("Users").child(userID).child("PDF"), PDFsModel.class)
                         .build();
 
+        //Setting up the adapter with the Firebase UI variable -> 'options'
         notesAdapter = new PDFAdapter(options);
 
-        if (notesAdapter.getItemCount() == 0) {
-            notesList.setVisibility(View.GONE);
+        if (notesAdapter.getItemCount() == 0) { //If no item is found in the recycler view
+            notesList.setVisibility(View.GONE); //Disable recycler view
             ShimmerViewContainer.startShimmer();
-            layout.setVisibility(View.INVISIBLE);
+            layout.setVisibility(View.INVISIBLE); //Disable Empty State Illustration
             ShimmerViewContainer.setVisibility(View.VISIBLE);
-            new Handler().postDelayed(() -> {
-                ShimmerViewContainer.setVisibility(View.INVISIBLE);
 
+            new Handler().postDelayed(() -> { //Perform some task after some delay
+
+                ShimmerViewContainer.setVisibility(View.INVISIBLE);  //Disable shimmering effect after the delay time
+
+                //If connected to internet
                 if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                         connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-                    if (notesAdapter.getItemCount() == 0) {
+
+                    if (notesAdapter.getItemCount() == 0) { //If still the adapter is empty (we give time to the app to fetch data from firebase and check here)
                         layout.setVisibility(View.VISIBLE); //Checking again to handle slow internet or firebase issues
                         error.setText("No PDFs Found!");
                     }
-                } else { //If no internet connection
+                } else {
+                    //If no internet connection
                     notesList.setVisibility(View.INVISIBLE);
                     error.setText("Please check Internet!");
                     layout.setVisibility(View.VISIBLE);
                 }
-            }, 2000);
+            }, 2000);   //Delay Time
 
         } else {
+            //If data/item is present in Adapter
             notesList.setVisibility(View.VISIBLE);
             layout.setVisibility(View.INVISIBLE);
             ShimmerViewContainer.setVisibility(View.GONE);
@@ -112,17 +113,20 @@ public class PDFs_Activity extends AppCompatActivity {
             }
 
             void checkEmpty() {
-                if (notesAdapter.getItemCount() == 0) {
-                    notesList.setVisibility(View.GONE);
+                //Handle the condition when there's any change in item count of the adapter
+                if (notesAdapter.getItemCount() == 0) {     //If no item found in adapter
+                    notesList.setVisibility(View.GONE);     //Disable recyclerView
                     layout.setVisibility(View.INVISIBLE);
-                    ShimmerViewContainer.setVisibility(View.VISIBLE);
-                    new Handler().postDelayed(() -> {
-                        ShimmerViewContainer.setVisibility(View.INVISIBLE);
-                        error.setText("No PDFs Found!");
-                        layout.setVisibility(View.VISIBLE);
-                    }, 2000);
+                    ShimmerViewContainer.setVisibility(View.VISIBLE);   //Show shimmering effect
 
-                } else {
+                    new Handler().postDelayed(() -> {
+                        ShimmerViewContainer.setVisibility(View.INVISIBLE); //Disable shimmering effect after the delay time
+                        error.setText("No PDFs Found!");
+                        layout.setVisibility(View.VISIBLE); //Show Empty State Illustration
+
+                    }, 2000); //Delay time
+
+                } else {    //If item is found in adapter
                     notesList.setVisibility(View.VISIBLE);
                     layout.setVisibility(View.INVISIBLE);
                     ShimmerViewContainer.setVisibility(View.GONE);
@@ -134,6 +138,7 @@ public class PDFs_Activity extends AppCompatActivity {
 
     }
 
+    //When the activity starts
     @Override
     protected void onStart() {
         super.onStart();
@@ -141,16 +146,26 @@ public class PDFs_Activity extends AppCompatActivity {
         notesAdapter.startListening();
     }
 
+    //When the activity is stopped
     @Override
     protected void onStop() {
         super.onStop();
-        if (notesAdapter != null) {
+        if (notesAdapter != null) {     //checking if adapter is not empty
             notesAdapter.stopListening();
             notesList.setVisibility(View.GONE);
         } else {
             LinearLayout layout = findViewById(R.id.emptyState);
             layout.setVisibility(View.INVISIBLE);
         }
+    }
 
+    //Function to initialize the variables
+    private void Initialization() {
+        addNote = findViewById(R.id.notes_fab);
+        ShimmerViewContainer = findViewById(R.id.shimmerFrameLayout);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        userID = user.getUid();
+        notesList = findViewById(R.id.notes_list);
     }
 }
