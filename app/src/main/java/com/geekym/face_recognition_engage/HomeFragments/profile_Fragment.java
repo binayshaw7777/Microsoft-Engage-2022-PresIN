@@ -116,11 +116,7 @@ public class profile_Fragment extends Fragment {
 
             Proceed.setOnClickListener(v -> { //On logout -> Logout the current logged in user
                 dialog.dismiss();
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getContext(), SignIn_Activity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                requireActivity().finish();
+                LogoutFun();
             });
 
             Cancel.setOnClickListener(v -> dialog.dismiss()); //On Cancel
@@ -207,6 +203,14 @@ public class profile_Fragment extends Fragment {
         return view;
     }
 
+    private void LogoutFun() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getContext(), SignIn_Activity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        requireActivity().finish();
+    }
+
     //To delete account of the current user
     private void deleteAccount() {
         final FirebaseUser currentUser = mAuth.getCurrentUser(); //get the current user
@@ -215,8 +219,7 @@ public class profile_Fragment extends Fragment {
             reference.child("Users").child(userID).setValue(null);
             if (task.isSuccessful()) {
                 DynamicToast.makeSuccess(requireContext(), "Account Deleted Successfully!").show();
-                startActivity(new Intent(getContext(), SignIn_Activity.class));
-                requireActivity().finish();
+                LogoutFun();
             } else {
                 DynamicToast.makeError(requireContext(), "Something went wrong!").show();
             }
