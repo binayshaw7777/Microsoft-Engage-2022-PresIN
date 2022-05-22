@@ -110,20 +110,47 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/pass_box" />
 
-        <EditText
-            android:id="@+id/college_name_box"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="330dp"
             android:layout_height="55dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/stroked"
-            android:ems="10"
-            android:hint="College Name"
-            android:inputType="text"
-            android:paddingLeft="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/pass_box"
-            app:layout_constraintEnd_toEndOf="@+id/pass_box"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/pass_box" />
+            android:background="@drawable/stroked">
+
+            <!--EditText
+                android:id="@+id/college_name_box"
+                android:layout_width="330dp"
+                android:layout_height="55dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/stroked"
+                android:ems="10"
+                android:hint="College Name"
+                android:inputType="text"
+                android:paddingLeft="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/pass_box"
+                app:layout_constraintEnd_toEndOf="@+id/pass_box"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/pass_box" /-->
+
+            <Spinner
+                android:id="@+id/college_names_spinner"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/add_college"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/fab"
+                android:layout_marginRight="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <EditText
             android:id="@+id/pass_box"

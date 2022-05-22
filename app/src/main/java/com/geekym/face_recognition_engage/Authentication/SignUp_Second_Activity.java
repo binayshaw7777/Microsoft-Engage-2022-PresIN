@@ -3,6 +3,7 @@ package com.geekym.face_recognition_engage.Authentication;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -14,31 +15,52 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class SignUp_Second_Activity extends AppCompatActivity {
 
-    EditText Name, Email, CollegeName, OrgID, Password;
+    EditText Name, Email, OrgID, Password;
     TextView LoginPage;
     private FirebaseAuth mAuth;
     boolean passwordVisible;
     View CreateAccount_Button;
     ProgressBar buttonProgress;
     TextView CreateAccount_Text;
+    Spinner spinner;
+    DatabaseReference databaseRef;
+    ValueEventListener listener;
+    ArrayList<String> list;
+    ArrayAdapter<String> adapter;
+    StringBuilder selectedItem = new StringBuilder();
+    ImageView registerCollege;
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
@@ -47,6 +69,22 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_second);
 
         Initialization();     //Function to initialize the variables
+
+        list.add("College Name");
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedItem.setLength(0);
+                selectedItem.append(parent.getItemAtPosition(position).toString());
+            }
+            // to close the onItemSelected
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        registerCollege.setOnClickListener(v -> insertCollegeNames());
+
+        fetchCollegeNames();
 
         CreateAccount_Text.setText("Create Account");
         ConstraintLayout cl = findViewById(R.id.progress_button_bg);
@@ -64,7 +102,6 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                 String sEmail = Email.getText().toString().trim();
                 String sPass = Password.getText().toString().trim();
                 String sID = OrgID.getText().toString().trim();
-                String sCollege = CollegeName.getText().toString().trim();
                 String sName = Name.getText().toString().trim();
 
                 //Check if the details entered are valid or not
@@ -93,9 +130,8 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                     OrgID.setError("Field can't be empty");
                     OrgID.requestFocus();
                     return;
-                } else if (sCollege.isEmpty()) {
-                    CollegeName.setError("Field can't be empty");
-                    CollegeName.requestFocus();
+                } else if(selectedItem.toString().equals("College Name")) {
+                    DynamicToast.makeError(SignUp_Second_Activity.this, "Select College Name").show();
                     return;
                 }
 
@@ -107,7 +143,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 //Successfully Created a new account
 
-                                Users users = new Users(sName, sEmail, sID, sCollege, Embeddings); //Creating a User Object with the inputs by user
+                                Users users = new Users(sName, sEmail, sID, selectedItem.toString(), Embeddings); //Creating a User Object with the inputs by user
 
                                 FirebaseDatabase.getInstance().getReference("Users")
                                         .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
@@ -171,6 +207,20 @@ public class SignUp_Second_Activity extends AppCompatActivity {
 
     }
 
+    private void fetchCollegeNames() {
+        listener = databaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap : snapshot.getChildren())
+                    list.add(Objects.requireNonNull(snap.getValue()).toString());
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
     //To check Internet Connectivity
     private boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -187,11 +237,52 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
     }
 
+    @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
+    public void insertCollegeNames() {
+
+        Dialog dialog = new Dialog(SignUp_Second_Activity.this);
+        dialog.setContentView(R.layout.edittext_dialog);
+        dialog.getWindow().setBackgroundDrawable(SignUp_Second_Activity.this.getDrawable(R.drawable.custom_dialog_background));
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false); //Optional
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
+
+        Button Proceed = dialog.findViewById(R.id.proceed);
+        Button Cancel = dialog.findViewById(R.id.cancel);
+        EditText editText = dialog.findViewById(R.id.edittext_box);
+        TextView title = dialog.findViewById(R.id.dialog_title);
+
+        Proceed.setText("Add College");
+        editText.setHint("Enter College Name here");
+        title.setText("Register your College");
+
+        Proceed.setOnClickListener(v -> {
+
+            String inputCollege = editText.getText().toString().trim();
+
+            if (!inputCollege.isEmpty()) { //If the user's input is not Empty
+
+                databaseRef.push().setValue(inputCollege)
+                        .addOnCompleteListener((OnCompleteListener<Void>) task -> {
+                            list.clear();
+                            fetchCollegeNames();
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(getApplicationContext(), "Inserted Successfully", Toast.LENGTH_LONG).show();
+                        });
+
+            } else DynamicToast.makeError(getApplicationContext(), "Please enter something").show(); //If the user's input is empty
+
+            dialog.dismiss();
+        });
+
+        Cancel.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
+
     //Function to initialize the variables
     private void Initialization() {
         Name = findViewById(R.id.name_box);
         Email = findViewById(R.id.email_box);
-        CollegeName = findViewById(R.id.college_name_box);
         OrgID = findViewById(R.id.id_box);
         Password = findViewById(R.id.pass_box);
         LoginPage = findViewById(R.id.SignIn_tv);
@@ -199,5 +290,10 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         CreateAccount_Button = findViewById(R.id.login_button);
         buttonProgress = findViewById(R.id.buttonProgress);
         CreateAccount_Text = findViewById(R.id.buttonText);
+        spinner = (Spinner) findViewById(R.id.college_names_spinner);
+        databaseRef = FirebaseDatabase.getInstance().getReference("College_Names");
+        list = new ArrayList<>();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, list);
+        registerCollege = findViewById(R.id.add_college);
     }
 }
