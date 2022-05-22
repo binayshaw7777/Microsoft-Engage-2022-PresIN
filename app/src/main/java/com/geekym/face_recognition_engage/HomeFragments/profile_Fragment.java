@@ -116,7 +116,10 @@ public class profile_Fragment extends Fragment {
 
             Proceed.setOnClickListener(v -> { //On logout -> Logout the current logged in user
                 dialog.dismiss();
-                startActivity(new Intent(getContext(), SignIn_Activity.class));
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getContext(), SignIn_Activity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 requireActivity().finish();
             });
 

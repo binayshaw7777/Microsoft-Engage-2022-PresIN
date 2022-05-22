@@ -31,6 +31,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.Preview;
@@ -121,9 +122,10 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         }
 
         //Assist the user with instructions
-        info.setOnClickListener(view ->
-                DynamicToast.make(this, "Bring your face in the camera to register", getResources()
-                        .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
+        TooltipCompat.setTooltipText(info, "Bring your face in the camera frame to register your face");
+//        info.setOnClickListener(view ->
+//                DynamicToast.make(this, "Bring your face in the camera to register", getResources()
+//                        .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
 
         //Get Embeddings of all the registered Users and store it in hashmap
         reference.child("Users").addValueEventListener(new ValueEventListener() {

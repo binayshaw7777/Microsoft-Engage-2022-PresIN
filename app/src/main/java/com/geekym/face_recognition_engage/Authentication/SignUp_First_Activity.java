@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.Preview;
@@ -103,9 +104,10 @@ public class SignUp_First_Activity extends AppCompatActivity {
         }
 
         //Assist the user with instructions
-        Info.setOnClickListener(view ->
-                DynamicToast.make(this, "Bring your face in the camera to register", getResources()
-                        .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
+        TooltipCompat.setTooltipText(Info, "Bring your face in the camera frame to register your face");
+//        Info.setOnClickListener(view ->
+//                DynamicToast.make(this, "Bring your face in the camera to register", getResources()
+//                        .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
 
 
         Next.setOnClickListener(view -> {
