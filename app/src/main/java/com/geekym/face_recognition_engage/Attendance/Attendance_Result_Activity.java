@@ -59,6 +59,7 @@ public class Attendance_Result_Activity extends AppCompatActivity {
                 String name = userprofile.name;     //Storing the name of the user in a String
                 String id = userprofile.id;     //Storing the College ID of the user in a String
                 Name.setText(name);     //Setting the textView text -> User's Name
+                String CollegeName = userprofile.college;
 
                 HashMap<String, String> map = new HashMap<>(); //Creating a Hashmap to store the attendance status
                 map.put("time", Time);
@@ -70,7 +71,7 @@ public class Attendance_Result_Activity extends AppCompatActivity {
                 map.put("id", id);
 
                 //Pushing the data in Global Attendance Node with extra data like name and College ID
-                reference.child("Attendees").child(year).child(month).child(date).child(userID).setValue(map);
+                reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).child(userID).setValue(map);
             }
 
             @Override

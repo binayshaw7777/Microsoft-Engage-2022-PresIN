@@ -60,23 +60,7 @@ public class home_Fragment extends Fragment {
         String month = new SimpleDateFormat("MMM").format(cal.getTime());
         String date = new SimpleDateFormat("dd").format(cal.getTime());
 
-        //Check if the User is present 'today'
-        reference.child("Attendees").child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.hasChild(userID))
-                    PresentMark_Time.setText(Objects.requireNonNull(snapshot.child(userID).child("time").getValue()).toString());  //If the user is present
-                else {
-                    PresentMark_Time.setText("--/--");   //If not present or absent, set the text to empty time or "--/--"
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
-
         if (isConnected()) {    //To check Internet Connectivity
-
             reference.child("Users").child(userID).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -89,6 +73,22 @@ public class home_Fragment extends Fragment {
                             map.put("Embeddings", Replaced);
                             reference.child("Users").child(userID).child("embeddings").setValue(Replaced); //replacing the key of embeddings in user node
                         }
+
+                        String CollegeName = userprofile.college;
+                        //Check if the User is present 'today'
+                        reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.hasChild(userID))
+                                    PresentMark_Time.setText(Objects.requireNonNull(snapshot.child(userID).child("time").getValue()).toString());  //If the user is present
+                                else {
+                                    PresentMark_Time.setText("--/--");   //If not present or absent, set the text to empty time or "--/--"
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        });
                     }
                 }
 

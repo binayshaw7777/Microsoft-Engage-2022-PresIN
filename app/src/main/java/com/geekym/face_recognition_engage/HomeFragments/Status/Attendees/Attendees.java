@@ -2,6 +2,7 @@ package com.geekym.face_recognition_engage.HomeFragments.Status.Attendees;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -41,6 +42,10 @@ public class Attendees extends AppCompatActivity {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE); //Check internet connection
 
+        Intent intent = getIntent();
+        String CollegeName = intent.getStringExtra("CollegeName");
+
+
         ShimmerViewContainer.startShimmer(); //start shimmer animation
         ShimmerViewContainer.setVisibility(View.VISIBLE);
 
@@ -59,7 +64,7 @@ public class Attendees extends AppCompatActivity {
         //Firebase data -> RecyclerView
         FirebaseRecyclerOptions<ModelClass> options =
                 new FirebaseRecyclerOptions.Builder<ModelClass>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(year).child(month).child(date), ModelClass.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(CollegeName).child(year).child(month).child(date), ModelClass.class)
                         .build();
 
 
