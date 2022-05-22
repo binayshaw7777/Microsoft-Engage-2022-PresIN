@@ -36,9 +36,9 @@ public class SignUp_Second_Activity extends AppCompatActivity {
     TextView LoginPage;
     private FirebaseAuth mAuth;
     boolean passwordVisible;
-    View buttonView;
+    View CreateAccount_Button;
     ProgressBar buttonProgress;
-    TextView buttonText;
+    TextView CreateAccount_Text;
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
@@ -46,26 +46,28 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_second);
 
-        Initialization();
+        Initialization();     //Function to initialize the variables
 
-        buttonText.setText("Create Account");
+        CreateAccount_Text.setText("Create Account");
         ConstraintLayout cl = findViewById(R.id.progress_button_bg);
-        cl.setBackground(getResources().getDrawable(R.drawable.positive));
+        cl.setBackground(getResources().getDrawable(R.drawable.positive)); //Change the button drawable to green
 
         LoginPage.setOnClickListener(view -> intentNow()); //Already have an account
 
-        buttonView.setOnClickListener(view -> {
+        CreateAccount_Button.setOnClickListener(view -> {
 
-            if (isConnected()) {
+            if (isConnected()) { //Check internet connection
 
-                String Embeddings = getIntent().getStringExtra("Face_Embeddings");
+                String Embeddings = getIntent().getStringExtra("Face_Embeddings"); //Get embeddings of the user's face
 
+                //Get all the input from the user
                 String sEmail = Email.getText().toString().trim();
                 String sPass = Password.getText().toString().trim();
                 String sID = OrgID.getText().toString().trim();
                 String sCollege = CollegeName.getText().toString().trim();
                 String sName = Name.getText().toString().trim();
 
+                //Check if the details entered are valid or not
                 if (sName.isEmpty()) {
                     Name.setError("Field can't be empty");
                     Name.requestFocus();
@@ -97,13 +99,15 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                     return;
                 }
 
+                //Creating a new Account
                 buttonProgress.setVisibility(View.VISIBLE);
-                buttonText.setVisibility(View.GONE);
+                CreateAccount_Text.setVisibility(View.GONE);
                 mAuth.createUserWithEmailAndPassword(sEmail, sPass)
                         .addOnCompleteListener(SignUp_Second_Activity.this, task -> {
                             if (task.isSuccessful()) {
+                                //Successfully Created a new account
 
-                                Users users = new Users(sName, sEmail, sID, sCollege, Embeddings);
+                                Users users = new Users(sName, sEmail, sID, sCollege, Embeddings); //Creating a User Object with the inputs by user
 
                                 FirebaseDatabase.getInstance().getReference("Users")
                                         .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
@@ -112,7 +116,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                                                 Log.d(TAG, "createUserWithEmail:success");
                                                 FirebaseUser user = mAuth.getCurrentUser();
                                                 DynamicToast.makeSuccess(this, "Registered Successfully").show();
-                                                DynamicToast.makeSuccess(this, "Verification Mail Sent").show();
+                                                DynamicToast.makeSuccess(this, "Verification Mail Sent").show(); //Send a verification link
                                                 intentNow();
                                                 assert user != null;
                                                 user.sendEmailVerification();
@@ -122,14 +126,14 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                                                 DynamicToast.makeError(this, "Failed").show();
                                             }
                                             buttonProgress.setVisibility(View.GONE);
-                                            buttonText.setVisibility(View.VISIBLE);
+                                            CreateAccount_Text.setVisibility(View.VISIBLE);
                                         });
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                 DynamicToast.makeError(this, "Authentication Failed").show();
                                 buttonProgress.setVisibility(View.GONE);
-                                buttonText.setVisibility(View.VISIBLE);
+                                CreateAccount_Text.setVisibility(View.VISIBLE);
                             }
                         });
             }
@@ -167,6 +171,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
 
     }
 
+    //To check Internet Connectivity
     private boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -182,6 +187,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
     }
 
+    //Function to initialize the variables
     private void Initialization() {
         Name = findViewById(R.id.name_box);
         Email = findViewById(R.id.email_box);
@@ -190,8 +196,8 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         Password = findViewById(R.id.pass_box);
         LoginPage = findViewById(R.id.SignIn_tv);
         mAuth = FirebaseAuth.getInstance();
-        buttonView = findViewById(R.id.login_button);
+        CreateAccount_Button = findViewById(R.id.login_button);
         buttonProgress = findViewById(R.id.buttonProgress);
-        buttonText = findViewById(R.id.buttonText);
+        CreateAccount_Text = findViewById(R.id.buttonText);
     }
 }

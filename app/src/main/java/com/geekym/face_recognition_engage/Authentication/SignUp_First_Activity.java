@@ -68,14 +68,13 @@ public class SignUp_First_Activity extends AppCompatActivity {
 
     ImageView Info;
     Button Next, addFace;
-    HashMap<String, SimilarityClassifier.Recognition> map = new HashMap<>();
+    HashMap<String, SimilarityClassifier.Recognition> map = new HashMap<>(); //To store a embedding with a key -> "added" in this map
 
     FaceDetector detector;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-    Context context = SignUp_First_Activity.this;
     ProcessCameraProvider cameraProvider;
 
     int[] intValues;
@@ -96,37 +95,37 @@ public class SignUp_First_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_first);
 
-        Initialization();
+        Initialization();     //Function to initialize the variables
 
         //Camera Permission
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
         }
 
+        //Assist the user with instructions
         Info.setOnClickListener(view ->
                 DynamicToast.make(this, "Bring your face in the camera to register", getResources()
                         .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
 
+
         Next.setOnClickListener(view -> {
             if (map.containsKey("added")) {
                 String Json = getFromMap(map); //we convert the map into a string by calling a function and passing the map
+                //Passing the converted Hashmap -> String to 2nd Activity
                 intentNow(SignUp_Second_Activity.class, "Face_Embeddings", Json, true);
-//                Intent intent = new Intent(getApplicationContext(), SignUp_Second_Activity.class);
-//                intent.putExtra("Face_Embeddings", Json); //Here we are passing face embeddings to the next activity
-//                startActivity(intent);
-//                finish();
             } else
-                DynamicToast.makeError(this, "Face not Added").show();
+                DynamicToast.makeError(this, "Face not Added").show(); //If the hashmap is empty or No Embeddings has been added yet
         });
 
         addFace.setOnClickListener(view -> AddFace()); //Adding Face to Hashmap
 
-        //Load model
+        //Load model file
         try {
             tfLite = new Interpreter(loadModelFile(SignUp_First_Activity.this, modelFile));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         //Initialize Face Detector
         FaceDetectorOptions highAccuracyOpts =
                 new FaceDetectorOptions.Builder()
@@ -134,24 +133,27 @@ public class SignUp_First_Activity extends AppCompatActivity {
                         .build();
         detector = FaceDetection.getClient(highAccuracyOpts);
 
-        cameraBind();
+        cameraBind(); //Runs the camera
     }
 
+    //Handles all the intent
     private void intentNow(Class targetActivity, String face_embeddings, String json, boolean b) {
         Intent intent = new Intent(getApplicationContext(), targetActivity);
-        if (b) {
+        if (b) { //If b is true -> String json has some values (Called to goto 2nd Activity with json string)
             intent.putExtra(face_embeddings, json);
         }
         startActivity(intent);
         finish();
     }
 
+    //Function to add face or store embeddings in a hasmap
     private void AddFace() {
-        if (!map.isEmpty())
-            map.clear();
+        if (!map.isEmpty()) map.clear(); //If the hashmap is not empty (the hashmap has previously stored embeddings -> Remove/Clear it)
+
         SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition("0", "", -1f);
         result.setExtra(embeddings);
-        map.put("added", result);
+        map.put("added", result); //added the Embedding to hashmap
+
         DynamicToast.make(this, "Face Added Successfully", getResources()
                 .getColor(R.color.white), getResources().getColor(R.color.green_desat)).show();
     }
@@ -216,7 +218,6 @@ public class SignUp_First_Activity extends AppCompatActivity {
                             //Adjust orientation of Face
                             Bitmap frame_bmp1 = rotateBitmap(frame_bmp, rot, false);
 
-
                             //Get bounding box of face
                             RectF boundingBox = new RectF(face.getBoundingBox());
 
@@ -228,15 +229,14 @@ public class SignUp_First_Activity extends AppCompatActivity {
                             //Scale the acquired Face to 112*112 which is required input for model
                             Bitmap scaled = getResizedBitmap(cropped_face, 112, 112);
 
-                            // if (start) //If ImageView is running
                             recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
 
                         } else {
-                            addFace.setVisibility(View.INVISIBLE);
+                            addFace.setVisibility(View.INVISIBLE); //If no face is detected -> Remove the 'Add Face' button from view
                         }
 
                     })
-                    .addOnFailureListener(e -> {// Task failed with an exception
+                    .addOnFailureListener(e -> {    // Task failed with an exception
                     })
 
                     .addOnCompleteListener(task -> {
@@ -251,7 +251,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
 
     public void recognizeImage(final Bitmap bitmap) {
 
-        addFace.setVisibility(View.VISIBLE);
+        addFace.setVisibility(View.VISIBLE); //If the face is detected
 
         //Create ByteBuffer to store normalized image
         ByteBuffer imgData = ByteBuffer.allocateDirect(inputSize * inputSize * 3 * 4);
@@ -293,9 +293,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
         tfLite.runForMultipleInputsOutputs(inputArray, outputMap); //Run model
     }
 
-    /**
-     * Bitmap Processing
-     **/
+    //Bitmap Processing
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
         int height = bm.getHeight();
@@ -432,7 +430,6 @@ public class SignUp_First_Activity extends AppCompatActivity {
 
         byte[] nv21 = YUV_420_888toNV21(image);
 
-
         YuvImage yuvImage = new YuvImage(nv21, ImageFormat.NV21, image.getWidth(), image.getHeight(), null);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -441,10 +438,6 @@ public class SignUp_First_Activity extends AppCompatActivity {
         byte[] imageBytes = out.toByteArray();
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
-
-    /**
-     * Bitmap Processing
-     **/
 
     //Convert hashmap to string, basically to pass and store it in firebase
     private String getFromMap(HashMap<String, SimilarityClassifier.Recognition> json) {

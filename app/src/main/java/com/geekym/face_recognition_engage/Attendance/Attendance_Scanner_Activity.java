@@ -85,8 +85,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-    float distance = 1.0f;
-//    float distance = 0.88f;
+//    float distance = 1.0f;
+    float distance = 0.88f;
     ProcessCameraProvider cameraProvider;
     ImageView info;
 
@@ -113,7 +113,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance_scanner);
 
-        Initialization();    //Function to initialize the variables in different
+        Initialization();    //Function to initialize the variables
 
         //Camera Permission
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -184,7 +184,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         Executor executor = Executors.newSingleThreadExecutor();
         imageAnalysis.setAnalyzer(executor, imageProxy -> {
             try {
-                Thread.sleep(10);  //Camera preview refreshed every 10 millis (adjust as required)
+                Thread.sleep(0);  //Camera preview refreshed every 10 millis (adjust as required)
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -229,7 +229,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                             recognizeImage(scaled); //Send scaled bitmap to create face embeddings.
 
                         } else {
-                            if (!global.isEmpty())
+                            if (!global.isEmpty()) //If the embeddings hashmap is not empty and no face is detected
                                 FaceStatus.setText("No Face Detected");
                         }
                     })
@@ -309,6 +309,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         }
     }
 
+    //To check Internet Connectivity
     private boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -499,7 +500,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
-    //Function to initialize the variables in different
+    //Function to initialize the variables
     private void Initialization() {
         FaceStatus = findViewById(R.id.face_status);
         info = findViewById(R.id.info_icon_scanner);
@@ -541,6 +542,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         }
     }
 
+    //Handles all the intent
     private void intentNow(Class targetActivity, boolean b) {
         Intent intent = new Intent(getApplicationContext(), targetActivity);
         startActivity(intent);

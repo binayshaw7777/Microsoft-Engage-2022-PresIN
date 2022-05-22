@@ -11,7 +11,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,9 +28,9 @@ public class SignIn_Activity extends AppCompatActivity {
     EditText Email_editText, Password_editText;
     TextView SignUp, ForgotPass, buttonText;
     private FirebaseAuth mAuth;
-    ProgressBar buttonProgress;
+    ProgressBar ProgressBar;
     boolean passwordVisible;
-    View buttonView;
+    View LoginButton;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -39,11 +38,11 @@ public class SignIn_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        Initialization();
+        Initialization();     //Function to initialize the variables
 
-        ForgotPass.setOnClickListener(view -> intentNow(Forgot_Password_Activity.class));
+        ForgotPass.setOnClickListener(view -> intentNow(Forgot_Password_Activity.class)); //To Forgot Password (Reset Password Activity)
 
-        buttonView.setOnClickListener(view -> {
+        LoginButton.setOnClickListener(view -> {
             if (isConnected()) Login();
         });  //Login Button CTA
 
@@ -86,9 +85,10 @@ public class SignIn_Activity extends AppCompatActivity {
     }
 
     private void Login() {
-        String email = Email_editText.getText().toString().trim();
-        String pass = Password_editText.getText().toString().trim();
+        String email = Email_editText.getText().toString().trim();      //EditText -> String
+        String pass = Password_editText.getText().toString().trim();    //EditText -> String
 
+        //Checking entered text if it is valid or not
         if (email.isEmpty()) {
             Email_editText.setError("Field can't be empty");
             Email_editText.requestFocus();
@@ -107,32 +107,35 @@ public class SignIn_Activity extends AppCompatActivity {
             return;
         }
 
-        buttonProgress.setVisibility(View.VISIBLE);
+        ProgressBar.setVisibility(View.VISIBLE);
         buttonText.setVisibility(View.GONE);
         mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 assert user != null;
-                if (!user.isEmailVerified()) {
-                    buttonProgress.setVisibility(View.GONE);
+                if (!user.isEmailVerified()) {      //If the User's email is already verified
+                    ProgressBar.setVisibility(View.GONE);
                     buttonText.setVisibility(View.VISIBLE);
                     user.sendEmailVerification();
                     DynamicToast.make(this, "Check your email to verify your account and Login again", getResources().getColor(R.color.white), getResources().getColor(R.color.lightblue)).show();
                 } else {
-                    buttonProgress.setVisibility(View.GONE);
+                    //Send a verification link to the user
+                    ProgressBar.setVisibility(View.GONE);
                     buttonText.setVisibility(View.VISIBLE);
                     Intent intent2 = new Intent(getApplicationContext(), HomeScreen.class);
                     startActivity(intent2);
                     finishAffinity();
                 }
             } else {
-                buttonProgress.setVisibility(View.GONE);
+                //If the Login Fails
+                ProgressBar.setVisibility(View.GONE);
                 buttonText.setVisibility(View.VISIBLE);
                 DynamicToast.makeError(this, "Failed to Login! Please check your credentials").show();
             }
         });
     }
 
+    //To check Internet Connectivity
     private boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -144,14 +147,15 @@ public class SignIn_Activity extends AppCompatActivity {
         return false;
     }
 
+    //Function to initialize the variables
     private void Initialization() {
         Email_editText = findViewById(R.id.email_box);
         Password_editText = findViewById(R.id.pass_box);
         SignUp = findViewById(R.id.SignUp_tv);
         mAuth = FirebaseAuth.getInstance();
         ForgotPass = findViewById(R.id.forgotpass_tv);
-        buttonView = findViewById(R.id.login_button);
-        buttonProgress = findViewById(R.id.buttonProgress);
+        LoginButton = findViewById(R.id.login_button);
+        ProgressBar = findViewById(R.id.buttonProgress);
         buttonText = findViewById(R.id.buttonText);
     }
 }

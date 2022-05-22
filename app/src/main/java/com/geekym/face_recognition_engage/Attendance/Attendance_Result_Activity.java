@@ -39,7 +39,7 @@ public class Attendance_Result_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance_result);
 
-        Initialize(); //Function to initialize the variables in different
+        Initialize(); //Function to initialize the variables
 
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a"); //Eg: 12:33 AM & 12:33 PM
         final String Time = timeFormat.format(new Date());      //Storing current time in string of the above mentioned format
@@ -84,7 +84,7 @@ public class Attendance_Result_Activity extends AppCompatActivity {
 
     }
 
-    //Function to initialize the variables in different
+    //Function to initialize the variables
     private void Initialize() {
         Home = findViewById(R.id.back_home);
         Name = findViewById(R.id.name_display);

@@ -35,13 +35,15 @@ public class Forgot_Password_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
-        Initialization(); //Initialize
+        Initialization();     //Function to initialize the variables
+
         buttonText.setText("Send Password Reset Email");
 
         buttonView.setOnClickListener(view -> {
-            if (isConnected()) {ForgotPassword(); }});
+            if (isConnected()) {ForgotPassword(); }}); //Send password reset link when connected to internet
     }
 
+    //Validating text input by the User
     private void ForgotPassword() {
         String Email = email.getText().toString().trim();
         if (Email.isEmpty()) {
@@ -52,12 +54,12 @@ public class Forgot_Password_Activity extends AppCompatActivity {
             email.setError("Please enter a valid Email id");
             email.requestFocus();
 
-        } else {
+        } else { //If there user entered a valid email
             buttonProgress.setVisibility(View.VISIBLE);
             buttonText.setVisibility(View.GONE);
             Auth2.sendPasswordResetEmail(Email).addOnCompleteListener(task -> {
                 try {
-                    if (task.isSuccessful()) {
+                    if (task.isSuccessful()) { //Password Reset link is sent to user's Email
                         buttonProgress.setVisibility(View.GONE);
                         buttonText.setVisibility(View.VISIBLE);
                         DynamicToast.make(this, "Password reset email sent!", getResources()
@@ -79,6 +81,7 @@ public class Forgot_Password_Activity extends AppCompatActivity {
         }
     }
 
+    //To check Internet Connectivity
     private boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -90,6 +93,7 @@ public class Forgot_Password_Activity extends AppCompatActivity {
         return false;
     }
 
+    //Function to initialize the variables
     private void Initialization() {
         Auth2 = FirebaseAuth.getInstance();
         email = findViewById(R.id.reset_email);
