@@ -42,9 +42,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tools"
+            android:fontFamily="@font/dm_sans_bold"
             android:textColor="@color/white"
             android:textSize="35dp"
-            android:textStyle="bold"
             tools:layout_editor_absoluteX="212dp"
             tools:layout_editor_absoluteY="220dp" />
 
@@ -92,12 +92,12 @@
                     android:layout_marginEnd="79dp"
                     android:layout_marginBottom="29dp"
                     android:layout_toStartOf="@+id/st_icon"
+                    android:fontFamily="@font/dm_sans_medium"
                     android:gravity="center|left"
                     android:paddingLeft="20dp"
                     android:text="PDF and Docs"
                     android:textColor="@color/lightblue"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:textSize="20dp" />
 
                 <ImageView
                     android:id="@+id/st_icon"
@@ -147,12 +147,12 @@
                     android:layout_marginEnd="79dp"
                     android:layout_marginBottom="29dp"
                     android:layout_toStartOf="@+id/dictionary_icon"
+                    android:fontFamily="@font/dm_sans_medium"
                     android:gravity="center|left"
                     android:paddingLeft="20dp"
                     android:text="Dictionary"
                     android:textColor="@color/lightblue"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:textSize="20dp" />
 
                 <ImageView
                     android:id="@+id/dictionary_icon"
@@ -202,12 +202,12 @@
                     android:layout_marginEnd="79dp"
                     android:layout_marginBottom="29dp"
                     android:layout_toStartOf="@+id/timer_icon"
+                    android:fontFamily="@font/dm_sans_medium"
                     android:gravity="center|left"
                     android:paddingLeft="20dp"
                     android:text="Study Timer"
                     android:textColor="@color/lightblue"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:textSize="20dp" />
 
                 <ImageView
                     android:id="@+id/timer_icon"

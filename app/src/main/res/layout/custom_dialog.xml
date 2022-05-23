@@ -28,10 +28,10 @@
                 android:layout_marginLeft="25dp"
                 android:gravity="center"
                 android:text="Title"
+                android:fontFamily="@font/dm_sans_bold"
                 android:layout_marginTop="30dp"
                 android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/dialog_description"
@@ -41,9 +41,10 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="25dp"
                 android:gravity="center"
+                android:fontFamily="@font/dm_sans_medium"
                 android:text="Description"
                 android:textColor="@color/black"
-                android:textStyle="bold" />
+                />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -62,6 +63,7 @@
                     android:background="@drawable/secondary_button"
                     android:stateListAnimator="@null"
                     android:text="Cancel"
+                    android:fontFamily="@font/dm_sans"
                     android:textAllCaps="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +79,7 @@
                     android:outlineAmbientShadowColor="@color/lightblue"
                     android:outlineSpotShadowColor="@color/lightblue"
                     android:textAllCaps="false"
+                    android:fontFamily="@font/dm_sans"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -44,7 +44,7 @@
                 android:text="Status"
                 android:textColor="@color/white"
                 android:textSize="35dp"
-                android:textStyle="bold"
+                android:fontFamily="@font/dm_sans_bold"
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
@@ -92,12 +92,12 @@
                         android:layout_marginEnd="79dp"
                         android:layout_marginBottom="29dp"
                         android:layout_toStartOf="@+id/card1dis"
+                        android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
                         android:paddingLeft="20dp"
                         android:text="Attendees List"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/card1dis"
@@ -147,12 +147,12 @@
                         android:layout_marginEnd="79dp"
                         android:layout_marginBottom="29dp"
                         android:layout_toStartOf="@+id/cal"
+                        android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
                         android:paddingLeft="20dp"
                         android:text="Progress"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+                        android:textSize="20dp" />
 
                     <ImageView
                         android:id="@+id/cal"

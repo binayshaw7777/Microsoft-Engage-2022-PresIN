@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:gravity="center"
+        android:gravity="left"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.004"
@@ -25,9 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome"
+            android:fontFamily="@font/dm_sans_bold"
             android:textColor="@color/white"
-            android:textSize="35dp"
-            android:textStyle="bold"
+            android:textSize="30sp"
             tools:layout_editor_absoluteX="212dp"
             tools:layout_editor_absoluteY="220dp" />
 
@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:fontFamily="@font/dm_sans"
             android:text="Sign in to your account"
             android:textColor="@color/white" />
 
@@ -67,6 +68,7 @@
                 android:layout_marginBottom="26dp"
                 android:background="@drawable/stroked"
                 android:ems="10"
+                android:fontFamily="@font/dm_sans"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="20dp"
@@ -84,6 +86,7 @@
                 android:drawableRight="@drawable/visibility_off"
                 android:drawableTint="@color/lightblue"
                 android:ems="10"
+                android:fontFamily="@font/dm_sans"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:longClickable="false"
@@ -107,6 +110,7 @@
                     android:layout_height="wrap_content"
                     android:text="Forgot Password"
                     android:textStyle="bold"
+                    android:fontFamily="@font/dm_sans_bold"
                     android:textColor="@color/lightblue" />
 
             </LinearLayout>
@@ -138,6 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Don't have an account?   "
+                    android:fontFamily="@font/dm_sans"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
 
@@ -148,6 +153,7 @@
                     android:text="Sign up"
                     android:textColor="@color/lightblue"
                     android:textSize="15dp"
+                    android:fontFamily="@font/dm_sans_bold"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -175,16 +181,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="25dp" />
-
-    <ProgressBar
-        android:id="@+id/progressBar_SignIn"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="60dp"
-        android:layout_height="58dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

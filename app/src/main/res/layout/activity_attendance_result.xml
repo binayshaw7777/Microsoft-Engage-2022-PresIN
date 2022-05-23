@@ -39,8 +39,8 @@
             android:layout_height="wrap_content"
             android:text="Attendance Granted"
             android:textColor="@color/white"
-            android:textSize="25dp"
-            android:textStyle="bold"
+            android:textSize="30sp"
+            android:fontFamily="@font/dm_sans_bold"
             tools:layout_editor_absoluteX="212dp"
             tools:layout_editor_absoluteY="220dp" />
 
@@ -72,6 +72,7 @@
             android:layout_marginTop="35dp"
             android:text="Your Attendance is Marked"
             android:textColor="@color/lightblue"
+            android:fontFamily="@font/dm_sans"
             android:textSize="20dp" />
 
         <TextView
@@ -90,10 +91,11 @@
             android:layout_height="50dp"
             android:layout_marginTop="35dp"
             android:background="@drawable/positive"
-            android:text="Back to Home"
-            android:textAllCaps="false"
+            android:fontFamily="@font/dm_sans"
             android:outlineAmbientShadowColor="@color/green_desat"
             android:outlineSpotShadowColor="@color/green_desat"
+            android:text="Back to Home"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="17dp" />
 

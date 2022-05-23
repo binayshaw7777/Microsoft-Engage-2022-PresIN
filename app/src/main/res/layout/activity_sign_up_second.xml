@@ -37,10 +37,10 @@
             style="@style/TextAppearance.AppCompat.Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/dm_sans_bold"
             android:text="Create Account"
             android:textColor="@color/white"
-            android:textSize="35dp"
-            android:textStyle="bold"
+            android:textSize="30dp"
             tools:layout_editor_absoluteX="212dp"
             tools:layout_editor_absoluteY="220dp" />
 
@@ -49,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:fontFamily="@font/dm_sans"
             android:text="Sign up with your new account"
             android:textColor="@color/white" />
 
@@ -72,6 +73,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/stroked"
             android:ems="10"
+            android:fontFamily="@font/dm_sans"
             android:hint="Name"
             android:inputType="text"
             android:paddingLeft="20dp"
@@ -87,6 +89,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/stroked"
             android:ems="10"
+            android:fontFamily="@font/dm_sans"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:paddingLeft="20dp"
@@ -102,6 +105,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/stroked"
             android:ems="10"
+            android:fontFamily="@font/dm_sans"
             android:hint="College ID"
             android:inputType="text"
             android:paddingLeft="20dp"
@@ -113,39 +117,33 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="330dp"
             android:layout_height="55dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/stroked">
+            android:layout_marginBottom="20dp">
 
-            <!--EditText
-                android:id="@+id/college_name_box"
-                android:layout_width="330dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="270dp"
                 android:layout_height="55dp"
-                android:layout_marginBottom="20dp"
                 android:background="@drawable/stroked"
-                android:ems="10"
-                android:hint="College Name"
-                android:inputType="text"
-                android:paddingLeft="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/pass_box"
-                app:layout_constraintEnd_toEndOf="@+id/pass_box"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/pass_box" /-->
-
-            <Spinner
-                android:id="@+id/college_names_spinner"
-                android:layout_width="250dp"
-                android:layout_height="match_parent"
-                android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <Spinner
+                    android:id="@+id/college_names_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
                 android:id="@+id/add_college"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/fab"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginRight="15dp"
+                android:background="@drawable/fab"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -161,6 +159,7 @@
             android:drawableRight="@drawable/visibility_off"
             android:drawableTint="@color/lightblue"
             android:ems="10"
+            android:fontFamily="@font/dm_sans"
             android:hint="Password"
             android:inputType="textPassword"
             android:longClickable="false"
@@ -171,22 +170,12 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/pass_box" />
 
-        <!--Button
-            android:id="@+id/signup_button"
-            android:layout_width="330dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/positive"
-            android:text="Create Account"
-            android:textAllCaps="false"
-            android:textColor="@color/white" /-->
-
         <include
             android:id="@+id/login_button"
             layout="@layout/progress_button"
             android:layout_width="330dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -199,6 +188,7 @@
                 android:id="@+id/text2_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/dm_sans"
                 android:text="Already have an account?   "
                 android:textColor="@color/black"
                 android:textSize="16dp" />
@@ -207,6 +197,7 @@
                 android:id="@+id/SignIn_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/dm_sans_bold"
                 android:text="Sign In"
                 android:textColor="@color/lightblue"
                 android:textSize="16dp"
@@ -214,19 +205,6 @@
 
         </LinearLayout>
 
-
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar_SignUp1"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="60dp"
-        android:layout_height="58dp"
-        android:progressBackgroundTint="@color/lightblue"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

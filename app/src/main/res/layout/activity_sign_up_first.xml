@@ -39,8 +39,8 @@
             android:layout_height="wrap_content"
             android:text="Scanning Your Facial Data"
             android:textColor="@color/white"
-            android:textSize="25dp"
-            android:textStyle="bold"
+            android:fontFamily="@font/dm_sans_bold"
+            android:textSize="25sp"
             tools:layout_editor_absoluteX="212dp"
             tools:layout_editor_absoluteY="220dp" />
 
@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:text="Please hold your phone in Portrait Mode"
             android:textColor="@color/lightblue"
+            android:fontFamily="@font/dm_sans"
             android:textSize="17dp"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -125,7 +126,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:text="Add Face"
-                android:textStyle="bold"
+                android:fontFamily="@font/dm_sans"
                 android:stateListAnimator="@null"
                 android:textAllCaps="false"
                 android:textColor="@color/lightblue" />
@@ -140,6 +141,7 @@
                 android:rotationY="0"
                 android:stateListAnimator="@null"
                 android:text="Next"
+                android:fontFamily="@font/dm_sans"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

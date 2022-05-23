@@ -43,9 +43,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile"
+                android:fontFamily="@font/dm_sans_bold"
                 android:textColor="@color/white"
                 android:textSize="35dp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -110,7 +110,7 @@
                             android:text="Account details"
                             android:textColor="@color/lightblue"
                             android:textSize="16dp"
-                            android:textStyle="bold"
+                            android:fontFamily="@font/dm_sans_bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -131,6 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:text="Name: "
+                        android:fontFamily="@font/dm_sans"
                         android:textColor="#2B2F3D"
                         android:textSize="15dp" />
 
@@ -141,6 +142,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
                         android:text="Email: "
+                        android:fontFamily="@font/dm_sans"
                         android:textColor="#2B2F3D"
                         android:textSize="15dp" />
 
@@ -152,6 +154,7 @@
                         android:layout_marginBottom="5dp"
                         android:text="College ID: "
                         android:textColor="#2B2F3D"
+                        android:fontFamily="@font/dm_sans"
                         android:textSize="15dp" />
 
                     <TextView
@@ -161,6 +164,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
                         android:text="College: "
+                        android:fontFamily="@font/dm_sans"
                         android:textColor="#2B2F3D"
                         android:textSize="15dp" />
 
@@ -179,6 +183,7 @@
                 android:rotation="0"
                 android:rotationX="0"
                 android:rotationY="0"
+                android:fontFamily="@font/dm_sans"
                 android:outlineAmbientShadowColor="@color/red_desat"
                 android:outlineSpotShadowColor="@color/red_desat"
                 android:text="Delete Account"

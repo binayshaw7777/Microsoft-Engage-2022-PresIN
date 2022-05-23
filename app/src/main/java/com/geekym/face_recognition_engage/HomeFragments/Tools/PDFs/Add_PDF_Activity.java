@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.geekym.face_recognition_engage.HomeFragments.Status.Attendees.Attendees;
 import com.geekym.face_recognition_engage.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -50,6 +51,8 @@ public class Add_PDF_Activity extends AppCompatActivity {
 
         //Cancel button (x)
         cancel.setOnClickListener(view -> {
+            filepath = null;
+            file_title.getText().clear();
             file_icon.setVisibility(View.INVISIBLE);
             cancel.setVisibility(View.INVISIBLE);
             browse.setVisibility(View.VISIBLE);
@@ -68,7 +71,8 @@ public class Add_PDF_Activity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {}
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                    }
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
@@ -111,30 +115,35 @@ public class Add_PDF_Activity extends AppCompatActivity {
     public void process_upload(Uri filepath, String CollegeName, String userID) {
         //When the user Clicks on Upload Button
 
-        final ProgressDialog pd = new ProgressDialog(this);
-        pd.setTitle("Uploading PDF");
-        pd.show();
+        if (filepath == null) {
+            DynamicToast.makeError(Add_PDF_Activity.this, "Select a file first").show();
+        } else {
 
-        final StorageReference reference = storageReference.child("uploads/" + System.currentTimeMillis() + ".pdf");
-        reference.putFile(filepath)
-                .addOnSuccessListener(taskSnapshot -> reference.getDownloadUrl().addOnSuccessListener(uri -> {
+            final ProgressDialog pd = new ProgressDialog(this);
+            pd.setTitle("Uploading PDF");
+            pd.show();
 
-                    PDFsModel obj = new PDFsModel(file_title.getText().toString(), uri.toString(), userID);
-                    databaseReference.child("PDFs").child(CollegeName).child(databaseReference.push().getKey()).setValue(obj);
+            final StorageReference reference = storageReference.child("uploads/" + System.currentTimeMillis() + ".pdf");
+            reference.putFile(filepath)
+                    .addOnSuccessListener(taskSnapshot -> reference.getDownloadUrl().addOnSuccessListener(uri -> {
 
-                    pd.dismiss();
-                    DynamicToast.makeSuccess(getApplicationContext(),"File Uploaded").show();
+                        PDFsModel obj = new PDFsModel(file_title.getText().toString(), uri.toString(), userID);
+                        databaseReference.child("PDFs").child(CollegeName).child(databaseReference.push().getKey()).setValue(obj);
 
-                    file_icon.setVisibility(View.INVISIBLE);
-                    cancel.setVisibility(View.INVISIBLE);
-                    browse.setVisibility(View.VISIBLE);
-                    file_title.setText("");
-                }))
+                        pd.dismiss();
+                        DynamicToast.makeSuccess(getApplicationContext(), "File Uploaded").show();
 
-                .addOnProgressListener(taskSnapshot -> {
-                    float percent = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    pd.setMessage("Uploaded :" + (int) percent + "%");
-                });
+                        file_icon.setVisibility(View.INVISIBLE);
+                        cancel.setVisibility(View.INVISIBLE);
+                        browse.setVisibility(View.VISIBLE);
+                        file_title.setText("");
+                    }))
 
+                    .addOnProgressListener(taskSnapshot -> {
+                        float percent = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        pd.setMessage("Uploaded :" + (int) percent + "%");
+                    });
+
+        }
     }
 }

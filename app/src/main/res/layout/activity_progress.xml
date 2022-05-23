@@ -42,9 +42,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Progress"
+                android:fontFamily="@font/dm_sans_bold"
                 android:textColor="@color/white"
                 android:textSize="35dp"
-                android:textStyle="bold"
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
@@ -78,7 +78,7 @@
                         android:gravity="center"
                         android:textColor="@color/lightblue"
                         android:layout_margin="40dp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/dm_sans_bold"
                         android:text="Attendance Percentage"/>
 
                     <com.ramijemli.percentagechartview.PercentageChartView
@@ -121,6 +121,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp"
+                                android:fontFamily="@font/dm_sans"
                                 android:gravity="left"
                                 android:textColor="@color/black"
                                 android:layout_margin="20dp"
@@ -132,6 +133,7 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp"
                                 android:gravity="left"
+                                android:fontFamily="@font/dm_sans"
                                 android:textColor="@color/black"
                                 android:layout_margin="20dp"
                                 android:text=""/>
@@ -141,6 +143,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp"
+                                android:fontFamily="@font/dm_sans"
                                 android:gravity="left"
                                 android:textColor="@color/black"
                                 android:layout_margin="20dp"
@@ -151,6 +154,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp"
+                                android:fontFamily="@font/dm_sans"
                                 android:gravity="left"
                                 android:textColor="@color/black"
                                 android:layout_margin="20dp"
@@ -167,7 +171,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
                         android:gravity="left"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/dm_sans_bold"
                         android:textColor="@color/lightblue"
                         android:layout_margin="20dp"
                         android:text="Your Progress this month"/>
@@ -193,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
                         android:gravity="left"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/dm_sans_bold"
                         android:textColor="@color/lightblue"
                         android:layout_marginBottom="40dp"
                         android:text="Days ->"/>
