@@ -26,15 +26,6 @@ public class PDFAdapter extends FirebaseRecyclerAdapter<PDFsModel, PDFAdapter.my
 
         holder.header.setText(model.getFilename()); //Settings the file name
 
-        holder.view.setOnClickListener(view -> { //When the cardView is clicked
-            Intent intent=new Intent(holder.view.getContext(), pdfViewer_Activity.class);
-            intent.putExtra("filename",model.getFilename());
-            intent.putExtra("fileurl",model.getFileurl());
-
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            holder.view.getContext().startActivity(intent);
-        });
-
         holder.download.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(model.getFileurl()));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

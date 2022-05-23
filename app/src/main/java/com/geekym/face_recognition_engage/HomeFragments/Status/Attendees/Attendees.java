@@ -2,7 +2,7 @@ package com.geekym.face_recognition_engage.HomeFragments.Status.Attendees;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -42,8 +42,9 @@ public class Attendees extends AppCompatActivity {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE); //Check internet connection
 
-        Intent intent = getIntent();
-        String CollegeName = intent.getStringExtra("CollegeName");
+        //Calling User Data from SharedPreference
+        SharedPreferences userDataSP = Attendees.this.getSharedPreferences("userData", 0);
+        String CollegeName = userDataSP.getString("collegeName", "0");
 
 
         ShimmerViewContainer.startShimmer(); //start shimmer animation

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
@@ -26,7 +27,6 @@ import android.util.Pair;
 import android.util.Size;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -44,8 +44,6 @@ import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.SimilarityClassifier;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -98,9 +96,9 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     float IMAGE_MEAN = 128.0f;
     float IMAGE_STD = 128.0f;
     int OUTPUT_SIZE = 192; //Output size of model
+    String userID = "";
 
     private DatabaseReference reference;
-    private String userID;
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
 
@@ -116,6 +114,9 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
         Initialization();    //Function to initialize the variables
 
+        SharedPreferences userDataSP = Attendance_Scanner_Activity.this.getSharedPreferences("userData", 0);
+        userID += userDataSP.getString("userID", "0");
+
         //Camera Permission
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
@@ -123,9 +124,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
         //Assist the user with instructions
         TooltipCompat.setTooltipText(info, "Bring your face in the camera frame to register your face");
-//        info.setOnClickListener(view ->
-//                DynamicToast.make(this, "Bring your face in the camera to register", getResources()
-//                        .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
 
         //Get Embeddings of all the registered Users and store it in hashmap
         reference.child("Users").addValueEventListener(new ValueEventListener() {
@@ -506,10 +504,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     private void Initialization() {
         FaceStatus = findViewById(R.id.face_status);
         info = findViewById(R.id.info_icon_scanner);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference();
-        assert user != null;
-        userID = user.getUid();
     }
 
     //Load Faces from Shared Preferences.Json String to Recognition object

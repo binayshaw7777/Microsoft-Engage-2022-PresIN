@@ -30,7 +30,6 @@ public class HomeScreen extends AppCompatActivity {
 
         Initialization();     //Function to initialize the variables
 
-
         getSupportFragmentManager().beginTransaction().replace(R.id.main, new home_Fragment()).commit();
 
         bottomBar.setSelectedItemId(R.id.home);

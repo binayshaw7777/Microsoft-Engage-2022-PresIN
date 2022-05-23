@@ -3,6 +3,7 @@ package com.geekym.face_recognition_engage.HomeFragments.Tools.PDFs;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -14,8 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.geekym.face_recognition_engage.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -36,7 +35,6 @@ public class Add_PDF_Activity extends AppCompatActivity {
     EditText file_title;
     StorageReference storageReference;
     DatabaseReference databaseReference;
-    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +43,10 @@ public class Add_PDF_Activity extends AppCompatActivity {
 
         Initialization();  //Function to initialize the variables
 
-        Intent intent = getIntent();
-        String CollegeName = intent.getStringExtra("CollegeName");
+        //Calling User Data from SharedPreference
+        SharedPreferences userDataSP = Add_PDF_Activity.this.getSharedPreferences("userData", 0);
+        String CollegeName = userDataSP.getString("collegeName", "0");
+        String userID = userDataSP.getString("userID", "0");
 
         //Cancel button (x)
         cancel.setOnClickListener(view -> {
@@ -76,7 +76,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
                     }
                 }).check());
 
-        upload.setOnClickListener(view -> process_upload(filepath, CollegeName));
+        upload.setOnClickListener(view -> process_upload(filepath, CollegeName, userID));
 
     }
 
@@ -85,9 +85,6 @@ public class Add_PDF_Activity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         file_title = findViewById(R.id.filetitle);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
-        userID = user.getUid();
         browse = findViewById(R.id.imagebrowse);
         upload = findViewById(R.id.imageupload);
         file_icon = findViewById(R.id.filelogo);
@@ -102,6 +99,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 101 && resultCode == RESULT_OK) {
+            assert data != null;
             filepath = data.getData();
             file_icon.setVisibility(View.VISIBLE);
             cancel.setVisibility(View.VISIBLE);
@@ -110,7 +108,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
     }
 
 
-    public void process_upload(Uri filepath, String CollegeName) {
+    public void process_upload(Uri filepath, String CollegeName, String userID) {
         //When the user Clicks on Upload Button
 
         final ProgressDialog pd = new ProgressDialog(this);
@@ -121,7 +119,7 @@ public class Add_PDF_Activity extends AppCompatActivity {
         reference.putFile(filepath)
                 .addOnSuccessListener(taskSnapshot -> reference.getDownloadUrl().addOnSuccessListener(uri -> {
 
-                    PDFsModel obj = new PDFsModel(file_title.getText().toString(), uri.toString());
+                    PDFsModel obj = new PDFsModel(file_title.getText().toString(), uri.toString(), userID);
                     databaseReference.child("PDFs").child(CollegeName).child(databaseReference.push().getKey()).setValue(obj);
 
                     pd.dismiss();

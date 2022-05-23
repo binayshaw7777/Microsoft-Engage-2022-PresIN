@@ -1,13 +1,14 @@
 package com.geekym.face_recognition_engage.HomeFragments.Tools.PDFs;
 
 public class PDFsModel {
-    String filename, fileurl;
+    String filename, fileurl, author;
 
     PDFsModel() {}
 
-    public PDFsModel(String filename, String fileurl) {
+    public PDFsModel(String filename, String fileurl,String author) {
         this.filename = filename;
         this.fileurl = fileurl;
+        this.author = author;
     }
 
     public String getFilename() {
@@ -26,4 +27,7 @@ public class PDFsModel {
         this.fileurl = fileurl;
     }
 
+    public String getAuthor() {return author;}
+
+    public void setAuthor(String author) {this.author = author;}
 }

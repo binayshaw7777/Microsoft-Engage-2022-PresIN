@@ -14,14 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
 import com.geekym.face_recognition_engage.R;
-import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +38,6 @@ public class profile_Fragment extends Fragment {
     ImageButton Logout;
     ImageView EditProfile;
     private DatabaseReference reference;
-    private String userID;
     private FirebaseAuth mAuth;
     TextView Name, Email, CollegeID, CollegeName;
     Button Delete;
@@ -54,11 +51,12 @@ public class profile_Fragment extends Fragment {
         Initialization(view); //Function to initialize the variables
 
         //Calling User Data from SharedPreference
-        SharedPreferences userDataSP = getContext().getSharedPreferences("userData", 0);
+        SharedPreferences userDataSP = requireContext().getSharedPreferences("userData", 0);
         String SPname = userDataSP.getString("name", "0");
         String SPemail = userDataSP.getString("email", "0");
         String SPcollegeID = userDataSP.getString("collegeID", "0");
         String SPcollegeName = userDataSP.getString("collegeName", "0");
+        String userID = userDataSP.getString("userID", "0");
 
 
         //If the user data was saved in SharedPreference -> which is always true, still checking to make sure it does not creates issue
@@ -210,6 +208,8 @@ public class profile_Fragment extends Fragment {
 
     //To delete account of the current user
     private void deleteAccount() {
+        SharedPreferences userDataSP = requireContext().getSharedPreferences("userData", 0);
+        String userID = userDataSP.getString("userID", "0");
         final FirebaseUser currentUser = mAuth.getCurrentUser(); //get the current user
         assert currentUser != null;
         currentUser.delete().addOnCompleteListener(task -> {
@@ -226,10 +226,7 @@ public class profile_Fragment extends Fragment {
     //Function to initialize the variables
     private void Initialization(View view) {
         Logout = view.findViewById(R.id.logout_button);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference();
-        assert user != null;
-        userID = user.getUid();
         Name = view.findViewById(R.id.name);
         Email = view.findViewById(R.id.email);
         CollegeID = view.findViewById(R.id.uid);

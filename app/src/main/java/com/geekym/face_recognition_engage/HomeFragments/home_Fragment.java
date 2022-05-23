@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -40,7 +41,6 @@ public class home_Fragment extends Fragment {
     ImageView clockInOut;
     TextView DateDis, PresentMark_Time;
     Calendar calendar;
-    SimpleDateFormat dateFormat1;
 
     @SuppressLint("SimpleDateFormat")
     @Override
@@ -48,26 +48,31 @@ public class home_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_, container, false);
 
-        SharedPreferences userData = getContext().getSharedPreferences("userData", Context.MODE_PRIVATE); //Creating SharedPreference
+        SharedPreferences userData = requireContext().getSharedPreferences("userData", Context.MODE_PRIVATE); //Creating SharedPreference
 
         Initialization(view);   //Function to initialize the variables
 
         StringBuilder markTime = new StringBuilder(userData.getString("markTime", "0")); //Fetching marked attendance time
+        String userIDSP = userData.getString("userID", "0");
+
+        if (userIDSP.equals("0")) {
+            SharedPreferences.Editor editor = userData.edit();
+            editor.putString("userID", userID);
+            editor.apply();
+        }
 
         if (!markTime.toString().equals("0")) { //if the user has marked attendance
             PresentMark_Time.setText(markTime); //Setting the text view in Home screen
         }
 
-        calendar = Calendar.getInstance();
-        dateFormat1 = new SimpleDateFormat("EEEE, MMM d");
-        String date1 = dateFormat1.format(calendar.getTime());
-        DateDis.setText(date1);
 
-        Calendar cal = Calendar.getInstance();  //Creating a calendar instance
+        calendar = Calendar.getInstance();      //Creating a calendar instance
         //Storing formats of date, year and month name in Strings
-        String year = new SimpleDateFormat("yyyy").format(cal.getTime());
-        String month = new SimpleDateFormat("MMM").format(cal.getTime());
-        String date = new SimpleDateFormat("dd").format(cal.getTime());
+        String date1 = new SimpleDateFormat("EEEE, MMM d").format(calendar.getTime());
+        DateDis.setText(date1);
+        String year = new SimpleDateFormat("yyyy").format(calendar.getTime());
+        String month = new SimpleDateFormat("MMM").format(calendar.getTime());
+        String date = new SimpleDateFormat("dd").format(calendar.getTime());
 
         if (isConnected()) {    //To check Internet Connectivity
             reference.child("Users").child(userID).addValueEventListener(new ValueEventListener() {
@@ -84,50 +89,57 @@ public class home_Fragment extends Fragment {
                             reference.child("Users").child(userID).child("embeddings").setValue(Replaced); //replacing the key of embeddings in user node
                         }
 
+                        //Fetching userData from SharedPreference
                         String SPname = userData.getString("name", "0");
                         String SPemail = userData.getString("email", "0");
                         String SPcollegeID = userData.getString("collegeID", "0");
                         String SPcollegeName = userData.getString("collegeName", "0");
 
-                        if(SPemail.equals("0") && SPcollegeID.equals("0") && SPname.equals("0") && SPcollegeName.equals("0")) {
+                        //If the user data is not added in SharedPreference
+                        if (SPemail.equals("0") && SPcollegeID.equals("0") && SPname.equals("0") && SPcollegeName.equals("0")) {
                             String Name = userprofile.name;
                             String CollegeID = userprofile.id;
                             String CollegeName = userprofile.college;
                             String Email = userprofile.email;
 
+                            //Then Update userDate SharedPreference with Firebase Database
                             SharedPreferences.Editor editor = userData.edit();
                             editor.putString("name", Name);
                             editor.putString("collegeID", CollegeID);
                             editor.putString("collegeName", CollegeName);
                             editor.putString("email", Email);
+                            editor.putString("userID", userID);
                             editor.apply();
                         }
 
 
                         String CollegeName = userData.getString("collegeName", "0");
 
-                        if (markTime.toString().equals("0")) {
-
-                            //Check if the User is present 'today'
-                            reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.hasChild(userID)) {
-                                        String attendanceTime = Objects.requireNonNull(snapshot.child(userID).child("time").getValue()).toString();
-                                        PresentMark_Time.setText(attendanceTime);  //If the user is present
-                                        SharedPreferences.Editor editor = userData.edit();
+                        //Check if the User is present 'today'
+                        reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.hasChild(userID)) {  //User's Attendance is entered in the list for the day
+                                    String attendanceTime = Objects.requireNonNull(snapshot.child(userID).child("time").getValue()).toString();
+                                    if (markTime.toString().equals("0")) {      //Attendance time has not been added in SharedPreference
+                                        PresentMark_Time.setText(attendanceTime);   //If the user is present on current day
+                                        SharedPreferences.Editor editor = userData.edit(); //updating sharedpreference
                                         editor.putString("markTime", attendanceTime);
                                         editor.apply();
-                                    } else {
-                                        PresentMark_Time.setText("--/--");   //If not present or absent, set the text to empty time or "--/--"
                                     }
+                                } else {
+                                    //No such entry found of User's Attendance in the list
+                                    PresentMark_Time.setText("--/--");   //If not present or absent, set the text to empty time or "--/--"
+                                    SharedPreferences.Editor editor = userData.edit(); //Updating sharedPreference with default value "0"
+                                    editor.putString("markTime", "0");
+                                    editor.apply();
                                 }
+                            }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                }
-                            });
-                        }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
                     }
                 }
 

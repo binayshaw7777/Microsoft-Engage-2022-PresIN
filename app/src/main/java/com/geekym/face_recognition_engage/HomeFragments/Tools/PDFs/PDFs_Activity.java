@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,8 +20,6 @@ import android.widget.TextView;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class PDFs_Activity extends AppCompatActivity {
@@ -28,7 +27,6 @@ public class PDFs_Activity extends AppCompatActivity {
     ImageView addNote;
     RecyclerView notesList;
     PDFAdapter notesAdapter;
-    private String userID;
     private ShimmerFrameLayout ShimmerViewContainer;
 
     @SuppressLint("SetTextI18n")
@@ -39,17 +37,11 @@ public class PDFs_Activity extends AppCompatActivity {
 
         Initialization();    //Function to initialize the variables
 
-        Intent intent = getIntent();
-        String CollegeName = intent.getStringExtra("CollegeName");
+        //Calling User Data from SharedPreference
+        SharedPreferences userDataSP = PDFs_Activity.this.getSharedPreferences("userData", 0);
+        String CollegeName = userDataSP.getString("collegeName", "0");
 
-        addNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Add_PDF_Activity.class);
-                intent.putExtra("CollegeName", CollegeName);
-                startActivity(intent);
-            }
-        });
+        addNote.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Add_PDF_Activity.class)));
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -173,9 +165,6 @@ public class PDFs_Activity extends AppCompatActivity {
     private void Initialization() {
         addNote = findViewById(R.id.notes_fab);
         ShimmerViewContainer = findViewById(R.id.shimmerFrameLayout);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert user != null;
-        userID = user.getUid();
         notesList = findViewById(R.id.notes_list);
     }
 }

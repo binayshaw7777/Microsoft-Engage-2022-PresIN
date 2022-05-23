@@ -17,9 +17,6 @@
         <activity android:name=".HomeFragments.Tools.PDFs.Add_PDF_Activity"
             android:exported="true"/>
         <activity
-            android:name=".HomeFragments.Tools.PDFs.pdfViewer_Activity"
-            android:exported="true" />
-        <activity
             android:name=".HomeFragments.Tools.PDFs.PDFs_Activity"
             android:exported="true" />
         <activity

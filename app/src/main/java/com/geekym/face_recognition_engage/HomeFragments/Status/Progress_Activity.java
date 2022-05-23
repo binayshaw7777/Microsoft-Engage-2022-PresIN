@@ -1,6 +1,7 @@
 package com.geekym.face_recognition_engage.HomeFragments.Status;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -10,8 +11,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.geekym.face_recognition_engage.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +31,6 @@ public class Progress_Activity extends AppCompatActivity {
 
     TextView totalDays, presentDays, absentDays, requireDays;
     private DatabaseReference reference;
-    private String userID;
     long c = 0; //count number of children (days present) in the user's Attendance node
     PercentageChartView mChart;
     ValueLineChart mCubicValueLineChart;
@@ -46,6 +44,9 @@ public class Progress_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_progress);
 
         Initialization(); //Function to initialize the variables
+
+        SharedPreferences userDataSP = getApplicationContext().getSharedPreferences("userData", 0);
+        String userID = userDataSP.getString("userID", "0");
 
         Calendar cal = Calendar.getInstance();
         String year = new SimpleDateFormat("yyyy").format(cal.getTime());
@@ -109,7 +110,6 @@ public class Progress_Activity extends AppCompatActivity {
 
                 mCubicValueLineChart.addSeries(series);
                 mCubicValueLineChart.startAnimation();
-
             }
 
             @Override
@@ -127,10 +127,7 @@ public class Progress_Activity extends AppCompatActivity {
 
     //Function to initialize the variables
     private void Initialization() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference();
-        assert user != null;
-        userID = user.getUid();
         mChart = findViewById(R.id.ring_progress);
         totalDays = findViewById(R.id.totalDays);
         presentDays = findViewById(R.id.presentDays);
