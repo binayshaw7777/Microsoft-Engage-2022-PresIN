@@ -2,6 +2,7 @@ package com.geekym.face_recognition_engage.Attendance;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -44,41 +45,33 @@ public class Attendance_Result_Activity extends AppCompatActivity {
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a"); //Eg: 12:33 AM & 12:33 PM
         final String Time = timeFormat.format(new Date());      //Storing current time in string of the above mentioned format
 
+        SharedPreferences userDataSP = Attendance_Result_Activity.this.getSharedPreferences("userData", 0);
+        SharedPreferences.Editor editor = userDataSP.edit(); //Enabling SharedPreference Editor mode
+        editor.putString("markTime", Time);      //Replacing the name value with updated name
+        editor.apply();
+
+        String name = userDataSP.getString("name", "0");    //Name from SharedPreference
+        String CollegeID = userDataSP.getString("collegeID", "0");     //CollegeID from SharedPreference
+        String CollegeName = userDataSP.getString("collegeName", "0");  //CollegeName from SharedPreference
+
         Calendar cal = Calendar.getInstance(); //Creating a calendar instance
         String year = new SimpleDateFormat("yyyy").format(cal.getTime());   //Storing year as string
         String month = new SimpleDateFormat("MMM").format(cal.getTime());   //Storing month name as string
         String date = new SimpleDateFormat("dd").format(cal.getTime());     //Storing date as string
 
-        reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {    //To display user's data in card view
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+        Name.setText(name);     //Setting the textView text -> User's Name
 
-                Users userprofile = snapshot.getValue(Users.class);     //Creating User class from the Firebase Database
+        HashMap<String, String> map = new HashMap<>(); //Creating a Hashmap to store the attendance status
+        map.put("time", Time);
+        map.put("status", "Present");
 
-                assert userprofile != null;
-                String name = userprofile.name;     //Storing the name of the user in a String
-                String id = userprofile.id;     //Storing the College ID of the user in a String
-                Name.setText(name);     //Setting the textView text -> User's Name
-                String CollegeName = userprofile.college;
+        //Pushing the data in User's node
+        reference.child("Users").child(userID).child("Attendance").child(year).child(month).child(date).setValue(map);
+        map.put("name", name);
+        map.put("id", CollegeID);
 
-                HashMap<String, String> map = new HashMap<>(); //Creating a Hashmap to store the attendance status
-                map.put("time", Time);
-                map.put("status", "Present");
-
-                //Pushing the data in User's node
-                reference.child("Users").child(userID).child("Attendance").child(year).child(month).child(date).setValue(map);
-                map.put("name", name);
-                map.put("id", id);
-
-                //Pushing the data in Global Attendance Node with extra data like name and College ID
-                reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).child(userID).setValue(map);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //Pushing the data in Global Attendance Node with extra data like name and College ID
+        reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).child(userID).setValue(map);
 
         //Takes the user to Home Fragment after successfully taking the Attendance
         Home.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), HomeScreen.class)));

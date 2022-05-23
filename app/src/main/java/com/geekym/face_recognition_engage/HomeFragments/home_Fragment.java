@@ -3,6 +3,7 @@ package com.geekym.face_recognition_engage.HomeFragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -47,7 +48,15 @@ public class home_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home_, container, false);
 
+        SharedPreferences userData = getContext().getSharedPreferences("userData", Context.MODE_PRIVATE); //Creating SharedPreference
+
         Initialization(view);   //Function to initialize the variables
+
+        StringBuilder markTime = new StringBuilder(userData.getString("markTime", "0")); //Fetching marked attendance time
+
+        if (!markTime.toString().equals("0")) { //if the user has marked attendance
+            PresentMark_Time.setText(markTime); //Setting the text view in Home screen
+        }
 
         calendar = Calendar.getInstance();
         dateFormat1 = new SimpleDateFormat("EEEE, MMM d");
@@ -67,33 +76,64 @@ public class home_Fragment extends Fragment {
                     Users userprofile = snapshot.getValue(Users.class); //Get User Object from the Firebase User Node
                     if (userprofile != null) {
                         String Embeddings = userprofile.embeddings; //Retrieving the Embeddings Json String from User Object
-                        if (Embeddings.contains("added")) { //If the embeddings's key is has not been replaced yet with UserID (Important for Face Recognition)
+                        //Checking if the user is opening the app for the first time
+                        if (Embeddings.contains("added")) { //If the embedding's key is has not been replaced yet with UserID (Important for Face Recognition)
                             String Replaced = Embeddings.replace("added", userID); //Replacing custom key "added" with userID
                             HashMap<String, String> map = new HashMap<>();
                             map.put("Embeddings", Replaced);
                             reference.child("Users").child(userID).child("embeddings").setValue(Replaced); //replacing the key of embeddings in user node
                         }
 
-                        String CollegeName = userprofile.college;
-                        //Check if the User is present 'today'
-                        reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.hasChild(userID))
-                                    PresentMark_Time.setText(Objects.requireNonNull(snapshot.child(userID).child("time").getValue()).toString());  //If the user is present
-                                else {
-                                    PresentMark_Time.setText("--/--");   //If not present or absent, set the text to empty time or "--/--"
-                                }
-                            }
+                        String SPname = userData.getString("name", "0");
+                        String SPemail = userData.getString("email", "0");
+                        String SPcollegeID = userData.getString("collegeID", "0");
+                        String SPcollegeName = userData.getString("collegeName", "0");
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {}
-                        });
+                        if(SPemail.equals("0") && SPcollegeID.equals("0") && SPname.equals("0") && SPcollegeName.equals("0")) {
+                            String Name = userprofile.name;
+                            String CollegeID = userprofile.id;
+                            String CollegeName = userprofile.college;
+                            String Email = userprofile.email;
+
+                            SharedPreferences.Editor editor = userData.edit();
+                            editor.putString("name", Name);
+                            editor.putString("collegeID", CollegeID);
+                            editor.putString("collegeName", CollegeName);
+                            editor.putString("email", Email);
+                            editor.apply();
+                        }
+
+
+                        String CollegeName = userData.getString("collegeName", "0");
+
+                        if (markTime.toString().equals("0")) {
+
+                            //Check if the User is present 'today'
+                            reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.hasChild(userID)) {
+                                        String attendanceTime = Objects.requireNonNull(snapshot.child(userID).child("time").getValue()).toString();
+                                        PresentMark_Time.setText(attendanceTime);  //If the user is present
+                                        SharedPreferences.Editor editor = userData.edit();
+                                        editor.putString("markTime", attendanceTime);
+                                        editor.apply();
+                                    } else {
+                                        PresentMark_Time.setText("--/--");   //If not present or absent, set the text to empty time or "--/--"
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                        }
                     }
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
             });
         }
 

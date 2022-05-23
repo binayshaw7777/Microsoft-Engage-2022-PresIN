@@ -3,6 +3,7 @@ package com.geekym.face_recognition_engage.HomeFragments;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -51,6 +52,22 @@ public class profile_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile_, container, false);
 
         Initialization(view); //Function to initialize the variables
+
+        //Calling User Data from SharedPreference
+        SharedPreferences userDataSP = getContext().getSharedPreferences("userData", 0);
+        String SPname = userDataSP.getString("name", "0");
+        String SPemail = userDataSP.getString("email", "0");
+        String SPcollegeID = userDataSP.getString("collegeID", "0");
+        String SPcollegeName = userDataSP.getString("collegeName", "0");
+
+
+        //If the user data was saved in SharedPreference -> which is always true, still checking to make sure it does not creates issue
+        if (!SPemail.equals("0") && !SPcollegeID.equals("0") && !SPname.equals("0") && !SPcollegeName.equals("0")) {
+            Name.setText("Name: " + SPname);
+            Email.setText("Email: " + SPemail);
+            CollegeID.setText("College ID: " + SPcollegeID);
+            CollegeName.setText("College Name: " + SPcollegeName);
+        }
 
         Calendar cal = Calendar.getInstance(); //Initializing Calendar
 
@@ -123,81 +140,61 @@ public class profile_Fragment extends Fragment {
             dialog.show();
         });
 
-        reference.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() { //To display user's data in card view
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Users userprofile = snapshot.getValue(Users.class); //Creating user object from the firebase user node
-                if (userprofile != null) {
+        EditProfile.setOnClickListener(view1 -> {
+            //Dialog Popup of EditText
 
-                    //User object -> Strings
-                    String name = userprofile.name;
-                    String email = userprofile.email;
-                    String uid = userprofile.id;
-                    String org = userprofile.college;
+            Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.edittext_dialog);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                dialog.getWindow().setBackgroundDrawable(requireContext().getDrawable(R.drawable.custom_dialog_background));
+            }
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.setCancelable(false); //Optional
+            dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
 
-                    //Setting up textViews
-                    Name.setText("Name: " + name);
-                    Email.setText("Email: " + email);
-                    CollegeID.setText("College ID: " + uid);
-                    CollegeName.setText("College Name: " + org);
+            Button Proceed = dialog.findViewById(R.id.proceed);
+            Button Cancel = dialog.findViewById(R.id.cancel);
+            EditText editText = dialog.findViewById(R.id.edittext_box);
 
-                    EditProfile.setOnClickListener(view1 -> {
-                        //Dialog Popup of EditText
+            Proceed.setOnClickListener(v -> {
 
-                        Dialog dialog = new Dialog(getContext());
-                        dialog.setContentView(R.layout.edittext_dialog);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            dialog.getWindow().setBackgroundDrawable(requireContext().getDrawable(R.drawable.custom_dialog_background));
+                String inName = editText.getText().toString().trim();
+
+                if (!inName.isEmpty()) { //If the user's input is not Empty
+
+                    reference.child("Users").child(userID).child("name").setValue(inName); //Updating the name of the user
+                    Name.setText("Name: " + inName); //also updating the name in the TextView of Profile Fragment
+                    SharedPreferences.Editor editor = userDataSP.edit(); //Enabling SharedPreference Editor mode
+                    editor.putString("name", inName);      //Replacing the name value with updated name
+                    editor.apply();
+
+                    String collegeName = userDataSP.getString("collegeName", ""); //fetching college name from SharedPreference
+
+                    //Changing the name of user in Attendance Node of the Firebase
+                    reference.child("Attendees").child(collegeName).child(year).child(month).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                            if (snapshot1.hasChild(userID)) {
+                                //Replacing the student name from Attendance Log
+                                reference.child("Attendees").child(collegeName).child(year).child(month).child(date).child(userID).child("name").setValue(inName);
+                            }
                         }
-                        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        dialog.setCancelable(false); //Optional
-                        dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
 
-                        Button Proceed = dialog.findViewById(R.id.proceed);
-                        Button Cancel = dialog.findViewById(R.id.cancel);
-                        EditText editText = dialog.findViewById(R.id.edittext_box);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                        Proceed.setOnClickListener(v -> {
-
-                            String inName = editText.getText().toString().trim();
-
-                            if (!inName.isEmpty()) { //If the user's input is not Empty
-
-                                reference.child("Users").child(userID).child("name").setValue(inName); //Updating the name of the user
-                                Name.setText("Name: " + inName); //also updating the name in the TextView of Profile Fragment
-
-                                //Changing the name of user in Attendance Node of the Firebase
-                                reference.child("Attendees").child(year).child(month).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot1) {
-                                        if (snapshot1.hasChild(userID)) {
-                                            reference.child("Attendees").child(year).child(month).child(date).child(userID).child("name").setValue(inName);
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-
-                            } else DynamicToast.makeError(requireContext(), "Please enter something").show(); //If the user's input is empty
-
-                            dialog.dismiss();
-                        });
-
-                        Cancel.setOnClickListener(v -> dialog.dismiss());
-                        dialog.show();
-
+                        }
                     });
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
-            }
+                } else
+                    DynamicToast.makeError(requireContext(), "Please enter something").show(); //If the user's input is empty
+
+                dialog.dismiss();
+            });
+
+            Cancel.setOnClickListener(v -> dialog.dismiss());
+            dialog.show();
+
         });
 
         return view;

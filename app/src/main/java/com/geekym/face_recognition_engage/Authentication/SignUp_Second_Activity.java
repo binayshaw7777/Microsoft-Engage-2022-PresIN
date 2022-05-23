@@ -263,11 +263,11 @@ public class SignUp_Second_Activity extends AppCompatActivity {
             if (!inputCollege.isEmpty()) { //If the user's input is not Empty
 
                 databaseRef.push().setValue(inputCollege)
-                        .addOnCompleteListener((OnCompleteListener<Void>) task -> {
+                        .addOnCompleteListener(task -> {
                             list.clear();
                             fetchCollegeNames();
                             adapter.notifyDataSetChanged();
-                            Toast.makeText(getApplicationContext(), "Inserted Successfully", Toast.LENGTH_LONG).show();
+                            DynamicToast.makeSuccess(SignUp_Second_Activity.this, "College Registered!").show();
                         });
 
             } else DynamicToast.makeError(getApplicationContext(), "Please enter something").show(); //If the user's input is empty
