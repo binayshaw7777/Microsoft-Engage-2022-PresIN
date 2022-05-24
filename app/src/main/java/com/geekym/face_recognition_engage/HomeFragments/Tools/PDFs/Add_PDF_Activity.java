@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.geekym.face_recognition_engage.HomeFragments.Status.Attendees.Attendees;
 import com.geekym.face_recognition_engage.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

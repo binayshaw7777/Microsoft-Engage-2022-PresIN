@@ -15,7 +15,7 @@ import com.geekym.face_recognition_engage.R;
 
 public class tools_fragment extends Fragment {
 
-    CardView userPDFs, dictionary, studyTimer;
+    CardView userPDFs, studyGraph, studyTimer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,7 +31,7 @@ public class tools_fragment extends Fragment {
 
     private void Initialization(View view) {
         userPDFs = view.findViewById(R.id.pdf_card);
-        dictionary = view.findViewById(R.id.dictionary_card);
+        studyGraph = view.findViewById(R.id.studyGraph_card);
         studyTimer = view.findViewById(R.id.timer_card);
     }
 }

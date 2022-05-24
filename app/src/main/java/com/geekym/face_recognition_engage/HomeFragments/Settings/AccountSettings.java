@@ -7,13 +7,12 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
@@ -37,8 +36,10 @@ public class AccountSettings extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText NameEdit, PhoneEdit, YearEdit;
     ImageButton Delete;
+    Switch onOffSwitch;
+    boolean isAdmin = false;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat", "UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +53,20 @@ public class AccountSettings extends AppCompatActivity {
         String SPcollegeYear = userDataSP.getString("year", "0");
         String SPPhone = userDataSP.getString("phone", "0");
         String userID = userDataSP.getString("userID", "0");
+        String SPAdmin = userDataSP.getString("admin", "0");
 
         if (!SPname.equals("0"))
             NameEdit.setHint(SPname);
+
+        //Setting Switch state
+        if (SPAdmin.equals("false")) {
+            onOffSwitch.setChecked(false);
+        } else if (SPAdmin.equals("true")) {
+            onOffSwitch.setChecked(true);
+        }
+
+        //Switch state change listener
+        onOffSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> isAdmin = isChecked);
 
         if (!SPcollegeYear.equals("0"))
             YearEdit.setHint(SPcollegeYear);
@@ -66,11 +78,12 @@ public class AccountSettings extends AppCompatActivity {
         else
             PhoneEdit.setHint("Add Phone No.");
 
+
         Confirm.setOnClickListener(view1 -> {
 
             Calendar cal = Calendar.getInstance(); //Initializing Calendar
 
-            //year, month name, date to Stirngs
+            //year, month name, date to Strings
             String year = new SimpleDateFormat("yyyy").format(cal.getTime());
             String month = new SimpleDateFormat("MMM").format(cal.getTime());
             String date = new SimpleDateFormat("dd").format(cal.getTime());
@@ -80,6 +93,13 @@ public class AccountSettings extends AppCompatActivity {
             String inputYear = YearEdit.getText().toString();
 
 
+            if (!SPAdmin.equals(String.valueOf(isAdmin))) { //If the user's input is different from current mode of Admin
+                reference.child("Users").child(userID).child("admin").setValue(String.valueOf(isAdmin)); //Updating the adminMode of the user
+                SharedPreferences.Editor editor = userDataSP.edit(); //Enabling SharedPreference Editor mode
+                editor.putString("admin", String.valueOf(isAdmin));      //Replacing the adminMode value with updated study year
+                editor.apply();
+            }
+
             if (!inputYear.isEmpty()) { //If the user's input is not Empty
                 reference.child("Users").child(userID).child("year").setValue(inputYear); //Updating the study year of the user
                 YearEdit.setHint(inputYear); //also updating the study year in the TextView of Profile Fragment
@@ -88,7 +108,7 @@ public class AccountSettings extends AppCompatActivity {
                 editor.apply();
             }
 
-            if (!inputPhone.isEmpty()) { //If the user's input is not Empty
+            if (inputPhone.length() == 10) { //If the user's input is not Empty
                 reference.child("Users").child(userID).child("phone").setValue(inputPhone); //Updating the phone no. of the user
                 PhoneEdit.setHint(inputPhone); //also updating the phone no. in the TextView of Profile Fragment
                 SharedPreferences.Editor editor = userDataSP.edit(); //Enabling SharedPreference Editor mode
@@ -129,9 +149,7 @@ public class AccountSettings extends AppCompatActivity {
 
             Dialog dialog = new Dialog(AccountSettings.this);
             dialog.setContentView(R.layout.custom_dialog);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                dialog.getWindow().setBackgroundDrawable(AccountSettings.this.getDrawable(R.drawable.custom_dialog_background));
-            }
+            dialog.getWindow().setBackgroundDrawable(AccountSettings.this.getDrawable(R.drawable.custom_dialog_background));
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.setCancelable(false); //Optional
             dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
@@ -189,5 +207,6 @@ public class AccountSettings extends AppCompatActivity {
         PhoneEdit = findViewById(R.id.editPhone);
         YearEdit = findViewById(R.id.editCollegeYear);
         Confirm = findViewById(R.id.confirm);
+        onOffSwitch = findViewById(R.id.adminMode);
     }
 }

@@ -165,12 +165,13 @@
                     <Switch
                         android:id="@+id/adminMode"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Swtich to Admin Mode"
+                            android:text="Switch to Admin Mode"
                             android:fontFamily="@font/dm_sans_medium"
                             android:textColor="@color/black"/>
 
@@ -197,33 +198,6 @@
                 android:rotationX="0"
                 android:rotationY="0"
                 android:text="Confirm Changes"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.493"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView"
-                tools:visibility="visible" />
-
-            <Button
-                android:id="@+id/delete"
-                android:layout_width="330dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="40dp"
-                android:background="@drawable/negative"
-                android:fontFamily="@font/dm_sans"
-                android:gravity="center"
-                android:outlineAmbientShadowColor="@color/red_desat"
-                android:outlineSpotShadowColor="@color/red_desat"
-                android:rotation="0"
-                android:rotationX="0"
-                android:rotationY="0"
-                android:text="Delete Account"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

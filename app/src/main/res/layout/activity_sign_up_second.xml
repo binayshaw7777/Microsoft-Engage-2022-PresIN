@@ -170,6 +170,28 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/pass_box" />
 
+        <LinearLayout
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <Switch
+                android:id="@+id/adminMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Switch to Admin Mode"
+                android:fontFamily="@font/dm_sans_medium"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
         <include
             android:id="@+id/login_button"
             layout="@layout/progress_button"

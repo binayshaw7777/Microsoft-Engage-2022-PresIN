@@ -95,15 +95,17 @@ public class home_Fragment extends Fragment {
                         String SPcollegeName = userData.getString("collegeName", "0");
                         String SPcollegeYear = userData.getString("year", "0");
                         String SPPhone = userData.getString("phone", "0");
+                        String SPAdmin = userData.getString("admin", "0");
 
                         //If the user data is not added in SharedPreference
-                        if (SPemail.equals("0") && SPcollegeID.equals("0") && SPname.equals("0") && SPcollegeName.equals("0")) {
+                        if (SPemail.equals("0") && SPcollegeID.equals("0") && SPname.equals("0") && SPcollegeName.equals("0") && SPAdmin.equals("0")) {
                             String Name = userprofile.name;
                             String CollegeID = userprofile.id;
                             String CollegeName = userprofile.college;
                             String Email = userprofile.email;
                             String Phone = userprofile.phone;
                             String Year = userprofile.year;
+                            String Admin = userprofile.admin;
 
                             //Then Update userDate SharedPreference with Firebase Database
                             SharedPreferences.Editor editor = userData.edit();
@@ -114,6 +116,7 @@ public class home_Fragment extends Fragment {
                             editor.putString("userID", userID);
                             editor.putString("year", Year);
                             editor.putString("phone", Phone);
+                            editor.putString("admin", Admin);
                             editor.apply();
                         }
 

@@ -11,35 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
 import com.geekym.face_recognition_engage.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.pranavpandey.android.dynamic.toasts.DynamicToast;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 
 public class settings_Fragment extends Fragment {
 
     ImageButton Logout;
     TextView Name;
-    Button Delete;
     CardView PrivacyPolicy, Profile, AccountSettings;
     ImageView accountIncompleteIndicator;
 
@@ -129,7 +115,6 @@ public class settings_Fragment extends Fragment {
     private void Initialization(View view) {
         Logout = view.findViewById(R.id.logout_button);
         Name = view.findViewById(R.id.usernameDisplay);
-        Delete = view.findViewById(R.id.delete);
         PrivacyPolicy = view.findViewById(R.id.privacyPolicy_Card);
         AccountSettings = view.findViewById(R.id.account_Card);
         Profile = view.findViewById(R.id.profile_Card);

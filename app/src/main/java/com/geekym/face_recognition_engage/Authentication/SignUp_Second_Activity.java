@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -61,6 +61,9 @@ public class SignUp_Second_Activity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     StringBuilder selectedItem = new StringBuilder();
     ImageView registerCollege;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    Switch onOffSwitch;
+    boolean isAdmin = false;
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
@@ -69,6 +72,8 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_second);
 
         Initialization();     //Function to initialize the variables
+
+        onOffSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> isAdmin = isChecked);
 
         list.add("College Name");
         spinner.setAdapter(adapter);
@@ -143,7 +148,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 //Successfully Created a new account
 
-                                Users users = new Users(sName, sEmail, sID, selectedItem.toString(), "0", "0", Embeddings); //Creating a User Object with the inputs by user
+                                Users users = new Users(sName, sEmail, sID, selectedItem.toString(), "0", "0", Embeddings, String.valueOf(isAdmin)); //Creating a User Object with the inputs by user
 
                                 FirebaseDatabase.getInstance().getReference("Users")
                                         .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
@@ -290,10 +295,11 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         CreateAccount_Button = findViewById(R.id.login_button);
         buttonProgress = findViewById(R.id.buttonProgress);
         CreateAccount_Text = findViewById(R.id.buttonText);
-        spinner = (Spinner) findViewById(R.id.college_names_spinner);
+        spinner = findViewById(R.id.college_names_spinner);
         databaseRef = FirebaseDatabase.getInstance().getReference("College_Names");
         list = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, list);
         registerCollege = findViewById(R.id.add_college);
+        onOffSwitch = findViewById(R.id.adminMode);
     }
 }
