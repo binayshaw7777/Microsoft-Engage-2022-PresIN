@@ -98,6 +98,8 @@ public class SignUp_First_Activity extends AppCompatActivity {
 
         Initialization();     //Function to initialize the variables
 
+        addFace.setVisibility(View.INVISIBLE);
+
         //Camera Permission
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
