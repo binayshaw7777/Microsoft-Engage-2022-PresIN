@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
@@ -31,10 +32,11 @@ import java.util.Calendar;
 
 public class AccountSettings extends AppCompatActivity {
 
-    Button Delete, Confirm;
+    Button Confirm;
     private DatabaseReference reference;
     private FirebaseAuth mAuth;
     EditText NameEdit, PhoneEdit, YearEdit;
+    ImageButton Delete;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -147,7 +149,7 @@ public class AccountSettings extends AppCompatActivity {
             Proceed.setOnClickListener(v -> { //On Delete button press -> Call delete function
                 dialog.dismiss();
 
-                deleteAccount();
+                deleteAccount(userID);
 
             });
 
@@ -157,14 +159,13 @@ public class AccountSettings extends AppCompatActivity {
     }
 
     //To delete account of the current user
-    private void deleteAccount() {
-        SharedPreferences userDataSP = AccountSettings.this.getSharedPreferences("userData", 0);
-        String userID = userDataSP.getString("userID", "0");
+    private void deleteAccount(String userID) {
         final FirebaseUser currentUser = mAuth.getCurrentUser(); //get the current user
         assert currentUser != null;
         currentUser.delete().addOnCompleteListener(task -> {
-            reference.child("Users").child(userID).setValue(null);
             if (task.isSuccessful()) {
+                reference.child("Users").child(userID).setValue(null);
+                SharedPreferences userDataSP = AccountSettings.this.getSharedPreferences("userData", 0);
                 SharedPreferences.Editor editor = userDataSP.edit();
                 editor.clear();
                 editor.apply();
@@ -181,7 +182,7 @@ public class AccountSettings extends AppCompatActivity {
     }
 
     private void Initialization() {
-        Delete = findViewById(R.id.delete);
+        Delete = findViewById(R.id.delete_button);
         reference = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         NameEdit = findViewById(R.id.editName);

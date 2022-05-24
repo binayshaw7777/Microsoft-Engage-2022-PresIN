@@ -41,6 +41,7 @@ public class settings_Fragment extends Fragment {
     TextView Name;
     Button Delete;
     CardView PrivacyPolicy, Profile, AccountSettings;
+    ImageView accountIncompleteIndicator;
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "UseCompatLoadingForDrawables", "ObsoleteSdkInt"})
     @Override
@@ -64,6 +65,14 @@ public class settings_Fragment extends Fragment {
         //Calling User Data from SharedPreference
         SharedPreferences userDataSP = requireContext().getSharedPreferences("userData", 0);
         String SPname = userDataSP.getString("name", "0");
+        String SPPhone = userDataSP.getString("phone", "0");
+        String SPYear = userDataSP.getString("year", "0");
+
+        if (SPPhone.equals("0") && SPYear.equals("0")) {
+            accountIncompleteIndicator.setVisibility(View.VISIBLE);
+        } else {
+            accountIncompleteIndicator.setVisibility(View.GONE);
+        }
 
         //If the user data was saved in SharedPreference -> which is always true, still checking to make sure it does not creates issue
         if (!SPname.equals("0")) {
@@ -124,6 +133,7 @@ public class settings_Fragment extends Fragment {
         PrivacyPolicy = view.findViewById(R.id.privacyPolicy_Card);
         AccountSettings = view.findViewById(R.id.account_Card);
         Profile = view.findViewById(R.id.profile_Card);
+        accountIncompleteIndicator = view.findViewById(R.id.accountIncompleteIndicator);
     }
 
 }
