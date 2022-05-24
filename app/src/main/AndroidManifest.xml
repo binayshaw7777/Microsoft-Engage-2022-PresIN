@@ -13,9 +13,15 @@
         android:label="PresIN"
         android:roundIcon="@drawable/app_icon"
         android:theme="@style/Theme.Face_Recognition_Engage">
-
-        <activity android:name=".HomeFragments.Tools.PDFs.Add_PDF_Activity"
-            android:exported="true"/>
+        <activity
+            android:name=".HomeFragments.Settings.AccountSettings"
+            android:exported="false" />
+        <activity
+            android:name=".HomeFragments.Settings.Profile"
+            android:exported="false" />
+        <activity
+            android:name=".HomeFragments.Tools.PDFs.Add_PDF_Activity"
+            android:exported="true" />
         <activity
             android:name=".HomeFragments.Tools.PDFs.PDFs_Activity"
             android:exported="true" />
@@ -26,10 +32,10 @@
             android:name=".HomeFragments.Status.Attendees.Attendees"
             android:exported="true" />
         <activity
-            android:name=".Attendance.Attendance_Result_Activity"
+            android:name=".HomeFragments.Homescreen.Attendance.Attendance_Result_Activity"
             android:exported="true" />
         <activity
-            android:name=".Attendance.Attendance_Scanner_Activity"
+            android:name=".HomeFragments.Homescreen.Attendance.Attendance_Scanner_Activity"
             android:exported="true" />
         <activity
             android:name=".Authentication.Forgot_Password_Activity"

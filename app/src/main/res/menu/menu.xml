@@ -16,7 +16,7 @@
         android:title="tools" />
 
     <item
-        android:id="@+id/profile"
+        android:id="@+id/settings"
         android:icon="@drawable/profile"
         android:title="profile" />
 </menu>

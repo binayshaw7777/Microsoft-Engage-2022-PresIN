@@ -1,4 +1,4 @@
-package com.geekym.face_recognition_engage.HomeFragments;
+package com.geekym.face_recognition_engage.HomeFragments.Homescreen;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,12 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.geekym.face_recognition_engage.Attendance.Attendance_Scanner_Activity;
+import com.geekym.face_recognition_engage.HomeFragments.Homescreen.Attendance.Attendance_Scanner_Activity;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
@@ -94,6 +93,8 @@ public class home_Fragment extends Fragment {
                         String SPemail = userData.getString("email", "0");
                         String SPcollegeID = userData.getString("collegeID", "0");
                         String SPcollegeName = userData.getString("collegeName", "0");
+                        String SPcollegeYear = userData.getString("year", "0");
+                        String SPPhone = userData.getString("phone", "0");
 
                         //If the user data is not added in SharedPreference
                         if (SPemail.equals("0") && SPcollegeID.equals("0") && SPname.equals("0") && SPcollegeName.equals("0")) {
@@ -101,6 +102,8 @@ public class home_Fragment extends Fragment {
                             String CollegeID = userprofile.id;
                             String CollegeName = userprofile.college;
                             String Email = userprofile.email;
+                            String Phone = userprofile.phone;
+                            String Year = userprofile.year;
 
                             //Then Update userDate SharedPreference with Firebase Database
                             SharedPreferences.Editor editor = userData.edit();
@@ -109,6 +112,8 @@ public class home_Fragment extends Fragment {
                             editor.putString("collegeName", CollegeName);
                             editor.putString("email", Email);
                             editor.putString("userID", userID);
+                            editor.putString("year", Year);
+                            editor.putString("phone", Phone);
                             editor.apply();
                         }
 

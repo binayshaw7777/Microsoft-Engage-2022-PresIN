@@ -143,7 +143,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 //Successfully Created a new account
 
-                                Users users = new Users(sName, sEmail, sID, selectedItem.toString(), Embeddings); //Creating a User Object with the inputs by user
+                                Users users = new Users(sName, sEmail, sID, selectedItem.toString(), "0", "0", Embeddings); //Creating a User Object with the inputs by user
 
                                 FirebaseDatabase.getInstance().getReference("Users")
                                         .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())

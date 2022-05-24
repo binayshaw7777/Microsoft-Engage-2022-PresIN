@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.geekym.face_recognition_engage.HomeFragments.Status.status_Fragment;
-import com.geekym.face_recognition_engage.HomeFragments.home_Fragment;
-import com.geekym.face_recognition_engage.HomeFragments.profile_Fragment;
+import com.geekym.face_recognition_engage.HomeFragments.Homescreen.home_Fragment;
+import com.geekym.face_recognition_engage.HomeFragments.Settings.settings_Fragment;
 import com.geekym.face_recognition_engage.HomeFragments.Tools.tools_fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -49,8 +49,8 @@ public class HomeScreen extends AppCompatActivity {
                     fragment = new tools_fragment();
                     break;
 
-                case R.id.profile:
-                    fragment = new profile_Fragment();
+                case R.id.settings:
+                    fragment = new settings_Fragment();
                     break;
             }
             assert fragment != null;

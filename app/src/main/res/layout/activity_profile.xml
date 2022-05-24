@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_main"
-    tools:context=".HomeFragments.profile_Fragment">
-
+    tools:context=".HomeFragments.Settings.Profile">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -42,24 +41,13 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Profile"
                 android:fontFamily="@font/dm_sans_bold"
+                android:text="Profile"
                 android:textColor="@color/white"
                 android:textSize="35dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/logout_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/exit"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.428" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,24 +57,24 @@
             android:layout_marginTop="140dp"
             android:background="@drawable/white_bar"
             android:orientation="vertical"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="50dp"
                 android:elevation="5dp"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textView5"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
-                app:layout_constraintStart_toStartOf="@+id/textView5"
-                app:layout_constraintTop_toBottomOf="@+id/textView5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.246">
 
                 <LinearLayout
@@ -96,44 +84,29 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="right"
-                        android:orientation="horizontal">
+                        android:fontFamily="@font/dm_sans_bold"
+                        android:text="Account details"
+                        android:textColor="@color/lightblue"
+                        android:textSize="16dp"
+                        android:layout_marginBottom="25dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Account details"
-                            android:textColor="@color/lightblue"
-                            android:textSize="16dp"
-                            android:fontFamily="@font/dm_sans_bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/edit"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@drawable/edit_icon"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:text="Name: "
                         android:fontFamily="@font/dm_sans"
+                        android:text="Name: "
                         android:textColor="#2B2F3D"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/email"
@@ -141,21 +114,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
-                        android:text="Email: "
                         android:fontFamily="@font/dm_sans"
+                        android:text="Email: "
                         android:textColor="#2B2F3D"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/uid"
+                        android:id="@+id/phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
-                        android:text="College ID: "
-                        android:textColor="#2B2F3D"
                         android:fontFamily="@font/dm_sans"
-                        android:textSize="15dp" />
+                        android:text="Phone: "
+                        android:textColor="#2B2F3D"
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/college_name"
@@ -163,40 +136,61 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
-                        android:text="College: "
                         android:fontFamily="@font/dm_sans"
+                        android:text="College: "
                         android:textColor="#2B2F3D"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/college_year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/dm_sans"
+                        android:text="Study Year: "
+                        android:textColor="#2B2F3D"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/college_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/dm_sans"
+                        android:text="College ID: "
+                        android:textColor="#2B2F3D"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/delete"
+                android:id="@+id/ProfileToEdit"
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/negative"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/gradient_button"
+                android:fontFamily="@font/dm_sans"
                 android:gravity="center"
+                android:outlineAmbientShadowColor="@color/red_desat"
+                android:outlineSpotShadowColor="@color/red_desat"
                 android:rotation="0"
                 android:rotationX="0"
                 android:rotationY="0"
-                android:fontFamily="@font/dm_sans"
-                android:outlineAmbientShadowColor="@color/red_desat"
-                android:outlineSpotShadowColor="@color/red_desat"
-                android:text="Delete Account"
+                android:text="Edit Profile"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="16dp"
-                android:visibility="visible"
-                tools:visibility="visible" />
+                android:textSize="16dp" />
 
         </LinearLayout>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
