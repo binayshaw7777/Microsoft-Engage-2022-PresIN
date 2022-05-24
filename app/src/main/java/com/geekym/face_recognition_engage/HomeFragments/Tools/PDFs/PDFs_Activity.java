@@ -40,6 +40,11 @@ public class PDFs_Activity extends AppCompatActivity {
         //Calling User Data from SharedPreference
         SharedPreferences userDataSP = PDFs_Activity.this.getSharedPreferences("userData", 0);
         String CollegeName = userDataSP.getString("collegeName", "0");
+        String Admin = userDataSP.getString("admin", "0");
+
+        if (Admin.equals("false")) {
+            addNote.setVisibility(View.GONE);
+        }
 
         addNote.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Add_PDF_Activity.class)));
 

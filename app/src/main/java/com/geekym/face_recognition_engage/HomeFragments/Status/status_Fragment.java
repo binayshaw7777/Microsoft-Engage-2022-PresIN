@@ -1,6 +1,7 @@
 package com.geekym.face_recognition_engage.HomeFragments.Status;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.geekym.face_recognition_engage.HomeFragments.Status.Attendees.Attendees;
+import com.geekym.face_recognition_engage.HomeFragments.Tools.PDFs.PDFs_Activity;
 import com.geekym.face_recognition_engage.R;
 
 public class status_Fragment extends Fragment {
@@ -21,6 +23,14 @@ public class status_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_status_, container, false);
 
         Initialization(view); //Function to initialize the variables
+
+        //Calling User Data from SharedPreference
+        SharedPreferences userDataSP = requireContext().getSharedPreferences("userData", 0);
+        String Admin = userDataSP.getString("admin", "0");
+
+        if (Admin.equals("false")) {
+            attendeesList.setVisibility(View.GONE);
+        }
 
         attendeesList.setOnClickListener(v -> intentNow(Attendees.class));      //Starts the Attendees Activity
 
