@@ -4,6 +4,10 @@ This is an Android Application developed for Microsoft Intern Engage 2022 Progra
 
 ![Banner_final](https://user-images.githubusercontent.com/62587060/170310091-19c3c843-f859-42fb-898f-1b3ea5b7005d.png)
 
+## Flow of the Application
+![PresIN](https://user-images.githubusercontent.com/62587060/170339689-8665f94f-f158-4717-80b1-8713251e6bc8.png)
+
+
 
 ## Author
 - [Binay Shaw](https://www.github.com/binayshaw7777)
