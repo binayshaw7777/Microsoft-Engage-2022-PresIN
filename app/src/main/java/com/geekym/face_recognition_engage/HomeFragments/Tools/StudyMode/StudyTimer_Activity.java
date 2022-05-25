@@ -5,13 +5,18 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.geekym.face_recognition_engage.R;
@@ -20,11 +25,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class StudyTimer_Activity extends AppCompatActivity {
@@ -35,14 +42,24 @@ public class StudyTimer_Activity extends AppCompatActivity {
     Handler handler;
     int Seconds, Minutes, MilliSeconds;
     DatabaseReference reference;
+    AudioManager audioManager;
+    ImageView audioState;
 
-    @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat", "UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study_timer);
 
         Initialization();
+
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        //Check DND Services
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted()) {
+            Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+            DynamicToast.make(StudyTimer_Activity.this, "Please grant DND mode access").show();
+            startActivity(intent);
+        }
 
         //Calling User Data from SharedPreference
         SharedPreferences userDataSP = StudyTimer_Activity.this.getSharedPreferences("userData", 0);
@@ -57,12 +74,13 @@ public class StudyTimer_Activity extends AppCompatActivity {
         reference.child("Users").child(userID).child("StudyData").child(year).child(month).child(date).child("MaxStudyTime").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String DB_StringTime = snapshot.getValue().toString();
+                String DB_StringTime = Objects.requireNonNull(snapshot.getValue()).toString();
                 maxStudiedTime.setText(DB_StringTime); //Settings up textView that shows max time studies for the day
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
 
         start.setOnClickListener(view -> {
@@ -72,6 +90,8 @@ public class StudyTimer_Activity extends AppCompatActivity {
             reset.setEnabled(false);
             reset.setVisibility(View.INVISIBLE);
             start.setVisibility(View.INVISIBLE);
+            audioManager.setRingerMode(1);
+            audioState.setBackground(getResources().getDrawable(R.drawable.vibrate));
         });
 
         pause.setOnClickListener(view -> {
@@ -82,6 +102,8 @@ public class StudyTimer_Activity extends AppCompatActivity {
             start.setVisibility(View.VISIBLE);
             start.setText("Resume");
             pause.setVisibility(View.INVISIBLE);
+            audioManager.setRingerMode(2);
+            audioState.setBackground(getResources().getDrawable(R.drawable.ringer));
 
             String currTime = textView.getText().toString(); //Getting the current time that is shown in the timer TextView
             SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss"); //out DateFormat
@@ -89,12 +111,13 @@ public class StudyTimer_Activity extends AppCompatActivity {
             reference.child("Users").child(userID).child("StudyData").child(year).child(month).child(date).child("MaxStudyTime").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String DB_StringTime = snapshot.getValue().toString(); //getting the time from firebase Database
+                    String DB_StringTime = Objects.requireNonNull(snapshot.getValue()).toString(); //getting the time from firebase Database
 
                     try {
                         Date curr = df.parse(currTime);     //Converting String (current time shown in textView -> Date Object)
                         Date db = df.parse(DB_StringTime);  //Converting String (time found in firebase database -> Date Object)
 
+                        assert db != null;
                         if (db.before(curr)) { //checking if the current time shown in textView is greater/max than the database time
                             //updating the database time with the current, i.e the max time
                             reference.child("Users").child(userID).child("StudyData").child(year).child(month).child(date).child("MaxStudyTime").setValue(currTime);
@@ -106,7 +129,8 @@ public class StudyTimer_Activity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
             });
 
         });
@@ -135,6 +159,8 @@ public class StudyTimer_Activity extends AppCompatActivity {
         reset = findViewById(R.id.reset);
         maxStudiedTime = findViewById(R.id.maxStudyTime);
         handler = new Handler();
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioState = findViewById(R.id.audioState);
     }
 
     public Runnable runnable = new Runnable() {

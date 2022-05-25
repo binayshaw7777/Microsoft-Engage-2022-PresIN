@@ -25,9 +25,9 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="25dp" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:orientation="vertical"
@@ -41,14 +41,25 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/dm_sans_bold"
                 android:text="Study Timer"
                 android:textColor="@color/white"
                 android:textSize="35dp"
-                android:fontFamily="@font/dm_sans_bold"
-                tools:layout_editor_absoluteX="212dp"
-                tools:layout_editor_absoluteY="220dp" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/audioState"
+                android:layout_width="32dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ringer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,11 +72,22 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="70dp"
+                android:text="Stay Focused"
+                android:layout_gravity="center"
+                android:textColor="@color/lightblue"
+                android:textSize="20dp"
+                android:fontFamily="@font/dm_sans_bold"/>
+
+            <TextView
                 android:id="@+id/TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:text="00:00:00"
                 android:layout_gravity="center"
                 android:textColor="@color/lightblue"
