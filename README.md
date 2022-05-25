@@ -1,16 +1,16 @@
-
-# Face-Recognition_Engage-2022
-This is an Android Application developed for Microsoft Intern Engage 2022 Programme.
-
 ![Banner_final](https://user-images.githubusercontent.com/62587060/170310091-19c3c843-f859-42fb-898f-1b3ea5b7005d.png)
 
+# PresIN - Face-Recognition_Engage-2022
+This is an Android Application developed for Microsoft Intern Engage 2022 Programme.
+<br />
+
 ## 💻 Tech Stack used 
-**Java** - Developed using Android studio and Java as developing Language.<br />
-**Figma** - Designed using Figma (https://www.figma.com/file/jjNrOhXOxz2nnSpAYamNsA/PresIN-Engage?node-id=107%3A21).<br />
-**XML** - To implement design into code.<br />
-**Firebase** - To authenticate users, store user's data and perform operations and store files (PDFs).<br />
-**ML Kit** - To detect faces in the application.<br />
-**TensorFlow Lite** - To recognize Faces.<br />
+- **Java** - Developed using Android studio and Java as developing Language.<br />
+- **Figma** - Designed using Figma (https://www.figma.com/file/jjNrOhXOxz2nnSpAYamNsA/PresIN-Engage?node-id=107%3A21).<br />
+- **XML** - To implement design into code.<br />
+- **Firebase** - To authenticate users, store user's data and perform operations and store files (PDFs).<br />
+- **ML Kit** - To detect faces in the application.<br />
+- **TensorFlow Lite** - To recognize Faces.<br />
 
 ## Flow of the Application
 ![PresIN](https://user-images.githubusercontent.com/62587060/170339689-8665f94f-f158-4717-80b1-8713251e6bc8.png)
