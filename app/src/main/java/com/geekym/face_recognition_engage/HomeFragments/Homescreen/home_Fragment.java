@@ -148,6 +148,22 @@ public class home_Fragment extends Fragment {
                             public void onCancelled(@NonNull DatabaseError error) {
                             }
                         });
+
+                        reference.child("Users").child(userID).child("StudyData").child(year).child(month).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (!snapshot.hasChild(date)) {
+                                    HashMap<String, String> studyData = new HashMap<>();
+                                    studyData.put("MaxStudyTime", "00:00:00");
+                                    reference.child("Users").child(userID).child("StudyData").child(year).child(month).child(date).setValue(studyData);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 }
 

@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.geekym.face_recognition_engage.HomeFragments.Tools.PDFs.PDFs_Activity;
+import com.geekym.face_recognition_engage.HomeFragments.Tools.StudyMode.StudyProgress_Activity;
+import com.geekym.face_recognition_engage.HomeFragments.Tools.StudyMode.StudyTimer_Activity;
 import com.geekym.face_recognition_engage.R;
 
 public class tools_fragment extends Fragment {
@@ -25,6 +27,10 @@ public class tools_fragment extends Fragment {
         Initialization(view);
 
         userPDFs.setOnClickListener(v -> startActivity(new Intent(getContext(), PDFs_Activity.class)));
+
+        studyTimer.setOnClickListener(v -> startActivity(new Intent(getContext(), StudyTimer_Activity.class)));
+
+        studyGraph.setOnClickListener(v -> startActivity(new Intent(getContext(), StudyProgress_Activity.class)));
 
         return view;
     }
