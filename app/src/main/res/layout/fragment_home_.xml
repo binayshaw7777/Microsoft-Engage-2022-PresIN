@@ -41,10 +41,10 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/dm_sans_bold"
                 android:text="PresIn"
                 android:textColor="@color/white"
                 android:textSize="35dp"
-                android:fontFamily="@font/dm_sans_bold"
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
@@ -73,9 +73,9 @@
                     android:id="@+id/textClock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/dm_sans_bold"
                     android:format12Hour="hh:mm a"
                     android:gravity="center"
-                    android:fontFamily="@font/dm_sans_bold"
                     android:textColor="@color/deepblue"
                     android:textSize="40dp" />
 
@@ -83,8 +83,8 @@
                     android:id="@+id/text_view_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:fontFamily="@font/dm_sans"
+                    android:gravity="center"
                     android:textColor="@color/deepblue"
                     android:textSize="20dp" />
 
@@ -133,8 +133,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:gravity="center"
                         android:fontFamily="@font/dm_sans"
+                        android:gravity="center"
                         android:text="Attendance Marked At"
                         android:textColor="@color/lightblue"
                         android:textSize="16dp" />
@@ -143,8 +143,8 @@
                         android:id="@+id/in_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="--/--"
                         android:fontFamily="@font/dm_sans_bold"
+                        android:text="--/--"
                         android:textColor="@color/lightblue"
                         android:textSize="20dp" />
 

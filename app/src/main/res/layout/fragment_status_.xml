@@ -41,10 +41,10 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/dm_sans_bold"
                 android:text="Status"
                 android:textColor="@color/white"
                 android:textSize="35dp"
-                android:fontFamily="@font/dm_sans_bold"
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
@@ -64,10 +64,10 @@
                 android:id="@+id/attendees_card"
                 android:layout_width="360dp"
                 android:layout_height="95dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="25dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
-                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,8 +77,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/card_bg">
+                    android:background="@drawable/card_bg"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="181dp"
@@ -119,10 +119,10 @@
                 android:id="@+id/progress_card"
                 android:layout_width="360dp"
                 android:layout_height="95dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="25dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
-                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
@@ -132,8 +132,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/card_bg">
+                    android:background="@drawable/card_bg"
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="181dp"

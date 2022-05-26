@@ -88,11 +88,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="25dp"
                         android:fontFamily="@font/dm_sans_bold"
                         android:text="Account details"
                         android:textColor="@color/lightblue"
                         android:textSize="16dp"
-                        android:layout_marginBottom="25dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -105,7 +105,7 @@
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/dm_sans"
                         android:text="Name: "
-                        android:textColor="#2B2F3D"
+                        android:textColor="@color/bluish_black"
                         android:textSize="15sp" />
 
                     <TextView
@@ -116,7 +116,7 @@
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/dm_sans"
                         android:text="Email: "
-                        android:textColor="#2B2F3D"
+                        android:textColor="@color/bluish_black"
                         android:textSize="15sp" />
 
                     <TextView
@@ -127,7 +127,7 @@
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/dm_sans"
                         android:text="Phone: "
-                        android:textColor="#2B2F3D"
+                        android:textColor="@color/bluish_black"
                         android:textSize="15sp" />
 
                     <TextView
@@ -138,7 +138,7 @@
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/dm_sans"
                         android:text="College: "
-                        android:textColor="#2B2F3D"
+                        android:textColor="@color/bluish_black"
                         android:textSize="15sp" />
 
                     <TextView
@@ -149,7 +149,7 @@
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/dm_sans"
                         android:text="Study Year: "
-                        android:textColor="#2B2F3D"
+                        android:textColor="@color/bluish_black"
                         android:textSize="15sp" />
 
                     <TextView
@@ -160,7 +160,7 @@
                         android:layout_marginBottom="5dp"
                         android:fontFamily="@font/dm_sans"
                         android:text="College ID: "
-                        android:textColor="#2B2F3D"
+                        android:textColor="@color/bluish_black"
                         android:textSize="15sp" />
 
                 </LinearLayout>

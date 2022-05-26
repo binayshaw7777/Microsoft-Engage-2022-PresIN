@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".HomeFragments.Status.Progress_Activity"
-    android:background="@drawable/background_main">
+    android:background="@drawable/background_main"
+    tools:context=".HomeFragments.Status.Progress_Activity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -41,8 +41,8 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Progress"
                 android:fontFamily="@font/dm_sans_bold"
+                android:text="Progress"
                 android:textColor="@color/white"
                 android:textSize="35dp"
                 tools:layout_editor_absoluteX="212dp"
@@ -55,8 +55,8 @@
             android:layout_height="match_parent"
             android:layout_marginTop="140dp"
             android:background="@drawable/white_bar"
-            android:orientation="vertical"
             android:gravity="center_horizontal"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -68,40 +68,40 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:gravity="center"
-                        android:textColor="@color/lightblue"
                         android:layout_margin="40dp"
                         android:fontFamily="@font/dm_sans_bold"
-                        android:text="Attendance Percentage"/>
+                        android:gravity="center"
+                        android:text="Attendance Percentage"
+                        android:textColor="@color/lightblue"
+                        android:textSize="20dp" />
 
                     <com.ramijemli.percentagechartview.PercentageChartView
                         android:id="@+id/ring_progress"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
-                        app:pcv_mode="ring"
-                        app:pcv_backgroundBarColor="@color/white"
-                        app:pcv_progressColor="@color/white"
-                        app:pcv_orientation="clockwise"
                         app:pcv_animDuration="800"
-                        app:pcv_textSize="25dp"
                         app:pcv_animInterpolator="anticipate_overshoot"
+                        app:pcv_backgroundBarColor="@color/white"
+                        app:pcv_mode="ring"
+                        app:pcv_orientation="clockwise"
                         app:pcv_progress="10"
-                        app:pcv_startAngle="90"/>
+                        app:pcv_progressColor="@color/white"
+                        app:pcv_startAngle="90"
+                        app:pcv_textSize="25dp" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView"
                         android:layout_width="330dp"
                         android:layout_height="wrap_content"
-                        app:cardCornerRadius="10dp"
-                        android:layout_marginTop="35dp"
                         android:layout_gravity="center"
+                        android:layout_marginTop="35dp"
+                        app:cardCornerRadius="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/textView5"
                         app:layout_constraintHorizontal_bias="0.503"
@@ -120,45 +120,45 @@
                                 android:id="@+id/totalDays"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="15dp"
+                                android:layout_margin="20dp"
                                 android:fontFamily="@font/dm_sans"
                                 android:gravity="left"
+                                android:text=""
                                 android:textColor="@color/black"
-                                android:layout_margin="20dp"
-                                android:text=""/>
+                                android:textSize="15dp" />
 
                             <TextView
                                 android:id="@+id/presentDays"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="15dp"
-                                android:gravity="left"
-                                android:fontFamily="@font/dm_sans"
-                                android:textColor="@color/black"
                                 android:layout_margin="20dp"
-                                android:text=""/>
+                                android:fontFamily="@font/dm_sans"
+                                android:gravity="left"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="15dp" />
 
                             <TextView
                                 android:id="@+id/absentDays"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="15dp"
+                                android:layout_margin="20dp"
                                 android:fontFamily="@font/dm_sans"
                                 android:gravity="left"
+                                android:text=""
                                 android:textColor="@color/black"
-                                android:layout_margin="20dp"
-                                android:text=""/>
+                                android:textSize="15dp" />
 
                             <TextView
                                 android:id="@+id/requireDays"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="15dp"
+                                android:layout_margin="20dp"
                                 android:fontFamily="@font/dm_sans"
                                 android:gravity="left"
+                                android:text=""
                                 android:textColor="@color/black"
-                                android:layout_margin="20dp"
-                                android:text=""/>
+                                android:textSize="15dp" />
 
 
                         </LinearLayout>
@@ -169,38 +169,38 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:gravity="left"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:textColor="@color/lightblue"
                         android:layout_margin="20dp"
-                        android:text="Your Progress this month"/>
+                        android:fontFamily="@font/dm_sans_bold"
+                        android:gravity="left"
+                        android:text="Your Progress this month"
+                        android:textColor="@color/lightblue"
+                        android:textSize="15sp" />
 
                     <org.eazegraph.lib.charts.ValueLineChart
                         android:id="@+id/lineChart"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        app:egUseCubic="true"
-                        app:egUseOverlapFill="true"
-                        app:egCurveSmoothness="0.4"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
                         android:layout_marginLeft="25dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginRight="25dp"
+                        android:layout_marginBottom="20dp"
+                        app:egCurveSmoothness="0.4"
+                        app:egEmptyDataText="No data for this month"
+                        app:egLegendColor="@color/black"
                         app:egLegendHeight="40dp"
                         app:egLineStroke="5dp"
-                        app:egLegendColor="@color/black"
-                        app:egEmptyDataText="No data for this month" />
+                        app:egUseCubic="true"
+                        app:egUseOverlapFill="true" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:gravity="left"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:textColor="@color/lightblue"
                         android:layout_marginBottom="40dp"
-                        android:text="Days ->"/>
+                        android:fontFamily="@font/dm_sans_bold"
+                        android:gravity="left"
+                        android:text="Days ->"
+                        android:textColor="@color/lightblue"
+                        android:textSize="15dp" />
 
                 </LinearLayout>
 

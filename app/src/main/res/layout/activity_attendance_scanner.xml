@@ -37,10 +37,10 @@
             style="@style/TextAppearance.AppCompat.Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/dm_sans_bold"
             android:text="Scanning Facial Data"
             android:textColor="@color/white"
             android:textSize="30sp"
-            android:fontFamily="@font/dm_sans_bold"
             tools:layout_editor_absoluteX="212dp"
             tools:layout_editor_absoluteY="220dp" />
 
@@ -57,10 +57,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/dm_sans"
             android:text="Please hold your phone in Portrait Mode"
             android:textColor="@color/lightblue"
-            android:textSize="17dp"
-            android:fontFamily="@font/dm_sans"/>
+            android:textSize="17dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="330dp"

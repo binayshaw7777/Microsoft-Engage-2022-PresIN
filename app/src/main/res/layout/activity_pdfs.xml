@@ -41,8 +41,8 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PDFs"
                 android:fontFamily="@font/dm_sans_bold"
+                android:text="PDFs"
                 android:textColor="@color/white"
                 android:textSize="35dp"
                 tools:layout_editor_absoluteX="212dp"
@@ -55,8 +55,8 @@
             android:layout_height="match_parent"
             android:layout_marginTop="140dp"
             android:background="@drawable/white_bar"
-            android:orientation="vertical"
             android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -66,8 +66,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:visibility="invisible"
                 android:orientation="vertical"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -95,11 +95,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible"
-                app:shimmer_auto_start="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:shimmer_auto_start="true">
 
                 <!-- Adding 7 rows of placeholders -->
                 <LinearLayout
@@ -136,13 +136,13 @@
                 android:id="@+id/notes_fab"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
+                android:src="@drawable/fab"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.921"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.948"
-                android:src="@drawable/fab"/>
+                app:layout_constraintVertical_bias="0.948" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,14 +2,14 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:padding="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
     android:layout_marginRight="10dp"
-    app:cardCornerRadius="10dp"
-    android:elevation="10dp">
+    android:layout_marginBottom="10dp"
+    android:elevation="10dp"
+    android:padding="10dp"
+    app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,33 +31,33 @@
                 android:id="@+id/timeDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time: --/--"
                 android:fontFamily="@font/dm_sans"
-                android:textColor="@color/black"
+                android:text="Time: --/--"
+                android:textColor="@color/bluish_black"
                 android:textSize="15dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/statusDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Present"
-                android:fontFamily="@font/dm_sans_bold"
-                android:textColor="@color/green_desat"
-                android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/statusDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/dm_sans_bold"
+                    android:text="Present"
+                    android:textColor="@color/green_desat"
+                    android:textSize="15dp" />
 
                 <ImageView
                     android:id="@+id/statusIndicator"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="5dp"
-                    android:src="@drawable/green_dot"/>
+                    android:src="@drawable/green_dot" />
 
 
             </LinearLayout>
@@ -81,20 +81,20 @@
                 android:id="@+id/nameDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/dm_sans_bold"
                 android:text="Name: "
                 android:textColor="@color/lightblue"
-                android:textSize="15dp"
-                android:fontFamily="@font/dm_sans_bold" />
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/collegeIdDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="College ID: "
                 android:layout_marginTop="10dp"
-                android:textSize="15dp"
                 android:fontFamily="@font/dm_sans"
-                android:textColor="@color/lightblue"/>
+                android:text="College ID: "
+                android:textColor="@color/lightblue"
+                android:textSize="15dp" />
 
         </LinearLayout>
 

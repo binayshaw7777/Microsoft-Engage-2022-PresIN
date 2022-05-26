@@ -75,21 +75,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="70dp"
-                android:text="Stay Focused"
                 android:layout_gravity="center"
+                android:layout_marginTop="70dp"
+                android:fontFamily="@font/dm_sans_bold"
+                android:text="Stay Focused"
                 android:textColor="@color/lightblue"
-                android:textSize="20dp"
-                android:fontFamily="@font/dm_sans_bold"/>
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:text="00:00:00"
-                android:layout_gravity="center"
                 android:textColor="@color/lightblue"
                 android:textSize="50dp"
                 android:textStyle="bold" />
@@ -107,26 +107,26 @@
                     android:id="@+id/start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
                     android:background="@drawable/positive"
-                    android:text="Start" />
+                    android:text="Start"
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/reset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="30dp"
-                    android:textColor="@color/white"
                     android:background="@drawable/negative"
-                    android:text="reset" />
+                    android:text="reset"
+                    android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/pause"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
                     android:background="@drawable/gradient_button"
-                    android:text="Pause" />
+                    android:text="Pause"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -135,23 +135,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="70dp"
-                android:text="Maximum Time Studied Today"
                 android:layout_gravity="center"
+                android:layout_marginTop="70dp"
+                android:fontFamily="@font/dm_sans_bold"
+                android:text="Maximum Time Studied Today"
                 android:textColor="@color/lightblue"
-                android:textSize="20dp"
-                android:fontFamily="@font/dm_sans_bold"/>
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/maxStudyTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:text="00:00:00"
                 android:layout_gravity="center"
-                android:textColor="@color/lightblue"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/dm_sans"
+                android:text="00:00:00"
+                android:textColor="@color/lightblue"
                 android:textSize="20dp" />
 
             <Button

@@ -42,8 +42,8 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Attendees List"
                 android:fontFamily="@font/dm_sans_bold"
+                android:text="Attendees List"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 tools:layout_editor_absoluteX="212dp"
@@ -83,8 +83,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:visibility="invisible"
                     android:orientation="vertical"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -113,11 +113,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="visible"
-                    app:shimmer_auto_start="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shimmer_auto_start="true">
 
                     <!-- Adding 7 rows of placeholders -->
                     <LinearLayout

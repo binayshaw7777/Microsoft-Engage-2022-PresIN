@@ -42,8 +42,8 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"
                 android:fontFamily="@font/dm_sans_bold"
+                android:text="Settings"
                 android:textColor="@color/white"
                 android:textSize="35dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -78,22 +78,21 @@
                 android:id="@+id/usernameDisplay"
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:text="Hi, Username"
-                android:textColor="@color/black"
-                android:layout_marginTop="35dp"
-                android:gravity="center"
-                android:fontFamily="@font/dm_sans_bold"
-                android:textSize="20sp"
                 android:layout_gravity="center"
-                />
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/dm_sans_bold"
+                android:gravity="center"
+                android:text="Hi, Username"
+                android:textColor="@color/bluish_black"
+                android:textSize="20sp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/profile_Card"
                 android:layout_width="360dp"
                 android:layout_height="95dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="25dp"
                 app:cardCornerRadius="10dp"
-                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
@@ -103,15 +102,15 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/card_bg">
+                    android:background="@drawable/card_bg"
+                    android:gravity="center">
 
                     <ImageView
                         android:id="@+id/pfimageView"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/profile"
                         android:layout_margin="30dp"
+                        android:src="@drawable/profile"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -123,9 +122,9 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="20dp"
                         android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
-                        android:layout_marginLeft="20dp"
                         android:text="Profile"
                         android:textColor="@color/lightblue"
                         android:textSize="20dp"
@@ -140,9 +139,9 @@
                 android:id="@+id/account_Card"
                 android:layout_width="360dp"
                 android:layout_height="95dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="25dp"
                 app:cardCornerRadius="10dp"
-                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
@@ -152,15 +151,15 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/card_bg">
+                    android:background="@drawable/card_bg"
+                    android:gravity="center">
 
                     <ImageView
                         android:id="@+id/edimageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/edit"
                         android:layout_margin="30dp"
+                        android:src="@drawable/edit"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -188,12 +187,12 @@
                         android:id="@+id/accountIncompleteIndicator"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/green_dot"
                         android:layout_marginLeft="10dp"
+                        android:background="@drawable/green_dot"
+                        android:backgroundTint="@color/red_desat"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/textView3"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:backgroundTint="@color/red_desat" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -203,9 +202,9 @@
                 android:id="@+id/privacyPolicy_Card"
                 android:layout_width="360dp"
                 android:layout_height="95dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="25dp"
                 app:cardCornerRadius="10dp"
-                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.49"
                 app:layout_constraintStart_toStartOf="parent"
@@ -215,15 +214,15 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/card_bg">
+                    android:background="@drawable/card_bg"
+                    android:gravity="center">
 
                     <ImageView
                         android:id="@+id/ppimageView"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/privacypolicy"
                         android:layout_margin="30dp"
+                        android:src="@drawable/privacypolicy"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -235,9 +234,9 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="20dp"
                         android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
-                        android:layout_marginLeft="20dp"
                         android:text="Privacy Policy"
                         android:textColor="@color/lightblue"
                         android:textSize="20dp"

@@ -37,9 +37,9 @@
             style="@style/TextAppearance.AppCompat.Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/dm_sans_bold"
             android:text="Scanning Your Facial Data"
             android:textColor="@color/white"
-            android:fontFamily="@font/dm_sans_bold"
             android:textSize="25sp"
             tools:layout_editor_absoluteX="212dp"
             tools:layout_editor_absoluteY="220dp" />
@@ -57,10 +57,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/dm_sans"
             android:text="Please hold your phone in Portrait Mode"
             android:textColor="@color/lightblue"
-            android:fontFamily="@font/dm_sans"
-            android:textSize="17dp"/>
+            android:textSize="17dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="300dp"
@@ -123,11 +123,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
                 android:background="@drawable/secondary_button"
+                android:fontFamily="@font/dm_sans"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:text="Add Face"
-                android:fontFamily="@font/dm_sans"
                 android:stateListAnimator="@null"
+                android:text="Add Face"
                 android:textAllCaps="false"
                 android:textColor="@color/lightblue" />
 
@@ -136,12 +136,12 @@
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/gradient_button"
+                android:fontFamily="@font/dm_sans"
                 android:rotation="0"
                 android:rotationX="0"
                 android:rotationY="0"
                 android:stateListAnimator="@null"
                 android:text="Next"
-                android:fontFamily="@font/dm_sans"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

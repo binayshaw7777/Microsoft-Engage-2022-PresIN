@@ -173,8 +173,8 @@
         <LinearLayout
             android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginBottom="20dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <Switch
@@ -186,9 +186,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Switch to Admin Mode"
                 android:fontFamily="@font/dm_sans_medium"
-                android:textColor="@color/black"/>
+                android:text="Switch to Admin Mode"
+                android:textColor="@color/bluish_black" />
 
         </LinearLayout>
 
@@ -212,7 +212,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dm_sans"
                 android:text="Already have an account?   "
-                android:textColor="@color/black"
+                android:textColor="@color/bluish_black"
+
                 android:textSize="16dp" />
 
             <TextView

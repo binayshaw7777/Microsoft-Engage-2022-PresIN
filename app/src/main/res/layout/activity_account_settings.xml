@@ -162,18 +162,18 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                    <Switch
-                        android:id="@+id/adminMode"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        <Switch
+                            android:id="@+id/adminMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Switch to Admin Mode"
                             android:fontFamily="@font/dm_sans_medium"
-                            android:textColor="@color/black"/>
+                            android:text="Switch to Admin Mode"
+                            android:textColor="@color/bluish_black" />
 
                     </LinearLayout>
 
