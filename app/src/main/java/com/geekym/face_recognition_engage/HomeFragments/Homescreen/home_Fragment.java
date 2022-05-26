@@ -1,6 +1,7 @@
 package com.geekym.face_recognition_engage.HomeFragments.Homescreen;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.Attendance.Attendance_Scanner_Activity;
+import com.geekym.face_recognition_engage.HomeFragments.Settings.AccountSettings;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,7 +44,7 @@ public class home_Fragment extends Fragment {
     TextView DateDis, PresentMark_Time;
     Calendar calendar;
 
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint({"SimpleDateFormat", "SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -173,7 +176,37 @@ public class home_Fragment extends Fragment {
 
         clockInOut.setOnClickListener(view1 -> {
             if (isConnected()) {    //To check Internet Connectivity
-                startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
+                if (markTime.toString().equals("0")) {
+                    startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
+                } else {
+                    //Pop a dialog when the user clicks on Delete Account Button, warn them
+                    Dialog dialog = new Dialog(getContext());
+                    dialog.setContentView(R.layout.custom_dialog);
+                    dialog.getWindow().setBackgroundDrawable(requireContext().getDrawable(R.drawable.custom_dialog_background));
+                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    dialog.setCancelable(false); //Optional
+                    dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
+
+                    Button Proceed = dialog.findViewById(R.id.proceed);
+                    Button Cancel = dialog.findViewById(R.id.cancel);
+                    TextView title = dialog.findViewById(R.id.dialog_title);
+                    TextView description = dialog.findViewById(R.id.dialog_description);
+
+                    Proceed.setText("Yes, retake");
+                    Proceed.setBackground(getResources().getDrawable(R.drawable.positive));
+                    title.setText("Attendance already marked");
+                    description.setText("Do you want to retake your attendance?");
+
+                    Proceed.setOnClickListener(v -> { //On Delete button press -> Call delete function
+                        dialog.dismiss();
+                        startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
+                    });
+
+                    Cancel.setOnClickListener(v -> dialog.dismiss()); //On Cancel
+                    dialog.show();
+                }
+            } else {
+                DynamicToast.makeError(getContext(), "Please connect to Internet").show();
             }
         });
 

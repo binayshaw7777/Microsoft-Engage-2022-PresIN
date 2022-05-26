@@ -41,7 +41,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/dm_sans_medium"
-                android:gravity="center"
+                android:gravity="left"
                 android:text="Description"
                 android:textColor="@color/bluish_black" />
 
@@ -79,6 +79,7 @@
                     android:outlineSpotShadowColor="@color/lightblue"
                     android:stateListAnimator="@null"
                     android:text="Positive"
+                    android:padding="5dp"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
