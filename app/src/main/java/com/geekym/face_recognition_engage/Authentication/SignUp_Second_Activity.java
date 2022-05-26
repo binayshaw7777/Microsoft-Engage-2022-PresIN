@@ -74,7 +74,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
 
         onOffSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> isAdmin = isChecked);
 
-        list.add("College name");
+        list.add("College Name");
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -136,7 +136,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                     OrgID.setError("Field can't be empty");
                     OrgID.requestFocus();
                     return;
-                } else if (selectedItem.toString().equals("College name")) {
+                } else if (selectedItem.toString().equals("College Name")) {
                     DynamicToast.makeError(SignUp_Second_Activity.this, "Select college name").show();
                     return;
                 }

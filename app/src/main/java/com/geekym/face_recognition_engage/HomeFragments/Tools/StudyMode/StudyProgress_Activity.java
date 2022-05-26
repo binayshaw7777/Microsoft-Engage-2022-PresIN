@@ -81,7 +81,6 @@ public class StudyProgress_Activity extends AppCompatActivity {
                     float min = Integer.parseInt(split[1]);
                     float hour = Integer.parseInt(split[0]);
                     float totalMinF = (hour * 60) + min + (sec / 60);
-                    Toast.makeText(StudyProgress_Activity.this, String.valueOf(totalMinF), Toast.LENGTH_SHORT).show();
                     daysTotal[atThatDate] = totalMinF;
                 }
 
