@@ -133,7 +133,7 @@
                         android:ems="10"
                         android:fontFamily="@font/dm_sans"
                         android:hint="Year of study"
-                        android:inputType="text"
+                        android:inputType="numberDecimal"
                         android:paddingLeft="20dp"
                         app:layout_constraintBottom_toTopOf="@+id/pass_box"
                         app:layout_constraintEnd_toEndOf="@+id/pass_box"

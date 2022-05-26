@@ -81,26 +81,65 @@ public class StudyProgress_Activity extends AppCompatActivity {
                     float min = Integer.parseInt(split[1]);
                     float hour = Integer.parseInt(split[0]);
                     float totalMinF = (hour * 60) + min + (sec / 60);
-                    daysTotal[atThatDate] = totalMinF;
+                    daysTotal[atThatDate - 1] = totalMinF;
                 }
 
-                int td = (int) todayDate;
-                int bef7 = td - 7;
+                int todayDate_Integer = (int) todayDate;
+                int difference = Math.abs(todayDate_Integer - 7); //if the date is less than 7
+                int temp = 0;
 
-                for (int i = 8; i >= 0; i--) {
-                    lastSeven[i] = daysTotal[td];
-                    td--;
+                lastSeven[8] = 0.0f; //Filling edge values with 0.0f
+                lastSeven[0] = 0.0f;
+
+                if (difference < 8) {   //Checing if the date is less that 7
+
+                    //Filling from last in the graph array
+                    for (int i = 7; i > difference; i--) {
+                        lastSeven[i] = daysTotal[todayDate_Integer - 1];
+                        todayDate_Integer--;
+                    }
+
+                    //Filling the remainging/difference days with 0
+                    for (int i = difference; i >= 0; i--) {
+                        lastSeven[i] = 0.0f;
+                    }
+
+                    float Max = 0.0f; //Calculating the max study time past week
+
+                    //Filling the first (difference) or Todaydate - 7 days with value '0'
+                    for (int i = 0; i <= difference; i++) {
+                        series.addPoint(new ValueLinePoint("0", 0)); //adding the point in the graph on that index
+                    }
+
+                    //Filling the valid dates with the values
+                    for (int i = difference; i < 9; i++) {
+                        series.addPoint(new ValueLinePoint(String.valueOf(temp), lastSeven[i])); //adding the point in the graph on that index
+                        Max = Math.max(Max, lastSeven[i]);
+                        temp++;
+                    }
+
+                    maxPastWeek.setText("Max in last 7 days " + String.format("%.2f", Max) + " minutes");
+
+                } else {
+
+                    //Filling the graph array with valid values
+                    for (int i = 7; i > 0; i--) {
+                        lastSeven[i] = daysTotal[todayDate_Integer - 1];
+                        todayDate_Integer--;
+                    }
+
+
+                    float Max = 0.0f; //Calculating the max study time past week
+
+                    for (int i = 0; i < 9; i++) {
+                        series.addPoint(new ValueLinePoint(String.valueOf(difference), lastSeven[i])); //adding the point in the graph on that index
+                        Max = Math.max(Max, lastSeven[i]);
+                        difference++;
+                    }
+
+                    maxPastWeek.setText("Max in last 7 days " + String.format("%.2f", Max) + " minutes");
+
                 }
-
-                float Max = 0.0f; //Calculating the max study time past week
-
-                for (int i = 0; i < 9; i++) {
-                    series.addPoint(new ValueLinePoint(String.valueOf(bef7), lastSeven[i])); //adding the point in the graph on that index
-                    Max = Math.max(Max, lastSeven[i]);
-                    bef7++;
-                }
-
-                maxPastWeek.setText(String.format("%.2f", Max)+" minutes");
                 mCubicValueLineChart.setShowDecimal(true);
                 series.setColor(0xFF56B7F1);
                 mCubicValueLineChart.setVisibility(View.VISIBLE);
