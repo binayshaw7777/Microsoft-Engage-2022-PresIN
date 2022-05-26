@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dm_sans"
-            android:text="Please hold your phone in Portrait Mode"
+            android:text="Please hold your phone in portrait mode"
             android:textColor="@color/lightblue"
             android:textSize="17dp" />
 
@@ -127,7 +127,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:stateListAnimator="@null"
-                android:text="Add Face"
+                android:text="Add face"
                 android:textAllCaps="false"
                 android:textColor="@color/lightblue" />
 

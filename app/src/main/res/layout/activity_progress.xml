@@ -77,7 +77,7 @@
                         android:layout_margin="40dp"
                         android:fontFamily="@font/dm_sans_bold"
                         android:gravity="center"
-                        android:text="Attendance Percentage"
+                        android:text="Attendance percentage"
                         android:textColor="@color/lightblue"
                         android:textSize="20dp" />
 
@@ -172,7 +172,7 @@
                         android:layout_margin="20dp"
                         android:fontFamily="@font/dm_sans_bold"
                         android:gravity="left"
-                        android:text="Your Progress this month"
+                        android:text="Your progress this month"
                         android:textColor="@color/lightblue"
                         android:textSize="15sp" />
 

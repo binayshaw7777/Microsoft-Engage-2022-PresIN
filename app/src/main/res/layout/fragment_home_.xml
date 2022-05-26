@@ -135,7 +135,7 @@
                         android:layout_margin="5dp"
                         android:fontFamily="@font/dm_sans"
                         android:gravity="center"
-                        android:text="Attendance Marked At"
+                        android:text="Attendance marked at"
                         android:textColor="@color/lightblue"
                         android:textSize="16dp" />
 

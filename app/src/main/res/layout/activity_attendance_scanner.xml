@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dm_sans_bold"
-            android:text="Scanning Facial Data"
+            android:text="Scanning facial data"
             android:textColor="@color/white"
             android:textSize="30sp"
             tools:layout_editor_absoluteX="212dp"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dm_sans"
-            android:text="Please hold your phone in Portrait Mode"
+            android:text="Please hold your phone in portrait mode"
             android:textColor="@color/lightblue"
             android:textSize="17dp" />
 

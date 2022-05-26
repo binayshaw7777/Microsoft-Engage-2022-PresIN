@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dm_sans_bold"
-            android:text="Create Account"
+            android:text="Create account"
             android:textColor="@color/white"
             android:textSize="30dp"
             tools:layout_editor_absoluteX="212dp"
@@ -187,7 +187,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dm_sans_medium"
-                android:text="Switch to Admin Mode"
+                android:text="Switch to admin mode"
                 android:textColor="@color/bluish_black" />
 
         </LinearLayout>

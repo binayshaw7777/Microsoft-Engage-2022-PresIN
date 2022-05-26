@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dm_sans_bold"
-            android:text="Attendance Granted"
+            android:text="Attendance granted"
             android:textColor="@color/white"
             android:textSize="30sp"
             tools:layout_editor_absoluteX="212dp"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
             android:fontFamily="@font/dm_sans"
-            android:text="Your Attendance is Marked"
+            android:text="Your attendance is marked"
             android:textColor="@color/lightblue"
             android:textSize="20dp" />
 
@@ -94,7 +94,7 @@
             android:fontFamily="@font/dm_sans"
             android:outlineAmbientShadowColor="@color/green_desat"
             android:outlineSpotShadowColor="@color/green_desat"
-            android:text="Back to Home"
+            android:text="Back to home"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="17dp" />

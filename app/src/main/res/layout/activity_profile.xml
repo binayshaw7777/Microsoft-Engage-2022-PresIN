@@ -182,7 +182,7 @@
                 android:rotation="0"
                 android:rotationX="0"
                 android:rotationY="0"
-                android:text="Edit Profile"
+                android:text="Edit profile"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

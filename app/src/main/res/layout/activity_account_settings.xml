@@ -132,7 +132,7 @@
                         android:background="@drawable/stroked"
                         android:ems="10"
                         android:fontFamily="@font/dm_sans"
-                        android:hint="College Study"
+                        android:hint="Year of study"
                         android:inputType="text"
                         android:paddingLeft="20dp"
                         app:layout_constraintBottom_toTopOf="@+id/pass_box"
@@ -148,7 +148,7 @@
                         android:background="@drawable/stroked"
                         android:ems="10"
                         android:fontFamily="@font/dm_sans"
-                        android:hint="Phone Number"
+                        android:hint="Phone number"
                         android:inputType="number"
                         android:paddingLeft="20dp"
                         app:layout_constraintBottom_toTopOf="@+id/pass_box"
@@ -172,7 +172,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/dm_sans_medium"
-                            android:text="Switch to Admin Mode"
+                            android:text="Switch to admin mode"
                             android:textColor="@color/bluish_black" />
 
                     </LinearLayout>
@@ -197,7 +197,7 @@
                 android:rotation="0"
                 android:rotationX="0"
                 android:rotationY="0"
-                android:text="Confirm Changes"
+                android:text="Confirm changes"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

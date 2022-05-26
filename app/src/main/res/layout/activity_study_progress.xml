@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dm_sans_bold"
-                android:text="Study Progress"
+                android:text="Study progress"
                 android:textColor="@color/white"
                 android:textSize="35dp"
                 tools:layout_editor_absoluteX="212dp"
@@ -67,7 +67,7 @@
                 android:layout_marginTop="40dp"
                 android:fontFamily="@font/dm_sans_bold"
                 android:gravity="left"
-                android:text="Minutes Studies in past week"
+                android:text="Minutes studied in past week"
                 android:textColor="@color/lightblue"
                 android:textSize="15sp" />
 
@@ -123,7 +123,7 @@
                 android:rotation="0"
                 android:rotationX="0"
                 android:rotationY="0"
-                android:text="Go to Study Timer"
+                android:text="Go to study timer"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

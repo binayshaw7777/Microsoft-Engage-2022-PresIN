@@ -95,7 +95,7 @@
                         android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
                         android:paddingLeft="20dp"
-                        android:text="Attendees List"
+                        android:text="Attendees list"
                         android:textColor="@color/lightblue"
                         android:textSize="20dp" />
 

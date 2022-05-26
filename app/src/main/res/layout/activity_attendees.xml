@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dm_sans_bold"
-                android:text="Attendees List"
+                android:text="Attendees list"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 tools:layout_editor_absoluteX="212dp"

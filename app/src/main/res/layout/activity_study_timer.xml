@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dm_sans_bold"
-                android:text="Study Timer"
+                android:text="Study timer"
                 android:textColor="@color/white"
                 android:textSize="35dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -78,7 +78,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="70dp"
                 android:fontFamily="@font/dm_sans_bold"
-                android:text="Stay Focused"
+                android:text="Stay focused"
                 android:textColor="@color/lightblue"
                 android:textSize="20dp" />
 
@@ -109,6 +109,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/positive"
                     android:text="Start"
+                    android:textAllCaps="false"
                     android:textColor="@color/white" />
 
                 <Button
@@ -117,7 +118,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="30dp"
                     android:background="@drawable/negative"
-                    android:text="reset"
+                    android:text="Reset"
+                    android:textAllCaps="false"
                     android:textColor="@color/white" />
 
                 <Button
@@ -126,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/gradient_button"
                     android:text="Pause"
+                    android:textAllCaps="false"
                     android:textColor="@color/white" />
 
             </LinearLayout>
@@ -138,7 +141,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="70dp"
                 android:fontFamily="@font/dm_sans_bold"
-                android:text="Maximum Time Studied Today"
+                android:text="Maximum time studied today"
                 android:textColor="@color/lightblue"
                 android:textSize="20dp" />
 

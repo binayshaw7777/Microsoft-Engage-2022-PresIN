@@ -95,7 +95,7 @@
                         android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
                         android:paddingLeft="20dp"
-                        android:text="PDF and Docs"
+                        android:text="PDF files"
                         android:textColor="@color/lightblue"
                         android:textSize="20dp" />
 
@@ -150,7 +150,7 @@
                         android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
                         android:paddingLeft="20dp"
-                        android:text="Study Timer"
+                        android:text="Study timer"
                         android:textColor="@color/lightblue"
                         android:textSize="20dp" />
 
@@ -205,7 +205,7 @@
                         android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
                         android:paddingLeft="20dp"
-                        android:text="Study Progress"
+                        android:text="Study progress"
                         android:textColor="@color/lightblue"
                         android:textSize="20dp" />
 
