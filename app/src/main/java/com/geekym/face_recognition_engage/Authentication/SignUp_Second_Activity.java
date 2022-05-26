@@ -25,7 +25,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -83,8 +82,10 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                 selectedItem.setLength(0);
                 selectedItem.append(parent.getItemAtPosition(position).toString());
             }
+
             // to close the onItemSelected
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         registerCollege.setOnClickListener(v -> insertCollegeNames());
@@ -135,7 +136,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                     OrgID.setError("Field can't be empty");
                     OrgID.requestFocus();
                     return;
-                } else if(selectedItem.toString().equals("College Name")) {
+                } else if (selectedItem.toString().equals("College Name")) {
                     DynamicToast.makeError(SignUp_Second_Activity.this, "Select College Name").show();
                     return;
                 }
@@ -220,6 +221,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                     list.add(Objects.requireNonNull(snap.getValue()).toString());
                 adapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
@@ -275,7 +277,8 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                             DynamicToast.makeSuccess(SignUp_Second_Activity.this, "College Registered!").show();
                         });
 
-            } else DynamicToast.makeError(getApplicationContext(), "Please enter something").show(); //If the user's input is empty
+            } else
+                DynamicToast.makeError(getApplicationContext(), "Please enter something").show(); //If the user's input is empty
 
             dialog.dismiss();
         });

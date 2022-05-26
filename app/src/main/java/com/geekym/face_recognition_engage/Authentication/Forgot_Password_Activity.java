@@ -40,7 +40,10 @@ public class Forgot_Password_Activity extends AppCompatActivity {
         buttonText.setText("Send Password Reset Email");
 
         buttonView.setOnClickListener(view -> {
-            if (isConnected()) {ForgotPassword(); }}); //Send password reset link when connected to internet
+            if (isConnected()) {
+                ForgotPassword();
+            }
+        }); //Send password reset link when connected to internet
     }
 
     //Validating text input by the User
@@ -65,8 +68,7 @@ public class Forgot_Password_Activity extends AppCompatActivity {
                         DynamicToast.make(this, "Password reset email sent!", getResources()
                                 .getColor(R.color.white), getResources().getColor(R.color.green_desat)).show();
                         startActivity(new Intent(getApplicationContext(), SignIn_Activity.class));
-                    }
-                    else {
+                    } else {
                         buttonProgress.setVisibility(View.GONE);
                         buttonText.setText(View.VISIBLE);
                         DynamicToast.makeError(this, "Something went wrong").show();

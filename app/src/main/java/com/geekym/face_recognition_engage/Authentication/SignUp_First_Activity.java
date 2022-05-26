@@ -106,10 +106,6 @@ public class SignUp_First_Activity extends AppCompatActivity {
 
         //Assist the user with instructions
         TooltipCompat.setTooltipText(Info, "Bring your face in the camera frame to register your face");
-//        Info.setOnClickListener(view ->
-//                DynamicToast.make(this, "Bring your face in the camera to register", getResources()
-//                        .getColor(R.color.white), getResources().getColor(R.color.lightblue)).show());
-
 
         Next.setOnClickListener(view -> {
             if (map.containsKey("added")) {
@@ -151,7 +147,8 @@ public class SignUp_First_Activity extends AppCompatActivity {
 
     //Function to add face or store embeddings in a hasmap
     private void AddFace() {
-        if (!map.isEmpty()) map.clear(); //If the hashmap is not empty (the hashmap has previously stored embeddings -> Remove/Clear it)
+        if (!map.isEmpty())
+            map.clear(); //If the hashmap is not empty (the hashmap has previously stored embeddings -> Remove/Clear it)
 
         SimilarityClassifier.Recognition result = new SimilarityClassifier.Recognition("0", "", -1f);
         result.setExtra(embeddings);

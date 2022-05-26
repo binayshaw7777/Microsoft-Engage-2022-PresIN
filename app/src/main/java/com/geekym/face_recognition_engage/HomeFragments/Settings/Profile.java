@@ -32,7 +32,6 @@ public class Profile extends AppCompatActivity {
         String SPcollegeName = userDataSP.getString("collegeName", "0");
         String SPcollegeYear = userDataSP.getString("year", "0");
         String SPPhone = userDataSP.getString("phone", "0");
-        String userID = userDataSP.getString("userID", "0");
 
         //If the user data was saved in SharedPreference -> which is always true, still checking to make sure it does not creates issue
         if (!SPemail.equals("0") && !SPcollegeID.equals("0") && !SPname.equals("0") && !SPcollegeName.equals("0")) {
@@ -53,7 +52,6 @@ public class Profile extends AppCompatActivity {
             CollegeYear.setText("Study Year: Not Added");
         else
             CollegeYear.setText("Year: " + SPcollegeYear);
-
 
         ProfileToEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), AccountSettings.class);

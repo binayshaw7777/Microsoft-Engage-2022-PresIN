@@ -93,8 +93,6 @@ public class home_Fragment extends Fragment {
                         String SPemail = userData.getString("email", "0");
                         String SPcollegeID = userData.getString("collegeID", "0");
                         String SPcollegeName = userData.getString("collegeName", "0");
-                        String SPcollegeYear = userData.getString("year", "0");
-                        String SPPhone = userData.getString("phone", "0");
                         String SPAdmin = userData.getString("admin", "0");
 
                         //If the user data is not added in SharedPreference

@@ -10,7 +10,6 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.geekym.face_recognition_engage.HomeFragments.Status.Attendees.Attendees;
-import com.geekym.face_recognition_engage.HomeFragments.Tools.PDFs.PDFs_Activity;
 import com.geekym.face_recognition_engage.R;
 
 public class status_Fragment extends Fragment {

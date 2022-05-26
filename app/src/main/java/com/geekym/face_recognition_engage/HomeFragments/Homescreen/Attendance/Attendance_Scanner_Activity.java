@@ -72,6 +72,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -84,7 +85,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-//    float distance = 1.0f;
+    //    float distance = 1.0f;
     float distance = 0.88f;
     ProcessCameraProvider cameraProvider;
     ImageView info;
@@ -131,12 +132,13 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     //Converting Snapshot children -> embeddings String and getting hashmap in return
-                    global.putAll(StringToMap(ds.child("embeddings").getValue().toString()));
+                    global.putAll(StringToMap(Objects.requireNonNull(ds.child("embeddings").getValue()).toString()));
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
 
         //Load model file
@@ -299,7 +301,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
                 if (distance_local < distance && key.equals(userID)) {  //If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
                     distance = Float.MIN_VALUE; //setting min value because camera is running all the time in this activity
-                                                // and hence the if condition gets true more than one time
+                    // and hence the if condition gets true more than one time
                     if (isConnected()) { //Check if the user is connected or not
                         intentNow(Attendance_Result_Activity.class, true);
                     }
@@ -509,7 +511,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     //Load Faces from Shared Preferences.Json String to Recognition object
     private HashMap<String, SimilarityClassifier.Recognition> StringToMap(String Fetched) {
-        TypeToken<HashMap<String, SimilarityClassifier.Recognition>> token = new TypeToken<HashMap<String, SimilarityClassifier.Recognition>>() {};
+        TypeToken<HashMap<String, SimilarityClassifier.Recognition>> token = new TypeToken<HashMap<String, SimilarityClassifier.Recognition>>() {
+        };
         HashMap<String, SimilarityClassifier.Recognition> retrievedMap = new Gson().fromJson(Fetched, token.getType());
         //During type conversion and save/load procedure,format changes(eg float converted to double).
         //So embeddings need to be extracted from it in required format(eg.double to float).
