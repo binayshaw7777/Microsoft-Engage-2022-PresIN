@@ -37,13 +37,13 @@ import java.util.Objects;
 public class StudyTimer_Activity extends AppCompatActivity {
 
     TextView textView, maxStudiedTime;
-    Button start, pause, reset;
+    Button start, pause, reset, gotoProgress;
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L;
     Handler handler;
     int Seconds, Minutes, MilliSeconds;
     DatabaseReference reference;
     AudioManager audioManager;
-    ImageView audioState;
+    ImageView audioState;       //To show is the audio mode Ringer or Silent/Vibrate
 
     @SuppressLint({"SetTextI18n", "SimpleDateFormat", "UseCompatLoadingForDrawables"})
     @Override
@@ -51,7 +51,15 @@ public class StudyTimer_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study_timer);
 
-        Initialization();
+        Initialization();   //Function to initialize the variables
+
+        pause.setVisibility(View.GONE);
+        reset.setVisibility(View.GONE);
+
+        gotoProgress.setOnClickListener(v -> {      //Takes the uer to progress activity
+            startActivity(new Intent(getApplicationContext(), StudyProgress_Activity.class));
+            finish();
+        });
 
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         //Check DND Services
@@ -161,6 +169,7 @@ public class StudyTimer_Activity extends AppCompatActivity {
         handler = new Handler();
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audioState = findViewById(R.id.audioState);
+        gotoProgress = findViewById(R.id.gotoStudyProgress);
     }
 
     public Runnable runnable = new Runnable() {

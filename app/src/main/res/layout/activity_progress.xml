@@ -169,7 +169,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:gravity="left"
                         android:fontFamily="@font/dm_sans_bold"
                         android:textColor="@color/lightblue"

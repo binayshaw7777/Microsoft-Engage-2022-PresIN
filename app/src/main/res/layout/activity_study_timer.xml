@@ -108,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:background="@drawable/gradient_button"
+                    android:background="@drawable/positive"
                     android:text="Start" />
 
                 <Button
@@ -117,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="30dp"
                     android:textColor="@color/white"
-                    android:background="@drawable/gradient_button"
+                    android:background="@drawable/negative"
                     android:text="reset" />
 
                 <Button
@@ -154,6 +154,33 @@
                 android:fontFamily="@font/dm_sans"
                 android:textSize="20dp" />
 
+            <Button
+                android:id="@+id/gotoStudyProgress"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/gradient_button"
+                android:fontFamily="@font/dm_sans"
+                android:gravity="center"
+                android:outlineAmbientShadowColor="@color/red_desat"
+                android:outlineSpotShadowColor="@color/red_desat"
+                android:rotation="0"
+                android:rotationX="0"
+                android:rotationY="0"
+                android:text="Check overall progress"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                tools:visibility="visible" />
 
         </LinearLayout>
 

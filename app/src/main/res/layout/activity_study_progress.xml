@@ -41,10 +41,10 @@
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/dm_sans_bold"
                 android:text="Study Progress"
                 android:textColor="@color/white"
                 android:textSize="35dp"
-                android:fontFamily="@font/dm_sans_bold"
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
@@ -55,13 +55,86 @@
             android:layout_height="match_parent"
             android:layout_marginTop="140dp"
             android:background="@drawable/white_bar"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/dm_sans_bold"
+                android:gravity="left"
+                android:text="Minutes Studies in past week"
+                android:textColor="@color/lightblue"
+                android:textSize="15sp" />
 
+            <org.eazegraph.lib.charts.ValueLineChart
+                android:id="@+id/lineChart_study"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="20dp"
+                app:egCurveSmoothness="0.4"
+                app:egEmptyDataText="No data for this month"
+                app:egLegendColor="@color/black"
+                app:egLegendHeight="40dp"
+                app:egLineStroke="5dp"
+                app:egUseCubic="true"
+                app:egUseOverlapFill="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:fontFamily="@font/dm_sans_bold"
+                android:gravity="left"
+                android:text="Days ->"
+                android:textColor="@color/lightblue"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/maxPastWeek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:fontFamily="@font/dm_sans_bold"
+                android:gravity="left"
+                android:text="0.0 minutes"
+                android:textColor="@color/lightblue"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/gotoTimer"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/gradient_button"
+                android:fontFamily="@font/dm_sans"
+                android:gravity="center"
+                android:outlineAmbientShadowColor="@color/red_desat"
+                android:outlineSpotShadowColor="@color/red_desat"
+                android:rotation="0"
+                android:rotationX="0"
+                android:rotationY="0"
+                android:text="Go to Study Timer"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                tools:visibility="visible" />
 
         </LinearLayout>
 
