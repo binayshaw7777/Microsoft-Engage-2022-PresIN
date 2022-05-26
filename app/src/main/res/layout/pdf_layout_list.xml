@@ -51,7 +51,7 @@
             android:layout_width="33dp"
             android:layout_height="30dp"
             android:layout_marginRight="25dp"
-            android:background="@drawable/donwload"
+            android:background="@drawable/download"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/notes_title"

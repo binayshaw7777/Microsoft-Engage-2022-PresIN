@@ -85,8 +85,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-    //    float distance = 1.0f;
-    float distance = 0.88f;
+        float distance = 1.0f;
+//    float distance = 0.85f;
     ProcessCameraProvider cameraProvider;
     ImageView info;
 
@@ -105,7 +105,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     HashMap<String, SimilarityClassifier.Recognition> global = new HashMap<>();
 
-    String modelFile = "mobile_face_net.tflite"; //model name
+    String modelFile = "mobile.tflite"; //model name
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -296,15 +296,15 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
             if (nearest.get(0) != null) {
 
-                final String key = nearest.get(0).first; //get userID of closest matching face
-                float distance_local = nearest.get(0).second; //get distance of closest matching face
+                final String keyFirst = nearest.get(0).first; //get userID of closest matching face
+                float distance_localFirst = nearest.get(0).second; //get distance of closest matching face
 
-                if (distance_local < distance && key.equals(userID)) {  //If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
-                    distance = Float.MIN_VALUE; //setting min value because camera is running all the time in this activity
-                    // and hence the if condition gets true more than one time
-                    if (isConnected()) { //Check if the user is connected or not
-                        intentNow(Attendance_Result_Activity.class, true);
-                    }
+                if (distance_localFirst < distance && keyFirst.equals(userID)) {  //If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
+                        distance = Float.MIN_VALUE; //setting min value because camera is running all the time in this activity
+                        // and hence the if condition gets true more than one time
+                        if (isConnected()) { //Check if the user is connected or not
+                            intentNow(Attendance_Result_Activity.class, true);
+                        }
                 } else
                     FaceStatus.setText("Unknown");
             }
