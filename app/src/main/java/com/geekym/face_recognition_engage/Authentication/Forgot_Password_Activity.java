@@ -37,7 +37,7 @@ public class Forgot_Password_Activity extends AppCompatActivity {
 
         Initialization();     //Function to initialize the variables
 
-        buttonText.setText("Send Password Reset Email");
+        buttonText.setText("Send password reset Email");
 
         buttonView.setOnClickListener(view -> {
             if (isConnected()) {

@@ -38,18 +38,18 @@ public class Profile extends AppCompatActivity {
             Name.setText("Name: " + SPname);
             Email.setText("Email: " + SPemail);
             CollegeID.setText("College ID: " + SPcollegeID);
-            CollegeName.setText("College Name: " + SPcollegeName);
+            CollegeName.setText("College name: " + SPcollegeName);
         }
 
         //Check for Phone/Contact Number
         if (SPPhone.equals("0"))
-            Phone.setText("Phone: Not Added");
+            Phone.setText("Phone: not added");
         else
             Phone.setText("Phone: " + SPPhone);
 
         //Check for Study Year
         if (SPcollegeYear.equals("0"))
-            CollegeYear.setText("Study Year: Not Added");
+            CollegeYear.setText("Year of study: Not Added");
         else
             CollegeYear.setText("Year: " + SPcollegeYear);
 

@@ -70,7 +70,7 @@ public class Progress_Activity extends AppCompatActivity {
                 mChart.setProgress(percent, true);
 
                 //Set calculated data in TextView
-                totalDays.setText("Total Days in this month: "+daysInMonth+" days");
+                totalDays.setText("Total days in this month: "+daysInMonth+" days");
                 presentDays.setText("Present: "+(int)count+" days");
                 absentDays.setText("Absent: "+(int)absent+" days");
                 requireDays.setText("Attendance if daily attended: "+String.format("%.2f", expected)+"%");

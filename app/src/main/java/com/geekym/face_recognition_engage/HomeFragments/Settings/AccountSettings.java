@@ -161,7 +161,7 @@ public class AccountSettings extends AppCompatActivity {
 
             Proceed.setText("Delete");
             Proceed.setBackground(getResources().getDrawable(R.drawable.negative));
-            title.setText("Confirm Delete");
+            title.setText("Confirm delete");
             description.setText("Do you really want to delete your account?");
 
             Proceed.setOnClickListener(v -> { //On Delete button press -> Call delete function
@@ -187,7 +187,7 @@ public class AccountSettings extends AppCompatActivity {
                 SharedPreferences.Editor editor = userDataSP.edit();
                 editor.clear();
                 editor.apply();
-                DynamicToast.makeSuccess(AccountSettings.this, "Account Deleted Successfully!").show();
+                DynamicToast.makeSuccess(AccountSettings.this, "Account deleted successfully!").show();
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), SignIn_Activity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -74,7 +74,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
 
         onOffSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> isAdmin = isChecked);
 
-        list.add("College Name");
+        list.add("College name");
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -92,7 +92,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
 
         fetchCollegeNames();
 
-        CreateAccount_Text.setText("Create Account");
+        CreateAccount_Text.setText("Create account");
         ConstraintLayout cl = findViewById(R.id.progress_button_bg);
         cl.setBackground(getResources().getDrawable(R.drawable.positive)); //Change the button drawable to green
 
@@ -128,16 +128,16 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                     Password.setError("Field can't be empty");
                     Password.requestFocus();
                     return;
-                } else if (sPass.length() < 6) {
-                    Password.setError("Password must be at least 6 characters");
+                } else if (sPass.length() < 8) {
+                    Password.setError("Password must be at least 8 characters");
                     Password.requestFocus();
                     return;
                 } else if (sID.isEmpty()) {
                     OrgID.setError("Field can't be empty");
                     OrgID.requestFocus();
                     return;
-                } else if (selectedItem.toString().equals("College Name")) {
-                    DynamicToast.makeError(SignUp_Second_Activity.this, "Select College Name").show();
+                } else if (selectedItem.toString().equals("College name")) {
+                    DynamicToast.makeError(SignUp_Second_Activity.this, "Select college name").show();
                     return;
                 }
 
@@ -157,8 +157,8 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                                             if (task1.isSuccessful()) {
                                                 Log.d(TAG, "createUserWithEmail:success");
                                                 FirebaseUser user = mAuth.getCurrentUser();
-                                                DynamicToast.makeSuccess(this, "Registered Successfully").show();
-                                                DynamicToast.makeSuccess(this, "Verification Mail Sent").show(); //Send a verification link
+                                                DynamicToast.makeSuccess(this, "Registered successfully").show();
+                                                DynamicToast.makeSuccess(this, "Verification mail sent").show(); //Send a verification link
                                                 intentNow();
                                                 assert user != null;
                                                 user.sendEmailVerification();
@@ -260,7 +260,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
         TextView title = dialog.findViewById(R.id.dialog_title);
 
         Proceed.setText("Add College");
-        editText.setHint("Enter College Name here");
+        editText.setHint("Enter College name here");
         title.setText("Register your College");
 
         Proceed.setOnClickListener(v -> {
@@ -274,7 +274,7 @@ public class SignUp_Second_Activity extends AppCompatActivity {
                             list.clear();
                             fetchCollegeNames();
                             adapter.notifyDataSetChanged();
-                            DynamicToast.makeSuccess(SignUp_Second_Activity.this, "College Registered!").show();
+                            DynamicToast.makeSuccess(SignUp_Second_Activity.this, "College registered!").show();
                         });
 
             } else

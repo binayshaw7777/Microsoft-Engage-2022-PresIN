@@ -86,7 +86,7 @@ public class HomeScreen extends AppCompatActivity {
 
         Proceed.setText("Exit");
         Proceed.setBackground(getResources().getDrawable(R.drawable.negative));
-        title.setText("Confirm Exit");
+        title.setText("Confirm exit");
         description.setText("Do you really want to exit?");
 
         Proceed.setOnClickListener(v -> {

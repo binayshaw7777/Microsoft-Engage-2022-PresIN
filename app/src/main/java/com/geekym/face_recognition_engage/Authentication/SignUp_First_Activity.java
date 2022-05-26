@@ -113,7 +113,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
                 //Passing the converted Hashmap -> String to 2nd Activity
                 intentNow(SignUp_Second_Activity.class, "Face_Embeddings", Json, true);
             } else
-                DynamicToast.makeError(this, "Face not Added").show(); //If the hashmap is empty or No Embeddings has been added yet
+                DynamicToast.makeError(this, "Face not added").show(); //If the hashmap is empty or No Embeddings has been added yet
         });
 
         addFace.setOnClickListener(view -> AddFace()); //Adding Face to Hashmap
@@ -154,7 +154,7 @@ public class SignUp_First_Activity extends AppCompatActivity {
         result.setExtra(embeddings);
         map.put("added", result); //added the Embedding to hashmap
 
-        DynamicToast.make(this, "Face Added Successfully", getResources()
+        DynamicToast.make(this, "Face added successfully", getResources()
                 .getColor(R.color.white), getResources().getColor(R.color.green_desat)).show();
     }
 

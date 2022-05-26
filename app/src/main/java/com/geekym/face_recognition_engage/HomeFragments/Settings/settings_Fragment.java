@@ -84,7 +84,7 @@ public class settings_Fragment extends Fragment {
 
             Proceed.setText("Logout");
             Proceed.setBackground(getResources().getDrawable(R.drawable.negative));
-            title.setText("Confirm Logout");
+            title.setText("Confirm logout");
             description.setText("Do you really want to logout?");
 
             Proceed.setOnClickListener(v -> { //On logout -> Logout the current logged in user

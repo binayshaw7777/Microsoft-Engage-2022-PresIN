@@ -101,8 +101,8 @@ public class SignIn_Activity extends AppCompatActivity {
             Email_editText.setError("Please enter a valid email address");
             Email_editText.requestFocus();
             return;
-        } else if (pass.length() < 6) {
-            Password_editText.setError("Password must be at least 6 characters");
+        } else if (pass.length() < 8) {
+            Password_editText.setError("Password must be at least 8 characters");
             Password_editText.requestFocus();
             return;
         }
