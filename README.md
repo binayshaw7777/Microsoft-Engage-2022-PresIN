@@ -7,12 +7,12 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 <br />
 
 ## 💻 Tech Stack used 
-- **Java** - Developed using Android studio and Java as developing Language.<br />
-- **Figma** - Designed using Figma (https://www.figma.com/file/jjNrOhXOxz2nnSpAYamNsA/PresIN-Engage?node-id=107%3A21).<br />
-- **XML** - To implement design into code.<br />
-- **Firebase** - To authenticate users, store user's data and perform operations and store files (PDFs).<br />
-- **ML Kit** - To detect faces in the application.<br />
-- **TensorFlow Lite** - To recognize Faces.<br />
+- **Java** - Developed using Android studio and Java as developing Language
+- **Figma** - [**Designed using Figma**](https://www.figma.com/file/jjNrOhXOxz2nnSpAYamNsA/PresIN-Engage?node-id=107%3A21)
+- **XML** - To implement design into code
+- **Firebase** - To authenticate users, store user's data and perform operations and store files (PDFs)
+- **ML Kit** - To detect faces in the application
+- **TensorFlow Lite** - To recognize Faces [TensorFlow Lite Model](https://github.com/binayshaw7777/Face-Recognition_Engage-2022/blob/master/app/src/main/assets/mobile_face_net.tflite)
 
 ## ✨ Features
 - **Face Recognition** - Makes it an MVP app
