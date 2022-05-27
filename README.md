@@ -28,7 +28,16 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 - Create an account -> Register by adding your face and all the required details asked (Login as Admin to test all the features)
 - Verify your Email
 - Signin to your account and mark your attendance.
-- Follow this video for reference - 
+- Follow this video for reference - <br />
+- **Important** (Before deleteing your account from Firebase Authentication, logout first and delete the Firebase Realtime Database of your userID Node)
+
+
+## 🍴 Fork/Clone the project
+- Clone this repository
+- Connect it to your Firebase Account
+- Add Email Authentication, Realtime Database and Firebase Storage.
+- Follow the above steps to create account and proceed
+- **Important** (Before deleteing your account from Firebase Authentication, logout first and delete the Firebase Realtime Database of your userID Node)
 
 ## 🤔 How it works?
 - Intialially during registration the user's face embeddings is stored in a HashMap as value with a key that is same of all users "added".<br />
