@@ -116,8 +116,9 @@ public class Add_PDF_Activity extends AppCompatActivity {
 
         if (filepath == null) {
             DynamicToast.makeError(Add_PDF_Activity.this, "Select a file first").show();
+        } else if (file_title.getText().toString().isEmpty()) {
+            DynamicToast.makeError(Add_PDF_Activity.this, "Add file title").show();
         } else {
-
             final ProgressDialog pd = new ProgressDialog(this);
             pd.setTitle("Uploading PDF");
             pd.show();

@@ -97,17 +97,20 @@ public class Progress_Activity extends AppCompatActivity {
                     series.setColor(0xFF4CA456);
                 }
 
-                int[] graphArray = new int[daysInMonth]; //Store the days present in a new array of no. of days in that month. Eg: 31 for January
+                float[] graphArray = new float[daysInMonth]; //Store the days present in a new array of no. of days in that month. Eg: 31 for January
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     int i = Integer.parseInt(Objects.requireNonNull(ds.getKey()));
-                    graphArray[i] = 1; //Storing the value 1 on the index (date) the user was present
+                    graphArray[i] = 1.4f; //Storing the value 1 on the index (date) the user was present
                 }
 
                 for (int i=0; i<graphArray.length; i++) {
                     series.addPoint(new ValueLinePoint(String.valueOf(i), graphArray[i])); //adding the point in the graph on that index
                 }
 
+
+
+//                mCubicValueLineChart.setShowDecimal(true);
                 mCubicValueLineChart.addSeries(series);
                 mCubicValueLineChart.startAnimation();
             }

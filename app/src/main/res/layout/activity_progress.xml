@@ -175,10 +175,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
+                        android:layout_marginTop="20dp"
                         android:fontFamily="@font/dm_sans_bold"
                         android:gravity="left"
                         android:text="Your progress this month"
+                        android:textColor="@color/lightblue"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:fontFamily="@font/dm_sans"
+                        android:gravity="left"
+                        android:text="0 -> Absent | 1 -> Present"
                         android:textColor="@color/lightblue"
                         android:textSize="15sp" />
 
@@ -187,7 +198,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:layout_marginLeft="25dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginBottom="20dp"
                         app:egCurveSmoothness="0.4"
