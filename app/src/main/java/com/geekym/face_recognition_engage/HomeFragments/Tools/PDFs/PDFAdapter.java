@@ -26,10 +26,10 @@ public class PDFAdapter extends FirebaseRecyclerAdapter<PDFsModel, PDFAdapter.my
 
         holder.header.setText(model.getFilename()); //Settings the file name
 
-        holder.download.setOnClickListener(v -> {
+        holder.view.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(model.getFileurl()));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            holder.download.getContext().startActivity(intent);
+            holder.view.getContext().startActivity(intent);
         });
 
     }
@@ -44,13 +44,11 @@ public class PDFAdapter extends FirebaseRecyclerAdapter<PDFsModel, PDFAdapter.my
     public static class myviewholder extends RecyclerView.ViewHolder {
         TextView header;
         View view;
-        ImageView download;
 
         public myviewholder(@NonNull View itemView) {
             super(itemView);
             header=itemView.findViewById(R.id.notes_title);
             view = itemView;
-            download = itemView.findViewById(R.id.download_button);
         }
     }
 }
