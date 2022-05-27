@@ -15,21 +15,20 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 - **TensorFlow Lite** - To recognize Faces.<br />
 
 ## 🤔 How it works?
-- Intialially during registration the user's face embeddings is stored in a HashMap as value with a key that is same of all users "added".
+- Intialially during registration the user's face embeddings is stored in a HashMap as value with a key that is same of all users "added".<br />
+- Then after signin in, the key "added" is replaced with the userID -> <UserID, Embeddings> and stored in the user's Node<br />
+- These node from users is then used during facial recognition<br />
+- During facial recognition, the embeddings obtained from the person in the camera is used to calculate the euclidean distance between the person and the list of embeddings in the Firebase   RealTime Database.<br />
+- If the distance is less than 1.0f and also the Key -> userID of the same hashmap is matched with the current logged in userID then it is success, the attendanc eis marked.<br />
+- For reference, follow the image below - https://drive.google.com/file/d/11CJ6chlEreQHYmbqoiFqCBhYz6IUJANm/view?usp=sharing
 
 ## Flow of the Application
 ![PresIN](https://user-images.githubusercontent.com/62587060/170339689-8665f94f-f158-4717-80b1-8713251e6bc8.png)
 
 
 
-## Author
+## Developed by
 - [Binay Shaw](https://www.github.com/binayshaw7777)
-
-
-## 🚀 About Me
-I'm a 2nd Year undergrad CSE Student. I'm an Android Developer.
-I like helping people and wanted to learn together.
-
 
 ## 🔗 Links
 [![Behance](https://img.shields.io/badge/Behance-1769ff?style=for-the-badge&logo=behance&logoColor=white)](https://katherinempeterson.com/)
