@@ -18,7 +18,7 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 - **Face Recognition** - Makes it an MVP app
 - **Attendees list** - Shows a list of attendees that are present on that particular day
 - **Progress** - To check the monthly attendance progress and consistency
-- **PDF**** - Admin can add PDFs and anyone can download it, comes in handy when sharing important pdfs, previours year papers and so on
+- **PDF** - Admin can add PDFs and anyone can download it, comes in handy when sharing important pdfs, previours year papers and so on
 - **Study timer** - This needs the DND Access, it's a timer that monitors how long you study and turns on silent mode when started
 - **Study progress** - This shows how long you studied each day for the past 7 days and this helps your to check your progress
 - **Settings/Profile/Edit profile** - Check your current details and also get the access to edit your profile.
