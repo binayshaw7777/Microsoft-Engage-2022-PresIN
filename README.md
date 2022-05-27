@@ -1,7 +1,9 @@
 ![Banner_final](https://user-images.githubusercontent.com/62587060/170310091-19c3c843-f859-42fb-898f-1b3ea5b7005d.png)
 
 # PresIN - Face-Recognition_Engage-2022
-This is an Android Application developed for Microsoft Intern Engage 2022 Programme.
+This is an Android Application developed for Microsoft Intern Engage 2022 Programme.<br />
+It's an Smart Attendance App that is powered by face recognition technology.<br />
+The UI/UX is really simple and self explanatory, the user will not face any issues.<br />
 <br />
 
 ## 💻 Tech Stack used 
@@ -11,6 +13,9 @@ This is an Android Application developed for Microsoft Intern Engage 2022 Progra
 - **Firebase** - To authenticate users, store user's data and perform operations and store files (PDFs).<br />
 - **ML Kit** - To detect faces in the application.<br />
 - **TensorFlow Lite** - To recognize Faces.<br />
+
+## 🤔 How it works?
+- Intialially during registration the user's face embeddings is stored in a HashMap as value with a key that is same of all users "added".
 
 ## Flow of the Application
 ![PresIN](https://user-images.githubusercontent.com/62587060/170339689-8665f94f-f158-4717-80b1-8713251e6bc8.png)
