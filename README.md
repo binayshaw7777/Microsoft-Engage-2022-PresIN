@@ -40,15 +40,3 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 
 ## Flow of the Application
 ![PresIN](https://user-images.githubusercontent.com/62587060/170339689-8665f94f-f158-4717-80b1-8713251e6bc8.png)
-
-
-
-## Developed by
-- [Binay Shaw](https://www.github.com/binayshaw7777)
-
-## 🔗 Links
-[![Behance](https://img.shields.io/badge/Behance-1769ff?style=for-the-badge&logo=behance&logoColor=white)](https://katherinempeterson.com/)
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/binayshaw7777/)
-[![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/binayplays7777)
-[![LeetCode](https://img.shields.io/badge/LeetCode-000000?style=for-the-badge&logo=LeetCode&logoColor=#d16c06)](https://leetcode.com/binayshaw7777/)
-[![Instagram](https://img.shields.io/badge/im_yonderly-%23E4405F.svg?style=for-the-badge&logo=Instagram&logoColor=white)](https://www.instagram.com/im_yonderly/)
