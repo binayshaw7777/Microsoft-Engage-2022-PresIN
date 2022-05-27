@@ -306,7 +306,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                             intentNow(Attendance_Result_Activity.class, true);
                         }
                 } else
-                    FaceStatus.setText("Unknown\n"+keyFirst+"\n"+nearest.get(1).first);
+                    FaceStatus.setText("Unknown");
             }
         }
     }
