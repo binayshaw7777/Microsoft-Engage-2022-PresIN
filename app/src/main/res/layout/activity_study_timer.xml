@@ -90,9 +90,10 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:text="00:00:00"
+                android:fontFamily="@font/dm_sans_bold"
                 android:textColor="@color/lightblue"
                 android:textSize="50dp"
-                android:textStyle="bold" />
+                />
 
             <LinearLayout
                 android:id="@+id/buttons"
@@ -109,6 +110,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/positive"
                     android:text="Start"
+                    android:fontFamily="@font/dm_sans"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
 
@@ -119,6 +121,7 @@
                     android:layout_marginHorizontal="30dp"
                     android:background="@drawable/negative"
                     android:text="Reset"
+                    android:fontFamily="@font/dm_sans"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
 
@@ -128,6 +131,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/gradient_button"
                     android:text="Pause"
+                    android:fontFamily="@font/dm_sans"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
 
