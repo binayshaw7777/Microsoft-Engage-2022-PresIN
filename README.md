@@ -24,7 +24,7 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 - Settings/Profile/Edit profile - Check your current details and also get the access to edit your profile.
 
 ## ❓ How to use the app?
-- Download the app  - 
+- Download the app  - [PresIN](https://www.google.com](https://github.com/binayshaw7777/Face-Recognition_Engage-2022/blob/master/app/release/app-release.apk))
 - Create an account -> Register by adding your face and all the required details asked (Login as Admin to test all the features)
 - Verify your Email
 - Signin to your account and mark your attendance.
