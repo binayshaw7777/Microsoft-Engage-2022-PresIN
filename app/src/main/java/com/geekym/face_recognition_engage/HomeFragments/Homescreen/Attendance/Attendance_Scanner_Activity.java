@@ -85,8 +85,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-        float distance = 1.0f;
-//    float distance = 0.85f;
+//        float distance = 1.0f;
+    float distance = 0.85f;
     ProcessCameraProvider cameraProvider;
     ImageView info;
 
@@ -105,7 +105,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
     HashMap<String, SimilarityClassifier.Recognition> global = new HashMap<>();
 
-    String modelFile = "mobile.tflite"; //model name
+    String modelFile = "mobile_face_net.tflite"; //model name
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -306,7 +306,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                             intentNow(Attendance_Result_Activity.class, true);
                         }
                 } else
-                    FaceStatus.setText("Unknown");
+                    FaceStatus.setText("Unknown\n"+keyFirst+"\n"+nearest.get(1).first);
             }
         }
     }
