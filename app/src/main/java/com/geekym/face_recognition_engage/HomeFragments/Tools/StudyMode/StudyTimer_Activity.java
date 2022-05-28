@@ -91,27 +91,29 @@ public class StudyTimer_Activity extends AppCompatActivity {
             }
         });
 
+        //Start Button
         start.setOnClickListener(view -> {
-            pause.setVisibility(View.VISIBLE);
+            pause.setVisibility(View.VISIBLE);      //Enables pause button
             StartTime = SystemClock.uptimeMillis();
             handler.postDelayed(runnable, 0);
             reset.setEnabled(false);
             reset.setVisibility(View.INVISIBLE);
             start.setVisibility(View.INVISIBLE);
             audioManager.setRingerMode(1);
-            audioState.setBackground(getResources().getDrawable(R.drawable.vibrate));
+            audioState.setBackground(getResources().getDrawable(R.drawable.vibrate));   //Enables Vibrate mode
         });
 
+        //Pause Button
         pause.setOnClickListener(view -> {
             TimeBuff += MillisecondTime;
             handler.removeCallbacks(runnable);
             reset.setEnabled(true);
-            reset.setVisibility(View.VISIBLE);
-            start.setVisibility(View.VISIBLE);
+            reset.setVisibility(View.VISIBLE);      //Enables reset button
+            start.setVisibility(View.VISIBLE);      //Enables resume(start) button
             start.setText("Resume");
             pause.setVisibility(View.INVISIBLE);
             audioManager.setRingerMode(2);
-            audioState.setBackground(getResources().getDrawable(R.drawable.ringer));
+            audioState.setBackground(getResources().getDrawable(R.drawable.ringer)); //Enables Ringer mode
 
             String currTime = textView.getText().toString(); //Getting the current time that is shown in the timer TextView
             SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss"); //out DateFormat
@@ -143,8 +145,9 @@ public class StudyTimer_Activity extends AppCompatActivity {
 
         });
 
+        //Reset Button
         reset.setOnClickListener(view -> {
-            pause.setVisibility(View.INVISIBLE);
+            pause.setVisibility(View.INVISIBLE); //Disables Pause and Reset button itself
             reset.setVisibility(View.INVISIBLE);
             start.setText("Start");
             MillisecondTime = 0L;
@@ -175,7 +178,7 @@ public class StudyTimer_Activity extends AppCompatActivity {
     public Runnable runnable = new Runnable() {
 
         @SuppressLint({"SetTextI18n", "DefaultLocale"})
-        public void run() {
+        public void run() {     //Timer
             MillisecondTime = SystemClock.uptimeMillis() - StartTime;
             UpdateTime = TimeBuff + MillisecondTime;
             Seconds = (int) (UpdateTime / 1000);
@@ -183,6 +186,7 @@ public class StudyTimer_Activity extends AppCompatActivity {
             int Hours = Minutes / 60;
             Seconds = Seconds % 60;
             MilliSeconds = (int) (UpdateTime % 1000);
+            //Setting up the String
             String time = String.format("%02d", Hours) + ":" + String.format("%02d", Minutes) + ":" + String.format("%02d", Seconds);
             textView.setText(time);
             handler.postDelayed(this, 0);

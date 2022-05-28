@@ -44,7 +44,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="Edit Profile"
                 android:textColor="@color/white"
-                android:textSize="35dp"
+                android:textSize="35sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -104,7 +104,7 @@
                         android:fontFamily="@font/dm_sans_bold"
                         android:text="Current details"
                         android:textColor="@color/lightblue"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -181,7 +181,7 @@
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

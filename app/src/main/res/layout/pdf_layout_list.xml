@@ -40,7 +40,7 @@
             android:paddingBottom="3dp"
             android:text="This is Header Text"
             android:textColor="@color/bluish_black"
-            android:textSize="15dp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/pdf_img"
             app:layout_constraintTop_toTopOf="parent"

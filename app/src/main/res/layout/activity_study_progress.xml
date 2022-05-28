@@ -44,7 +44,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="Study progress"
                 android:textColor="@color/white"
-                android:textSize="35dp"
+                android:textSize="35sp"
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
@@ -127,7 +127,7 @@
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

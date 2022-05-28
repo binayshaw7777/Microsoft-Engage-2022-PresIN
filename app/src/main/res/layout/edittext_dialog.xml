@@ -31,7 +31,7 @@
                 android:gravity="center"
                 android:text="Edit profile"
                 android:textColor="@color/bluish_black"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/edittext_box"

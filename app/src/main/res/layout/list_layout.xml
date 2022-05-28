@@ -34,7 +34,7 @@
                 android:fontFamily="@font/dm_sans"
                 android:text="Time: --/--"
                 android:textColor="@color/bluish_black"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                     android:fontFamily="@font/dm_sans_bold"
                     android:text="Present"
                     android:textColor="@color/green_desat"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/statusIndicator"
@@ -84,7 +84,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="Name: "
                 android:textColor="@color/lightblue"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/collegeIdDisplay"
@@ -94,7 +94,7 @@
                 android:fontFamily="@font/dm_sans"
                 android:text="College ID: "
                 android:textColor="@color/lightblue"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 

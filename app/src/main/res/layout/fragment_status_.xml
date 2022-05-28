@@ -44,7 +44,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="Status"
                 android:textColor="@color/white"
-                android:textSize="35dp"
+                android:textSize="35sp"
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
@@ -97,7 +97,7 @@
                         android:paddingLeft="20dp"
                         android:text="Attendees list"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:id="@+id/card1dis"
@@ -152,7 +152,7 @@
                         android:paddingLeft="20dp"
                         android:text="Progress"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:id="@+id/cal"

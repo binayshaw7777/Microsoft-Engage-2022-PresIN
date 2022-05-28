@@ -44,7 +44,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="PresIn"
                 android:textColor="@color/white"
-                android:textSize="35dp"
+                android:textSize="35sp"
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
@@ -137,7 +137,7 @@
                         android:gravity="center"
                         android:text="Attendance marked at"
                         android:textColor="@color/lightblue"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/in_count"
@@ -146,7 +146,7 @@
                         android:fontFamily="@font/dm_sans_bold"
                         android:text="--/--"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 

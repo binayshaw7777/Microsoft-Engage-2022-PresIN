@@ -44,7 +44,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="Progress"
                 android:textColor="@color/white"
-                android:textSize="35dp"
+                android:textSize="35sp"
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
@@ -79,7 +79,7 @@
                         android:gravity="center"
                         android:text="Attendance percentage"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                     <com.ramijemli.percentagechartview.PercentageChartView
                         android:id="@+id/ring_progress"
@@ -217,7 +217,7 @@
                         android:gravity="left"
                         android:text="Days ->"
                         android:textColor="@color/lightblue"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 

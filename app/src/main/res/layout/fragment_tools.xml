@@ -44,7 +44,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="Tools"
                 android:textColor="@color/white"
-                android:textSize="35dp"
+                android:textSize="35sp"
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
@@ -97,7 +97,7 @@
                         android:paddingLeft="20dp"
                         android:text="PDF files"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:id="@+id/st_icon"
@@ -152,7 +152,7 @@
                         android:paddingLeft="20dp"
                         android:text="Study timer"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:id="@+id/timer_icon"
@@ -207,7 +207,7 @@
                         android:paddingLeft="20dp"
                         android:text="Study progress"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:id="@+id/dictionary_icon"

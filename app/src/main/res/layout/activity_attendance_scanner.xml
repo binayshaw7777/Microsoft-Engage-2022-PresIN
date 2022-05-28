@@ -60,7 +60,7 @@
             android:fontFamily="@font/dm_sans"
             android:text="Please hold your phone in portrait mode"
             android:textColor="@color/lightblue"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="330dp"

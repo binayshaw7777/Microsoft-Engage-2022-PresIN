@@ -40,7 +40,7 @@
             android:fontFamily="@font/dm_sans_bold"
             android:text="Create account"
             android:textColor="@color/white"
-            android:textSize="30dp"
+            android:textSize="30sp"
             tools:layout_editor_absoluteX="212dp"
             tools:layout_editor_absoluteY="220dp" />
 

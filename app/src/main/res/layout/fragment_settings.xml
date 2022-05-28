@@ -45,7 +45,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="Settings"
                 android:textColor="@color/white"
-                android:textSize="35dp"
+                android:textSize="35sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -127,7 +127,7 @@
                         android:gravity="center|left"
                         android:text="Profile"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/pfimageView"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -178,7 +178,7 @@
                         android:paddingLeft="20dp"
                         android:text="Account settings"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/edimageView"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -239,7 +239,7 @@
                         android:gravity="center|left"
                         android:text="Privacy policy"
                         android:textColor="@color/lightblue"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/ppimageView"
                         app:layout_constraintTop_toTopOf="parent" />

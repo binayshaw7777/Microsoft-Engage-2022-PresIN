@@ -25,7 +25,7 @@
         android:fontFamily="@font/dm_sans_bold"
         android:text="TextView"
         android:textColor="@color/lightblue"
-        android:textSize="32dp"
+        android:textSize="32sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

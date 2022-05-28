@@ -44,7 +44,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="Study timer"
                 android:textColor="@color/white"
-                android:textSize="35dp"
+                android:textSize="35sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -80,7 +80,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="Stay focused"
                 android:textColor="@color/lightblue"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/TextView"
@@ -92,7 +92,7 @@
                 android:text="00:00:00"
                 android:fontFamily="@font/dm_sans_bold"
                 android:textColor="@color/lightblue"
-                android:textSize="50dp"
+                android:textSize="50sp"
                 />
 
             <LinearLayout
@@ -147,7 +147,7 @@
                 android:fontFamily="@font/dm_sans_bold"
                 android:text="Maximum time studied today"
                 android:textColor="@color/lightblue"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/maxStudyTime"
@@ -159,7 +159,7 @@
                 android:fontFamily="@font/dm_sans"
                 android:text="00:00:00"
                 android:textColor="@color/lightblue"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/gotoStudyProgress"
@@ -180,7 +180,7 @@
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

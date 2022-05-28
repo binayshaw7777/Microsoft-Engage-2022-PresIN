@@ -4,31 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.geekym.face_recognition_engage.Authentication.SignIn_Activity;
-import com.geekym.face_recognition_engage.Authentication.SignUp_Second_Activity;
 import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,9 +26,7 @@ public class AccountSettings extends AppCompatActivity {
 
     Button Confirm;
     private DatabaseReference reference;
-    private FirebaseAuth mAuth;
     EditText NameEdit, PhoneEdit, YearEdit;
-//    ImageButton Delete;
     boolean dataChanged = false;
 
     @SuppressLint({"SetTextI18n", "SimpleDateFormat", "UseCompatLoadingForDrawables"})
@@ -62,8 +43,6 @@ public class AccountSettings extends AppCompatActivity {
         String SPcollegeYear = userDataSP.getString("year", "0");
         String SPPhone = userDataSP.getString("phone", "0");
         String userID = userDataSP.getString("userID", "0");
-        String SPAdmin = userDataSP.getString("admin", "0");
-        String SPEmail = userDataSP.getString("email", "0");
 
         if (!SPname.equals("0"))
             NameEdit.setHint(SPname);
@@ -156,103 +135,11 @@ public class AccountSettings extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-
-//        Delete.setOnClickListener(view1 -> {
-//            //Pop a dialog when the user clicks on Delete Account Button, warn them
-//
-//            Dialog dialog = new Dialog(AccountSettings.this);
-//            dialog.setContentView(R.layout.custom_dialog);
-//            dialog.getWindow().setBackgroundDrawable(AccountSettings.this.getDrawable(R.drawable.custom_dialog_background));
-//            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//            dialog.setCancelable(false); //Optional
-//            dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
-//
-//            Button Proceed = dialog.findViewById(R.id.proceed);
-//            Button Cancel = dialog.findViewById(R.id.cancel);
-//            TextView title = dialog.findViewById(R.id.dialog_title);
-//            TextView description = dialog.findViewById(R.id.dialog_description);
-//
-//            Proceed.setText("Delete");
-//            Proceed.setBackground(getResources().getDrawable(R.drawable.negative));
-//            title.setText("Confirm delete");
-//            description.setText("Do you really want to delete your account?");
-//
-//            Proceed.setOnClickListener(v -> { //On Delete button press -> Call delete function
-//                dialog.dismiss();
-//
-//                deleteAccount(userID, SPEmail);
-//
-//            });
-//
-//            Cancel.setOnClickListener(v -> dialog.dismiss()); //On Cancel
-//            dialog.show();
-//        });
     }
 
-    //To delete account of the current user
-//    @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
-//    private void deleteAccount(String userID, String Email) {
-//
-//        Dialog dialog = new Dialog(AccountSettings.this);
-//        dialog.setContentView(R.layout.edittext_dialog);
-//        dialog.getWindow().setBackgroundDrawable(AccountSettings.this.getDrawable(R.drawable.custom_dialog_background));
-//        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        dialog.setCancelable(false); //Optional
-//        dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
-//
-//        Button Proceed = dialog.findViewById(R.id.proceed);
-//        Button Cancel = dialog.findViewById(R.id.cancel);
-//        EditText editText = dialog.findViewById(R.id.edittext_box);
-//        TextView title = dialog.findViewById(R.id.dialog_title);
-//
-//        Proceed.setText("Delete");
-//        editText.setHint("Enter Password");
-//        editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//        title.setText("Please enter your password");
-//
-//        Proceed.setOnClickListener(v -> {
-//
-//            String inputPassword = editText.getText().toString().trim();
-//
-//            if (!inputPassword.isEmpty()) { //If the user's input is not Empty
-//
-//                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//                AuthCredential authCredential = EmailAuthProvider.getCredential(Email, inputPassword);
-//
-//                assert firebaseUser != null;
-//                firebaseUser.reauthenticate(authCredential).addOnCompleteListener(task -> firebaseUser.delete().addOnCompleteListener(task1 -> {
-//                    if (task1.isSuccessful()) {
-//                        DatabaseReference dbNode = FirebaseDatabase.getInstance().getReference().getRoot().child("Users");
-//                        dbNode.child(userID).setValue(null);
-//                        SharedPreferences userDataSP = AccountSettings.this.getSharedPreferences("userData", 0);
-//                        SharedPreferences.Editor editor = userDataSP.edit();
-//                        editor.clear();
-//                        editor.apply();
-//                        FirebaseAuth.getInstance().signOut();
-//                        Intent intent = new Intent(getApplicationContext(), SignIn_Activity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                        startActivity(intent);
-//                        finish();
-//                        DynamicToast.makeSuccess(AccountSettings.this, "Account deleted successfully").show();
-//                    } else {
-//                        DynamicToast.makeError(AccountSettings.this, "Something went wrong!").show();
-//                    }
-//                }));
-//
-//            } else
-//                DynamicToast.makeError(getApplicationContext(), "Please enter something").show(); //If the user's input is empty
-//
-//            dialog.dismiss();
-//        });
-//
-//        Cancel.setOnClickListener(v -> dialog.dismiss());
-//        dialog.show();
-//    }
 
     private void Initialization() {
-//        Delete = findViewById(R.id.delete_button);
         reference = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
         NameEdit = findViewById(R.id.editName);
         PhoneEdit = findViewById(R.id.editPhone);
         YearEdit = findViewById(R.id.editCollegeYear);

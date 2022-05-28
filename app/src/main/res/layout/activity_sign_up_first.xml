@@ -58,10 +58,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dm_sans"
-            android:text="Please hold your phone in portrait mode\nTake off your glasses if any"
-            android:gravity="center"
+            android:text="Please hold your phone in portrait mode"         android:gravity="center"
             android:textColor="@color/lightblue"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="300dp"
