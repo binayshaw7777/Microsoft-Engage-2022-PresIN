@@ -30,6 +30,7 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 ||||
 |:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
 | ![Imgur](Screenshots/1st.png) | ![Imgur](Screenshots/2nd.png) | ![Imgur](Screenshots/3rd.png) |
+| ![Imgur](Screenshots/4th.png) | ![Imgur](Screenshots/5th.png) | ![Imgur](Screenshots/6th.png) |
 
 ## ❓ How to use the app?
 - Download the app  - [**PresIN**](https://github.com/binayshaw7777/Face-Recognition_Engage-2022/blob/master/app/release/app-release.apk)
