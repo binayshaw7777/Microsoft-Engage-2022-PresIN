@@ -4,7 +4,10 @@
 This is an Android Application developed for Microsoft Intern Engage 2022 Programme.<br />
 It's an Smart Attendance App that is powered by face recognition technology.<br />
 The UI/UX is really simple and self explanatory, the user will not face any issues.<br />
-<br />
+
+## 📕 Resources
+- Video demo link - [YouTube](https://www.youtube.com/watch?v=toJiBPxem5I&ab_channel=LitCoder)
+- Supporting Documents - [Documents](https://drive.google.com/drive/folders/1jf2ofhPqel-6Fn9p6Fe_sjGvDqyWAWK0?usp=sharing)
 
 ## 💻 Tech Stack used 
 - **Java** - Developed using Android studio and Java as developing Language
@@ -49,3 +52,33 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 
 ## Flow of the Application
 ![PresIN](https://user-images.githubusercontent.com/62587060/170339689-8665f94f-f158-4717-80b1-8713251e6bc8.png)
+
+## 📝 License
+
+```
+MIT License
+
+Copyright (c) 2022 Binay Shaw
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)
+![ForTheBadge ANDROID](https://forthebadge.com/images/badges/built-for-android.svg)
+![ForTheBadge GIT](https://forthebadge.com/images/badges/uses-git.svg)
