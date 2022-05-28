@@ -26,6 +26,11 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 - **Study progress** - This shows how long you studied each day for the past 7 days and this helps your to check your progress
 - **Settings/Profile/Edit profile** - Check your current details and also get the access to edit your profile.
 
+## 📱Screenshots
+||||
+|:----------------------------------------:|:-----------------------------------------:|:-----------------------------------------: |
+| ![Imgur](Screenshots/1st.png) | ![Imgur](Screenshots/2nd.png) | ![Imgur](Screenshots/3rd.png) |
+
 ## ❓ How to use the app?
 - Download the app  - [**PresIN**](https://github.com/binayshaw7777/Face-Recognition_Engage-2022/blob/master/app/release/app-release.apk)
 - Create an account -> Register by adding your face and all the required details asked (Login as Admin to test all the features)
