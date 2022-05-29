@@ -14,8 +14,10 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 - **Figma** - [**Designed using Figma**](https://www.figma.com/file/jjNrOhXOxz2nnSpAYamNsA/PresIN-Engage?node-id=107%3A21)
 - **XML** - To implement design into code
 - **Firebase** - To authenticate users, store user's data and perform operations and store files (PDFs)
-- **ML Kit** - To detect faces in the application
-- **TensorFlow Lite** - To recognize Faces [TensorFlow Lite Model](https://github.com/binayshaw7777/Face-Recognition_Engage-2022/blob/master/app/src/main/assets/mobile_face_net.tflite)
+- **ML Kit** - To detect faces in the application [ML Kit - Firebase](https://developers.google.com/ml-kit)
+- **TensorFlow Lite** - To recognize Faces [TensorFlow Lite](https://www.tensorflow.org/lite)
+- **Pre-Trained model** - [MobileFaceNet](https://github.com/sirius-ai/MobileFaceNet_TF)
+- **CameraX** - To capture faces and recognize using camera preview [CameraX](https://developer.android.com/training/camerax)
 
 ## ✨ Features
 - **Face Recognition** - Makes it an MVP app
@@ -42,7 +44,8 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 
 
 ## 🍴 Fork/Clone the project
-- Clone this repository
+- Clone the repository by the following link and open the project in Android Studio or Git Bash
+- ```https://github.com/binayshaw7777/Face-Recognition_Engage-2022.git```
 - Connect it to your Firebase Account
 - Add Email Authentication, Realtime Database and Firebase Storage.
 - Follow the above steps to create account and proceed
