@@ -46,7 +46,7 @@ The UI/UX is really simple and self explanatory, the user will not face any issu
 ## 🍴 Fork/Clone the project
 - Clone the repository by the following link and open the project in Android Studio or Git Bash
 - ```bash
-  https://github.com/sourabhchouhan07/AttendaceWithFace_engage-22.git
+  https://github.com/binayshaw7777/Face-Recognition_Engage-2022.git
 - Connect it to your Firebase Account
 - Add Email Authentication, Realtime Database and Firebase Storage.
 - Follow the above steps to create account and proceed
