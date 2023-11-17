@@ -23,6 +23,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.util.Size;
 import android.widget.ImageView;
@@ -131,8 +132,12 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    //Converting Snapshot children -> embeddings String and getting hashmap in return
-                    global.putAll(StringToMap(Objects.requireNonNull(ds.child("embeddings").getValue()).toString()));
+                    try {
+                        //Converting Snapshot children -> embeddings String and getting hashmap in return
+                        global.putAll(StringToMap(Objects.requireNonNull(ds.child("embeddings").getValue()).toString()));
+                    } catch (Exception e) {
+                        Log.d("Exception", "Exception caught at onDataChange: " + e);
+                    }
                 }
             }
 
