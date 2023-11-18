@@ -6,6 +6,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Random
 
 @RequiresApi(Build.VERSION_CODES.O)
 
@@ -48,6 +49,19 @@ object Utils {
     fun getFormattedDateTimeFromTimestamp(timestamp: Long): String {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         return timestampToLocalDateTime(timestamp).format(formatter)
+    }
+
+    fun generateRandomId(length: Int = 20): String {
+        val characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        val random = Random()
+        val id = StringBuilder()
+
+        for (i in 0 until length) {
+            val randomChar = characters[random.nextInt(characters.length)]
+            id.append(randomChar)
+        }
+
+        return id.toString()
     }
 
 }

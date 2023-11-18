@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.Attendance.Attendance_Scanner_Activity;
 import com.geekym.face_recognition_engage.HomeFragments.Settings.AccountSettings;
@@ -188,34 +189,40 @@ public class home_Fragment extends Fragment {
 
         clockInOut.setOnClickListener(view1 -> {
             if (isConnected()) {    //To check Internet Connectivity
-                if (markTime.toString().equals("0")) {
-                    startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
-                } else {
-                    //Pop a dialog when the user clicks on Delete Account Button, warn them
-                    Dialog dialog = new Dialog(getContext());
-                    dialog.setContentView(R.layout.custom_dialog);
-                    dialog.getWindow().setBackgroundDrawable(requireContext().getDrawable(R.drawable.custom_dialog_background));
-                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    dialog.setCancelable(false); //Optional
-                    dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
 
-                    Button Proceed = dialog.findViewById(R.id.proceed);
-                    Button Cancel = dialog.findViewById(R.id.cancel);
-                    TextView title = dialog.findViewById(R.id.dialog_title);
-                    TextView description = dialog.findViewById(R.id.dialog_description);
-
-                    Proceed.setText("Yes, retake");
-                    Proceed.setBackground(getResources().getDrawable(R.drawable.positive));
-                    title.setText("Attendance already marked");
-                    description.setText("Do you want to retake your attendance?");
-
-                    Proceed.setOnClickListener(v -> { //On Delete button press -> Call delete function
-                        dialog.dismiss();
+                if (isAdmin.equals("true")) {
+                    startActivity(new Intent(requireContext(), TeachersFormScreen.class));
+                }
+                else {
+                    if (markTime.toString().equals("0")) {
                         startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
-                    });
+                    } else {
+                        //Pop a dialog when the user clicks on Delete Account Button, warn them
+                        Dialog dialog = new Dialog(getContext());
+                        dialog.setContentView(R.layout.custom_dialog);
+                        dialog.getWindow().setBackgroundDrawable(requireContext().getDrawable(R.drawable.custom_dialog_background));
+                        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        dialog.setCancelable(false); //Optional
+                        dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
 
-                    Cancel.setOnClickListener(v -> dialog.dismiss()); //On Cancel
-                    dialog.show();
+                        Button Proceed = dialog.findViewById(R.id.proceed);
+                        Button Cancel = dialog.findViewById(R.id.cancel);
+                        TextView title = dialog.findViewById(R.id.dialog_title);
+                        TextView description = dialog.findViewById(R.id.dialog_description);
+
+                        Proceed.setText("Yes, retake");
+                        Proceed.setBackground(getResources().getDrawable(R.drawable.positive));
+                        title.setText("Attendance already marked");
+                        description.setText("Do you want to retake your attendance?");
+
+                        Proceed.setOnClickListener(v -> { //On Delete button press -> Call delete function
+                            dialog.dismiss();
+                            startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
+                        });
+
+                        Cancel.setOnClickListener(v -> dialog.dismiss()); //On Cancel
+                        dialog.show();
+                    }
                 }
             } else {
                 DynamicToast.makeError(getContext(), "Please connect to Internet").show();
@@ -245,7 +252,7 @@ public class home_Fragment extends Fragment {
         assert user != null;
         userID = user.getUid();
         DateDis = view.findViewById(R.id.text_view_date);
-        clockInOut = view.findViewById(R.id.clock_inout);
+        clockInOut = (ImageView) view.findViewById(R.id.clock_inout);
         attendanceBox = view.findViewById(R.id.attendance_box);
     }
 }
