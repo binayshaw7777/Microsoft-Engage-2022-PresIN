@@ -1,12 +1,15 @@
 package com.geekym.face_recognition_engage.utils;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import com.geekym.face_recognition_engage.model.LatLong;
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 
@@ -44,6 +47,12 @@ public class JavaUtils {
         long timeDifference = currentTimestamp - classTimesStamp;
 
         return timeDifference <= tenMinutesInMillis;
+    }
+
+    public static String formatTimestamp(long timestamp) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date = new Date(timestamp);
+        return sdf.format(date);
     }
 
     public static int getYearFromTimestamp(long timestamp) {
