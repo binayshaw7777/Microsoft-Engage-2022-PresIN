@@ -47,6 +47,7 @@ public class HomeScreen extends AppCompatActivity {
         String SPcollegeYear = userDataSP.getString("year", "0");
         String SPPhone = userDataSP.getString("phone", "0");
         String userID = userDataSP.getString("userID", "0");
+        String SPisAdmin = userDataSP.getString("admin", "false");
 
         //If the data is changed/modified/edited on Firebase RealTime Database
         //We can handle it here. This will edit the shared-preference
@@ -60,6 +61,7 @@ public class HomeScreen extends AppCompatActivity {
                     String collegeYear = userprofile.year;
                     String collegeName = userprofile.college;
                     String collegeID = userprofile.id;
+                    String isAdmin = userprofile.admin;
 
                     if (!SPname.equals(name)) {
                         SharedPreferences.Editor editor = userDataSP.edit(); //Enabling SharedPreference Editor mode
@@ -88,6 +90,11 @@ public class HomeScreen extends AppCompatActivity {
                     if (!SPcollegeName.equals(collegeName)) {
                         SharedPreferences.Editor editor = userDataSP.edit(); //Enabling SharedPreference Editor mode
                         editor.putString("collegeName", collegeName);      //Replacing the name value with updated phone no.
+                        editor.apply();
+                    }
+                    if (!SPisAdmin.equals(isAdmin)) {
+                        SharedPreferences.Editor editor = userDataSP.edit(); //Enabling SharedPreference Editor mode
+                        editor.putString("admin", isAdmin);      //Replacing the name value with updated phone no.
                         editor.apply();
                     }
                 }

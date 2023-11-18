@@ -10,7 +10,7 @@ data class ClassPrompt(
     val timeStamp: String,
     val latLong: LatLong,
     val expectedStudents: Int,
-    val studentsList: List<Users>
+    val studentsList: List<Users>? = null
 )
 
 data class LatLong(

@@ -8,11 +8,13 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +45,8 @@ public class home_Fragment extends Fragment {
     ImageView clockInOut;
     TextView DateDis, PresentMark_Time;
     Calendar calendar;
+    String isAdmin;
+    LinearLayout attendanceBox;
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
@@ -54,8 +58,16 @@ public class home_Fragment extends Fragment {
 
         Initialization(view);   //Function to initialize the variables
 
-        StringBuilder markTime = new StringBuilder(userData.getString("markTime", "0")); //Fetching marked attendance time
+
         String userIDSP = userData.getString("userID", "0");
+        isAdmin = userData.getString("admin", "false");
+        Log.d("","UID : " + userIDSP);
+        if (isAdmin.equals("true")) {
+            attendanceBox.setVisibility(View.GONE);
+        }
+
+        StringBuilder markTime = new StringBuilder(Objects.requireNonNull(userData.getString("markTime", "0"))); //Fetching marked attendance time
+
 
         if (userIDSP.equals("0")) {
             SharedPreferences.Editor editor = userData.edit();
@@ -234,5 +246,6 @@ public class home_Fragment extends Fragment {
         userID = user.getUid();
         DateDis = view.findViewById(R.id.text_view_date);
         clockInOut = view.findViewById(R.id.clock_inout);
+        attendanceBox = view.findViewById(R.id.attendance_box);
     }
 }
