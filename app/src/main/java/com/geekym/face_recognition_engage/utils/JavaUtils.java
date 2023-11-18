@@ -1,8 +1,17 @@
 package com.geekym.face_recognition_engage.utils;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
+import androidx.annotation.RequiresApi;
 import com.geekym.face_recognition_engage.model.LatLong;
-
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
+@RequiresApi(api = Build.VERSION_CODES.O)
 
 public class JavaUtils {
 
@@ -29,5 +38,55 @@ public class JavaUtils {
 
     public static long getCurrentTimestamp() {
         return System.currentTimeMillis();
+    }
+
+    public static boolean shouldMeetTimeConstraints(Long classTimesStamp) {
+        long currentTimestamp = System.currentTimeMillis();
+        long tenMinutesInMillis = 10 * 60 * 1000; // 10 minutes in milliseconds
+
+        long timeDifference = currentTimestamp - classTimesStamp;
+
+        return timeDifference <= tenMinutesInMillis;
+    }
+
+    public static String formatTimestamp(long timestamp) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date = new Date(timestamp);
+        return sdf.format(date);
+    }
+
+    public static int getYearFromTimestamp(long timestamp) {
+        LocalDateTime dateTime = convertTimestampToLocalDateTime(timestamp);
+        return dateTime.getYear();
+    }
+
+    public static int getMonthFromTimestamp(long timestamp) {
+        LocalDateTime dateTime = convertTimestampToLocalDateTime(timestamp);
+        return dateTime.getMonthValue();
+    }
+
+    public static int getDayFromTimestamp(long timestamp) {
+        LocalDateTime dateTime = convertTimestampToLocalDateTime(timestamp);
+        return dateTime.getDayOfMonth();
+    }
+
+    public static int getHourFromTimestamp(long timestamp) {
+        LocalDateTime dateTime = convertTimestampToLocalDateTime(timestamp);
+        return dateTime.getHour();
+    }
+
+    public static int getMinuteFromTimestamp(long timestamp) {
+        LocalDateTime dateTime = convertTimestampToLocalDateTime(timestamp);
+        return dateTime.getMinute();
+    }
+
+    public static int getSecondFromTimestamp(long timestamp) {
+        LocalDateTime dateTime = convertTimestampToLocalDateTime(timestamp);
+        return dateTime.getSecond();
+    }
+
+    private static LocalDateTime convertTimestampToLocalDateTime(long timestamp) {
+        Instant instant = Instant.ofEpochMilli(timestamp);
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 }

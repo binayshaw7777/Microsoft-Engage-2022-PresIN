@@ -28,6 +28,7 @@ import android.util.Pair;
 import android.util.Size;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -43,6 +44,7 @@ import androidx.core.content.ContextCompat;
 import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.SimilarityClassifier;
+import com.geekym.face_recognition_engage.model.ClassPrompt;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.database.DataSnapshot;
@@ -107,6 +109,8 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     HashMap<String, SimilarityClassifier.Recognition> global = new HashMap<>();
 
     String modelFile = "mobile_face_net.tflite"; //model name
+
+    ClassPrompt classPrompt;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -512,6 +516,9 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         FaceStatus = findViewById(R.id.face_status);
         info = findViewById(R.id.info_icon_scanner);
         reference = FirebaseDatabase.getInstance().getReference();
+
+        Intent intent = getIntent();
+        classPrompt = (ClassPrompt) intent.getSerializableExtra("classPrompt");
     }
 
     //Load Faces from Shared Preferences.Json String to Recognition object
@@ -550,6 +557,9 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     //Handles all the intent
     private void intentNow(Class targetActivity, boolean b) {
         Intent intent = new Intent(getApplicationContext(), targetActivity);
+        if (b) {
+            intent.putExtra("classPrompt", classPrompt);
+        }
         startActivity(intent);
         if (b) finish(); //if b is true, apply finish(); method!
     }

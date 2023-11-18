@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.Attendance.Attendance_Scanner_Activity;
-import com.geekym.face_recognition_engage.HomeFragments.Status.Attendees.myAdapter;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.geekym.face_recognition_engage.model.ClassPrompt;
@@ -43,7 +44,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class home_Fragment extends Fragment {
+public class home_Fragment extends Fragment implements PromptAdapter.PromptClickListener{
 
     private DatabaseReference reference;
     private String userID;
@@ -83,6 +84,8 @@ public class home_Fragment extends Fragment {
             attendanceBox.setVisibility(View.GONE);
             clockInOut.setVisibility(View.GONE);
             timeDate.setVisibility(View.GONE);
+        } else {
+            goToTeachersPromptScreen.setVisibility(View.GONE);
         }
 
         StringBuilder markTime = new StringBuilder(Objects.requireNonNull(userData.getString("markTime", "0"))); //Fetching marked attendance time
@@ -113,7 +116,10 @@ public class home_Fragment extends Fragment {
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date), ClassPrompt.class).build();
 
         //Setting up the adapter with the Firebase UI variable -> 'options'
-        promptAdapter = new PromptAdapter(classPrompt);
+//        promptAdapter = new PromptAdapter(classPrompt);
+        promptAdapter = new PromptAdapter(classPrompt, this);
+//        recyclerView.setAdapter(promptAdapter);
+
 
         if (promptAdapter.getItemCount() == 0) {
             Log.d("Size is", String.valueOf(promptAdapter.getItemCount()));
@@ -198,31 +204,6 @@ public class home_Fragment extends Fragment {
 
                         String CollegeName = userData.getString("collegeName", "0");
 
-                        //Check if the User is present 'today'
-                        reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.hasChild(userID)) {  //User's Attendance is entered in the list for the day
-                                    String attendanceTime = Objects.requireNonNull(snapshot.child(userID).child("time").getValue()).toString();
-                                    if (markTime.toString().equals("0")) {      //Attendance time has not been added in SharedPreference
-                                        PresentMark_Time.setText(attendanceTime);   //If the user is present on current day
-                                        SharedPreferences.Editor editor = userData.edit(); //updating sharedpreference
-                                        editor.putString("markTime", attendanceTime);
-                                        editor.apply();
-                                    }
-                                } else {
-                                    //No such entry found of User's Attendance in the list
-                                    PresentMark_Time.setText("--/--");   //If not present or absent, set the text to empty time or "--/--"
-                                    SharedPreferences.Editor editor = userData.edit(); //Updating sharedPreference with default value "0"
-                                    editor.putString("markTime", "0");
-                                    editor.apply();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
 
                         reference.child("Users").child(userID).child("StudyData").child(year).child(month).addValueEventListener(new ValueEventListener() {
                             @Override
@@ -288,7 +269,7 @@ public class home_Fragment extends Fragment {
                     }
 
             } else {
-                DynamicToast.makeError(getContext(), "Please connect to Internet").show();
+                DynamicToast.makeError(requireContext(), "Please connect to Internet").show();
             }
         });
 
@@ -322,11 +303,20 @@ public class home_Fragment extends Fragment {
         assert user != null;
         userID = user.getUid();
         DateDis = view.findViewById(R.id.text_view_date);
-        clockInOut = (ImageView) view.findViewById(R.id.clock_inout);
+        clockInOut = view.findViewById(R.id.clock_inout);
         attendanceBox = view.findViewById(R.id.attendance_box);
         timeDate = view.findViewById(R.id.linearLayout2);
         goToTeachersPromptScreen = view.findViewById(R.id.teachersPromptFormBtn);
         promptRecyclerView = view.findViewById(R.id.prompt_recycler_view);
         promptRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+    }
+
+    @Override
+    public void onItemClick(ClassPrompt model) {
+        if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
+            Intent intentToAttendanceScanner = new Intent(requireContext(), Attendance_Scanner_Activity.class);
+            intentToAttendanceScanner.putExtra("classPrompt", model);
+            startActivity(intentToAttendanceScanner);
+        }
     }
 }

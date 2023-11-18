@@ -50,6 +50,20 @@
 
         </LinearLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/teachersPromptFormBtn"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="end"
+            android:backgroundTint="@color/deepblue"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="100dp"
+            android:src="@drawable/add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+            android:contentDescription="null" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -65,8 +79,10 @@
                 android:id="@+id/prompt_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
                 android:visibility="visible"
+                android:paddingBottom="120dp"
+                android:clipToPadding="false"
                 tools:listitem="@layout/layoutpromptcard"/>
 
             <LinearLayout
@@ -163,18 +179,10 @@
 
             </LinearLayout>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/teachersPromptFormBtn"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_marginEnd="35dp"
-                android:layout_gravity="end"
-                android:backgroundTint="@color/deepblue"
-                android:src="@drawable/add"
-                android:clickable="true"
-                android:focusable="true" />
+
 
         </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
