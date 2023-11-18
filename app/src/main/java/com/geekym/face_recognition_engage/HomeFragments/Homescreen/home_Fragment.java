@@ -16,15 +16,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.Attendance.Attendance_Scanner_Activity;
-import com.geekym.face_recognition_engage.HomeFragments.Settings.AccountSettings;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,7 +44,9 @@ public class home_Fragment extends Fragment {
     TextView DateDis, PresentMark_Time;
     Calendar calendar;
     String isAdmin;
-    LinearLayout attendanceBox;
+    LinearLayout attendanceBox, timeDate;
+
+    FloatingActionButton goToTeachersPromptScreen;
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
@@ -65,6 +64,8 @@ public class home_Fragment extends Fragment {
         Log.d("","UID : " + userIDSP);
         if (isAdmin.equals("true")) {
             attendanceBox.setVisibility(View.GONE);
+            clockInOut.setVisibility(View.GONE);
+            timeDate.setVisibility(View.GONE);
         }
 
         StringBuilder markTime = new StringBuilder(Objects.requireNonNull(userData.getString("markTime", "0"))); //Fetching marked attendance time
@@ -187,13 +188,15 @@ public class home_Fragment extends Fragment {
             });
         }
 
+        goToTeachersPromptScreen.setOnClickListener(goTo -> {
+            if (isAdmin.equals("true")) {
+                startActivity(new Intent(requireContext(), TeachersFormScreen.class));
+            }
+        });
+
         clockInOut.setOnClickListener(view1 -> {
             if (isConnected()) {    //To check Internet Connectivity
 
-                if (isAdmin.equals("true")) {
-                    startActivity(new Intent(requireContext(), TeachersFormScreen.class));
-                }
-                else {
                     if (markTime.toString().equals("0")) {
                         startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
                     } else {
@@ -223,7 +226,7 @@ public class home_Fragment extends Fragment {
                         Cancel.setOnClickListener(v -> dialog.dismiss()); //On Cancel
                         dialog.show();
                     }
-                }
+
             } else {
                 DynamicToast.makeError(getContext(), "Please connect to Internet").show();
             }
@@ -254,5 +257,7 @@ public class home_Fragment extends Fragment {
         DateDis = view.findViewById(R.id.text_view_date);
         clockInOut = (ImageView) view.findViewById(R.id.clock_inout);
         attendanceBox = view.findViewById(R.id.attendance_box);
+        timeDate = view.findViewById(R.id.linearLayout2);
+        goToTeachersPromptScreen = view.findViewById(R.id.teachersPromptFormBtn);
     }
 }
