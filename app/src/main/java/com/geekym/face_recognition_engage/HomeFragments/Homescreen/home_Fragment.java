@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.Attendance.Attendance_Scanner_Activity;
+import com.geekym.face_recognition_engage.HomeFragments.Status.Attendees.myAdapter;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
+import com.geekym.face_recognition_engage.model.ClassPrompt;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,6 +53,10 @@ public class home_Fragment extends Fragment {
     String isAdmin;
     LinearLayout attendanceBox, timeDate;
 
+    PromptAdapter promptAdapter;
+
+    RecyclerView promptRecyclerView;
+
     FloatingActionButton goToTeachersPromptScreen;
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "UseCompatLoadingForDrawables"})
@@ -58,6 +69,12 @@ public class home_Fragment extends Fragment {
 
         Initialization(view);   //Function to initialize the variables
 
+        //Fetching userData from SharedPreference
+        String SPname = userData.getString("name", "0");
+        String SPemail = userData.getString("email", "0");
+        String SPcollegeID = userData.getString("collegeID", "0");
+        String SPcollegeName = userData.getString("collegeName", "0");
+        String SPAdmin = userData.getString("admin", "0");
 
         String userIDSP = userData.getString("userID", "0");
         isAdmin = userData.getString("admin", "false");
@@ -90,6 +107,56 @@ public class home_Fragment extends Fragment {
         String month = new SimpleDateFormat("MMM").format(calendar.getTime());
         String date = new SimpleDateFormat("dd").format(calendar.getTime());
 
+        //Firebase data -> RecyclerView
+        FirebaseRecyclerOptions<ClassPrompt> classPrompt =
+                new FirebaseRecyclerOptions.Builder<ClassPrompt>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date), ClassPrompt.class).build();
+
+        //Setting up the adapter with the Firebase UI variable -> 'options'
+        promptAdapter = new PromptAdapter(classPrompt);
+
+        if (promptAdapter.getItemCount() == 0) {
+            Log.d("Size is", String.valueOf(promptAdapter.getItemCount()));
+            promptRecyclerView.setVisibility(View.GONE);
+        } else {
+            promptRecyclerView.setAdapter(promptAdapter);
+        }
+
+        promptAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                super.onItemRangeRemoved(positionStart, itemCount);
+                checkEmpty();
+            }
+
+            //Handle the condition when there's any change in item count of the adapter
+            void checkEmpty() {
+                if (promptAdapter.getItemCount() == 0) { //If no item found in adapter
+                    promptRecyclerView.setVisibility(View.GONE); //Disable recyclerView
+//                    layout.setVisibility(View.INVISIBLE);
+//                    ShimmerViewContainer.setVisibility(View.VISIBLE); //Show shimmering effect
+
+                } else { //If item is found in adapter
+//                    layout.setVisibility(View.INVISIBLE);
+//                    ShimmerViewContainer.setVisibility(View.GONE);
+                    promptRecyclerView.setAdapter(promptAdapter);
+                }
+            }
+        });
+
+
         if (isConnected()) {    //To check Internet Connectivity
             reference.child("Users").child(userID).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -104,13 +171,6 @@ public class home_Fragment extends Fragment {
                             map.put("Embeddings", Replaced);
                             reference.child("Users").child(userID).child("embeddings").setValue(Replaced); //replacing the key of embeddings in user node
                         }
-
-                        //Fetching userData from SharedPreference
-                        String SPname = userData.getString("name", "0");
-                        String SPemail = userData.getString("email", "0");
-                        String SPcollegeID = userData.getString("collegeID", "0");
-                        String SPcollegeName = userData.getString("collegeName", "0");
-                        String SPAdmin = userData.getString("admin", "0");
 
                         //If the user data is not added in SharedPreference
                         if (SPemail.equals("0") && SPcollegeID.equals("0") && SPname.equals("0") && SPcollegeName.equals("0") && SPAdmin.equals("0")) {
@@ -235,6 +295,13 @@ public class home_Fragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        promptRecyclerView.setVisibility(View.VISIBLE);
+        promptAdapter.startListening();
+    }
+
     //To check Internet Connectivity
     private boolean isConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -259,5 +326,7 @@ public class home_Fragment extends Fragment {
         attendanceBox = view.findViewById(R.id.attendance_box);
         timeDate = view.findViewById(R.id.linearLayout2);
         goToTeachersPromptScreen = view.findViewById(R.id.teachersPromptFormBtn);
+        promptRecyclerView = view.findViewById(R.id.prompt_recycler_view);
+        promptRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 }

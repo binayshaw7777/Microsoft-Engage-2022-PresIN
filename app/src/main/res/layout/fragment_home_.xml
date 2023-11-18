@@ -61,12 +61,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/prompt_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="50dp"
+                android:visibility="visible"
+                tools:listitem="@layout/layoutpromptcard"/>
+
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="335dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <TextClock
@@ -96,6 +105,7 @@
                 android:layout_height="180dp"
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="60dp"
+                android:visibility="gone"
                 android:background="@drawable/button_mark"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
@@ -109,6 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="80dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -162,7 +173,6 @@
                 android:src="@drawable/add"
                 android:clickable="true"
                 android:focusable="true" />
-
 
         </LinearLayout>
 
