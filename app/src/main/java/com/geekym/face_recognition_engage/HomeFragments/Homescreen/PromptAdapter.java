@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,8 +19,19 @@ import com.geekym.face_recognition_engage.utils.JavaUtils;
 
 public class PromptAdapter extends FirebaseRecyclerAdapter<ClassPrompt, PromptAdapter.myViewHolder> {
 
+    public interface PromptClickListener {
+        void onItemClick(ClassPrompt model);
+    }
+
+    private PromptClickListener promptClickListener;
+
     public PromptAdapter(@NonNull FirebaseRecyclerOptions<ClassPrompt> options) {
         super(options);
+    }
+
+    public PromptAdapter(@NonNull FirebaseRecyclerOptions<ClassPrompt> options, PromptClickListener listener) {
+        super(options);
+        this.promptClickListener = listener;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -28,6 +41,11 @@ public class PromptAdapter extends FirebaseRecyclerAdapter<ClassPrompt, PromptAd
         holder.className.setText(model.getClassName());
         holder.teachersName.setText(model.getUserName());
         holder.Time.setText(JavaUtils.formatTimestamp(Long.parseLong(model.getTimeStamp())));
+        holder.itemView.setOnClickListener(view -> {
+            if (promptClickListener != null) {
+                promptClickListener.onItemClick(model);
+            }
+        });
     }
 
 
