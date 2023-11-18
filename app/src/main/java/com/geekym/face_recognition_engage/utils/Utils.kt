@@ -11,6 +11,8 @@ import java.time.format.DateTimeFormatter
 
 object Utils {
 
+    val BINAY_LATLONG: Pair<Long, Long> = Pair(22.7331228.toLong(), 88.3643103.toLong())
+
     fun getCurrentTimestamp(): Long {
         return System.currentTimeMillis()
     }
