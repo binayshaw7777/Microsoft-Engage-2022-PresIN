@@ -313,7 +313,7 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
 
     @Override
     public void onItemClick(ClassPrompt model) {
-        if (!isAdmin.equals("true")) {
+        if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
             Intent intentToAttendanceScanner = new Intent(requireContext(), Attendance_Scanner_Activity.class);
             intentToAttendanceScanner.putExtra("classPrompt", model);
             startActivity(intentToAttendanceScanner);

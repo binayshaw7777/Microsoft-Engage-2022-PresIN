@@ -519,7 +519,6 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
 
         Intent intent = getIntent();
         classPrompt = (ClassPrompt) intent.getSerializableExtra("classPrompt");
-        Toast.makeText(this, classPrompt.getClassName() + " in scanner", Toast.LENGTH_SHORT).show();
     }
 
     //Load Faces from Shared Preferences.Json String to Recognition object
@@ -558,6 +557,9 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     //Handles all the intent
     private void intentNow(Class targetActivity, boolean b) {
         Intent intent = new Intent(getApplicationContext(), targetActivity);
+        if (b) {
+            intent.putExtra("classPrompt", classPrompt);
+        }
         startActivity(intent);
         if (b) finish(); //if b is true, apply finish(); method!
     }

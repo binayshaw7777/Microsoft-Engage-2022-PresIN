@@ -4,15 +4,19 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.geekym.face_recognition_engage.HomeScreen;
 import com.geekym.face_recognition_engage.R;
+import com.geekym.face_recognition_engage.model.ClassPrompt;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,6 +28,8 @@ public class Attendance_Result_Activity extends AppCompatActivity {
     Button Home;
     TextView Name;
     private DatabaseReference reference;
+
+    ClassPrompt classPrompt;
 
     @SuppressLint("SimpleDateFormat")
     @Override
@@ -56,14 +62,27 @@ public class Attendance_Result_Activity extends AppCompatActivity {
         HashMap<String, String> map = new HashMap<>(); //Creating a Hashmap to store the attendance status
         map.put("time", Time);
         map.put("status", "Present");
+        map.put("className", classPrompt.getClassName());
+        map.put("classID", classPrompt.getClassID());
+        map.put("facultyName", classPrompt.getUserName());
+        map.put("facultyId", classPrompt.getUserID());
 
-        //Pushing the data in User's node
-        reference.child("Users").child(userID).child("Attendance").child(year).child(month).child(date).setValue(map);
-        map.put("name", name);
-        map.put("id", CollegeID);
+        if (classPrompt != null) {
+            Log.d("","MAPPED DATA IS: " + new Gson().toJson(map));
+            try {
+                //Pushing the data in User's node
+                reference.child("Users").child(userID).child("Attendance").child(year).child(month).child(date).child(classPrompt.getClassID()).setValue(map);
+                map.put("name", name);
+                map.put("id", CollegeID);
 
-        //Pushing the data in Global Attendance Node with extra data like name and College ID
-        reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).child(userID).setValue(map);
+                //Pushing the data in Global Attendance Node with extra data like name and College ID
+                reference.child("Attendees").child(CollegeName).child(year).child(month).child(date).child(classPrompt.getClassID()).child("presentStudents").child(userID).setValue(map);
+
+            } catch (Exception e) {
+                Log.d("", "Excpetion at attendance result: " + e);
+            }
+
+        }
 
         //Takes the user to Home Fragment after successfully taking the Attendance
         Home.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), HomeScreen.class)));
@@ -75,5 +94,9 @@ public class Attendance_Result_Activity extends AppCompatActivity {
         Home = findViewById(R.id.back_home);
         Name = findViewById(R.id.name_display);
         reference = FirebaseDatabase.getInstance().getReference();
+
+        Intent intent = getIntent();
+        classPrompt = (ClassPrompt) intent.getSerializableExtra("classPrompt");
+        Toast.makeText(this, classPrompt.getClassName() + " in scanner", Toast.LENGTH_SHORT).show();
     }
 }

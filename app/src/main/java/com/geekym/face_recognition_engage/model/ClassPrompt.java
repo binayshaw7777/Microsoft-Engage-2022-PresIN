@@ -39,6 +39,14 @@ public class ClassPrompt implements Serializable {
         return className;
     }
 
+    public String getClassID() {
+        return classID;
+    }
+
+    public int getExpectedStudents() {
+        return expectedStudents;
+    }
+
     public String getUserName() {
         return userName;
     }
