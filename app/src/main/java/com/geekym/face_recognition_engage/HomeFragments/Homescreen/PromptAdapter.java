@@ -25,9 +25,6 @@ public class PromptAdapter extends FirebaseRecyclerAdapter<ClassPrompt, PromptAd
 
     private PromptClickListener promptClickListener;
 
-    public PromptAdapter(@NonNull FirebaseRecyclerOptions<ClassPrompt> options) {
-        super(options);
-    }
 
     public PromptAdapter(@NonNull FirebaseRecyclerOptions<ClassPrompt> options, PromptClickListener listener) {
         super(options);

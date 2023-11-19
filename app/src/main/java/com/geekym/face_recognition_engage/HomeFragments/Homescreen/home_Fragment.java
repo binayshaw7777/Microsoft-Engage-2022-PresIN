@@ -113,12 +113,10 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         //Firebase data -> RecyclerView
         FirebaseRecyclerOptions<ClassPrompt> classPrompt =
                 new FirebaseRecyclerOptions.Builder<ClassPrompt>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date), ClassPrompt.class).build();
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date).orderByChild("userID").equalTo(userID), ClassPrompt.class).build();
 
         //Setting up the adapter with the Firebase UI variable -> 'options'
-//        promptAdapter = new PromptAdapter(classPrompt);
         promptAdapter = new PromptAdapter(classPrompt, this);
-//        recyclerView.setAdapter(promptAdapter);
 
 
         if (promptAdapter.getItemCount() == 0) {
@@ -151,12 +149,8 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
             void checkEmpty() {
                 if (promptAdapter.getItemCount() == 0) { //If no item found in adapter
                     promptRecyclerView.setVisibility(View.GONE); //Disable recyclerView
-//                    layout.setVisibility(View.INVISIBLE);
-//                    ShimmerViewContainer.setVisibility(View.VISIBLE); //Show shimmering effect
 
                 } else { //If item is found in adapter
-//                    layout.setVisibility(View.INVISIBLE);
-//                    ShimmerViewContainer.setVisibility(View.GONE);
                     promptRecyclerView.setAdapter(promptAdapter);
                 }
             }
