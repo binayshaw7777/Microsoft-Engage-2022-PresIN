@@ -1,7 +1,5 @@
 package com.geekym.face_recognition_engage.HomeFragments.Homescreen;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +12,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.geekym.face_recognition_engage.HomeFragments.Status.Attendees.myAdapter;
+import com.geekym.face_recognition_engage.HomeFragments.Homescreen.adapter.StudentPresentListAdapter;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.model.ClassPrompt;
 import com.geekym.face_recognition_engage.model.PresentStudents;
