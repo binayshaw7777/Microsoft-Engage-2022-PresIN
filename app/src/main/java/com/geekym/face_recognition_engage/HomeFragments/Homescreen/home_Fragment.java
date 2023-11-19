@@ -311,6 +311,10 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
             Intent intentToAttendanceScanner = new Intent(requireContext(), Attendance_Scanner_Activity.class);
             intentToAttendanceScanner.putExtra("classPrompt", model);
             startActivity(intentToAttendanceScanner);
+        } else {
+            Intent intentToStudentList = new Intent(requireContext(), SeeAllStudentsActivity.class);
+            intentToStudentList.putExtra("classPrompt",model);
+            startActivity(intentToStudentList);
         }
     }
 }
