@@ -17,6 +17,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.HomeFragments.Status.Attendees.myAdapter;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.model.ClassPrompt;
+import com.geekym.face_recognition_engage.model.PresentStudents;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
@@ -51,9 +52,9 @@ public class SeeAllStudentsActivity extends AppCompatActivity {
 
 
         //Firebase data -> RecyclerView
-        FirebaseRecyclerOptions<ClassPrompt> presentStudentList =
-                new FirebaseRecyclerOptions.Builder<ClassPrompt>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date).child(classID).child("presentStudents"), ClassPrompt.class).build();
+        FirebaseRecyclerOptions<PresentStudents> presentStudentList =
+                new FirebaseRecyclerOptions.Builder<PresentStudents>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date).child(classID).child("presentStudents"), PresentStudents.class).build();
 
         presentStudentListAdapter = new StudentPresentListAdapter(presentStudentList);
 
@@ -61,6 +62,8 @@ public class SeeAllStudentsActivity extends AppCompatActivity {
             Log.d("Size is", String.valueOf(presentStudentListAdapter.getItemCount()));
             recyclerView.setVisibility(View.GONE);
         } else {
+            Log.d("","Student perc:" + ((presentStudentListAdapter.getItemCount() / classPrompt.getExpectedStudents())*100));
+
             recyclerView.setAdapter(presentStudentListAdapter);
         }
 
@@ -89,6 +92,9 @@ public class SeeAllStudentsActivity extends AppCompatActivity {
                     recyclerView.setVisibility(View.GONE); //Disable recyclerView
 
                 } else { //If item is found in adapter
+                    Log.d("","Student perc:" + ((presentStudentListAdapter.getItemCount() * 100) / classPrompt.getExpectedStudents()));
+                    Log.d("","Student list size:" + presentStudentListAdapter.getItemCount());
+                    Log.d("","expected stud:" + classPrompt.getExpectedStudents());
                     recyclerView.setAdapter(presentStudentListAdapter);
                 }
             }

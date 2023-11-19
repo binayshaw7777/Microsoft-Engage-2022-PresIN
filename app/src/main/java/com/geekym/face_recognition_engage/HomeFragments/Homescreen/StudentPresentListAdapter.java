@@ -5,28 +5,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.R;
-import com.geekym.face_recognition_engage.model.ClassPrompt;
+import com.geekym.face_recognition_engage.model.PresentStudents;
 
-public class StudentPresentListAdapter extends FirebaseRecyclerAdapter<ClassPrompt, StudentPresentListAdapter.myViewHolder> {
+public class StudentPresentListAdapter extends FirebaseRecyclerAdapter<PresentStudents, StudentPresentListAdapter.myViewHolder> {
 
 
-    public StudentPresentListAdapter(@NonNull FirebaseRecyclerOptions<ClassPrompt> options) {
+    public StudentPresentListAdapter(@NonNull FirebaseRecyclerOptions<PresentStudents> options) {
         super(options);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull ClassPrompt model) {
-        holder.Name.setText("Name: " +model.getClassName());
-        holder.ID.setText("ID: " +model.getUserID());
-        holder.Time.setText("Time: " +model.getTimeStamp());
+    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull PresentStudents model) {
+        holder.Name.setText("Name: " +model.getName());
+        holder.ID.setText("ID: " +model.getId());
+        holder.Time.setText("Time: " +model.getTime());
     }
 
     @NonNull
