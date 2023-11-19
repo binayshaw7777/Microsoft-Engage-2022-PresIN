@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.Attendance.Attendance_Scanner_Activity;
+import com.geekym.face_recognition_engage.HomeFragments.Homescreen.adapter.PromptAdapter;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.geekym.face_recognition_engage.model.ClassPrompt;
@@ -113,12 +112,10 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         //Firebase data -> RecyclerView
         FirebaseRecyclerOptions<ClassPrompt> classPrompt =
                 new FirebaseRecyclerOptions.Builder<ClassPrompt>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date), ClassPrompt.class).build();
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date).orderByChild("userID").equalTo(userID), ClassPrompt.class).build();
 
         //Setting up the adapter with the Firebase UI variable -> 'options'
-//        promptAdapter = new PromptAdapter(classPrompt);
         promptAdapter = new PromptAdapter(classPrompt, this);
-//        recyclerView.setAdapter(promptAdapter);
 
 
         if (promptAdapter.getItemCount() == 0) {
@@ -151,12 +148,8 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
             void checkEmpty() {
                 if (promptAdapter.getItemCount() == 0) { //If no item found in adapter
                     promptRecyclerView.setVisibility(View.GONE); //Disable recyclerView
-//                    layout.setVisibility(View.INVISIBLE);
-//                    ShimmerViewContainer.setVisibility(View.VISIBLE); //Show shimmering effect
 
                 } else { //If item is found in adapter
-//                    layout.setVisibility(View.INVISIBLE);
-//                    ShimmerViewContainer.setVisibility(View.GONE);
                     promptRecyclerView.setAdapter(promptAdapter);
                 }
             }
@@ -317,6 +310,10 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
             Intent intentToAttendanceScanner = new Intent(requireContext(), Attendance_Scanner_Activity.class);
             intentToAttendanceScanner.putExtra("classPrompt", model);
             startActivity(intentToAttendanceScanner);
+        } else {
+            Intent intentToStudentList = new Intent(requireContext(), SeeAllStudentsActivity.class);
+            intentToStudentList.putExtra("classPrompt",model);
+            startActivity(intentToStudentList);
         }
     }
 }
