@@ -42,24 +42,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dm_sans_bold"
-                android:text="Create Form"
+                android:text="@string/class_details"
                 android:textColor="@color/white"
                 android:textSize="35sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/delete_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/delete"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.428" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -97,18 +86,6 @@
                     android:padding="16dp">
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="25dp"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:text="Class details"
-                        android:textColor="@color/lightblue"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                     <EditText
                         android:id="@+id/className"
                         android:layout_width="330dp"
@@ -117,9 +94,9 @@
                         android:background="@drawable/stroked"
                         android:ems="10"
                         android:fontFamily="@font/dm_sans"
-                        android:hint="Class Name"
+                        android:hint="@string/class_name"
                         android:inputType="text"
-                        android:paddingLeft="20dp"
+                        android:paddingHorizontal="20dp"
                         app:layout_constraintBottom_toTopOf="@+id/pass_box"
                         app:layout_constraintEnd_toEndOf="@+id/pass_box"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -135,9 +112,9 @@
                         android:background="@drawable/stroked"
                         android:ems="10"
                         android:fontFamily="@font/dm_sans"
-                        android:hint="Expected Students"
+                        android:hint="@string/expected_students"
                         android:inputType="number"
-                        android:paddingLeft="20dp"
+                        android:paddingHorizontal="20dp"
                         app:layout_constraintBottom_toTopOf="@+id/pass_box"
                         app:layout_constraintEnd_toEndOf="@+id/pass_box"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -153,27 +130,21 @@
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="280dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/gradient_button"
                 android:fontFamily="@font/dm_sans"
-                android:gravity="center"
                 android:outlineAmbientShadowColor="@color/red_desat"
                 android:outlineSpotShadowColor="@color/red_desat"
                 android:rotation="0"
                 android:rotationX="0"
                 android:rotationY="0"
-                android:text="Create Form"
+                android:text="@string/create_form"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.493"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView"
                 tools:visibility="visible" />
 
         </LinearLayout>
