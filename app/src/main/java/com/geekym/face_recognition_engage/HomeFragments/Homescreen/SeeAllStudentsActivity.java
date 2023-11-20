@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.adapter.StudentPresentListAdapter;
@@ -44,6 +45,7 @@ public class SeeAllStudentsActivity extends AppCompatActivity {
 
         initialization(); //Function to initialize the variables
 
+        LinearLayout layout = findViewById(R.id.emptyState); //Initializing (Empty state illustration)
         SharedPreferences userData = getSharedPreferences("userData", Context.MODE_PRIVATE); //Creating SharedPreference
         calendar = Calendar.getInstance();      //Creating a calendar instance
         //Storing formats of date, year and month name in Strings
@@ -64,8 +66,10 @@ public class SeeAllStudentsActivity extends AppCompatActivity {
 
         if (presentStudentListAdapter.getItemCount() == 0) {
             Log.d("Size is", String.valueOf(presentStudentListAdapter.getItemCount()));
+            layout.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
+            layout.setVisibility(View.INVISIBLE);
             recyclerView.setAdapter(presentStudentListAdapter);
         }
 
@@ -92,10 +96,12 @@ public class SeeAllStudentsActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             void checkEmpty() {
                 if (presentStudentListAdapter.getItemCount() == 0) { //If no item found in adapter
+                    layout.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE); //Disable recyclerView
 
                 } else { //If item is found in adapter
 
+                    layout.setVisibility(View.INVISIBLE);
                     int studentPercentage = ((presentStudentListAdapter.getItemCount() * 100) / classPrompt.getExpectedStudents());
                     int presentStudent = presentStudentListAdapter.getItemCount();
                     int absentStudent = classPrompt.getExpectedStudents() - presentStudent;
