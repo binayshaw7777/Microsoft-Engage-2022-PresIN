@@ -3,11 +3,9 @@ package com.geekym.face_recognition_engage.HomeFragments.Homescreen.qr_screens
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
@@ -60,9 +58,12 @@ class QRScannerActivity : AppCompatActivity() {
         }
 
     private fun toggleFlash(isFlashOn: Boolean) {
-        binding.flashImageView.background = if (isFlashOn)
-            AppCompatResources.getDrawable(this, com.budiyev.android.codescanner.R.drawable.ic_code_scanner_flash_on)
-            else AppCompatResources.getDrawable(this, com.budiyev.android.codescanner.R.drawable.ic_code_scanner_flash_on)
+        binding.flashImageView.setImageResource(
+            if (isFlashOn)
+                com.budiyev.android.codescanner.R.drawable.ic_code_scanner_flash_on
+            else
+                com.budiyev.android.codescanner.R.drawable.ic_code_scanner_flash_off
+        )
 
         codeScanner.isFlashEnabled = isFlashOn
     }
@@ -72,7 +73,6 @@ class QRScannerActivity : AppCompatActivity() {
             this,
             if (shouldReset) R.color.white else if (isSuccess) R.color.green_desat else R.color.red_desat
         )
-//        binding.invalidQrTextView.isVisible = if (shouldReset) false else !isSuccess
         binding.scannerView.apply {
             invalidate()
             requestLayout()
@@ -153,5 +153,10 @@ class QRScannerActivity : AppCompatActivity() {
             codeScanner.releaseResources()
         }
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        codeScanner.stopPreview()
+        super.onBackPressed()
     }
 }
