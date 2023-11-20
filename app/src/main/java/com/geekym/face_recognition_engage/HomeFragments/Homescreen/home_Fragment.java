@@ -128,7 +128,7 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
                         new FirebaseRecyclerOptions.Builder<ClassPrompt>()
                                 .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date), ClassPrompt.class).build();
             }
-            promptAdapter = new PromptAdapter(classPrompt, this);
+            promptAdapter = new PromptAdapter(classPrompt, isAdmin.equals("true"), this);
 
         } catch (Exception e) {
             Log.d("", "Firebase rcv issue: " + e);
