@@ -3,32 +3,27 @@ package com.geekym.face_recognition_engage.HomeFragments.Homescreen;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.adapter.StudentPresentListAdapter;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.model.ClassPrompt;
 import com.geekym.face_recognition_engage.model.PresentStudents;
 import com.google.firebase.database.FirebaseDatabase;
-
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+@SuppressLint("SimpleDateFormat")
 public class SeeAllStudentsActivity extends AppCompatActivity {
 
 
@@ -100,9 +95,6 @@ public class SeeAllStudentsActivity extends AppCompatActivity {
                     recyclerView.setVisibility(View.GONE); //Disable recyclerView
 
                 } else { //If item is found in adapter
-                    Log.d("", "Student perc:" + ((presentStudentListAdapter.getItemCount() * 100) / classPrompt.getExpectedStudents()));
-                    Log.d("", "Student list size:" + presentStudentListAdapter.getItemCount());
-                    Log.d("", "expected stud:" + classPrompt.getExpectedStudents());
 
                     int studentPercentage = ((presentStudentListAdapter.getItemCount() * 100) / classPrompt.getExpectedStudents());
                     int presentStudent = presentStudentListAdapter.getItemCount();

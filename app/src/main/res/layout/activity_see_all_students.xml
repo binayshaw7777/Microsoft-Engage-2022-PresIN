@@ -56,7 +56,6 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="20dp"
-            app:egLegendTextSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/linearLayout"
             app:layout_constraintTop_toTopOf="parent" />
@@ -65,9 +64,9 @@
             android:id="@+id/student_percentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/dm_sans_medium"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:fontFamily="@font/dm_sans_medium"
             app:layout_constraintBottom_toBottomOf="@+id/attendance_graph"
             app:layout_constraintEnd_toEndOf="@+id/attendance_graph"
             app:layout_constraintStart_toStartOf="@+id/attendance_graph"
@@ -117,39 +116,6 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
-
-
-<!--                <com.facebook.shimmer.ShimmerFrameLayout-->
-<!--                    android:id="@+id/shimmerFrameLayout"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:visibility="visible"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:shimmer_auto_start="true">-->
-
-<!--                    &lt;!&ndash; Adding 7 rows of placeholders &ndash;&gt;-->
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical">-->
-
-<!--                        <include layout="@layout/shimmer_layout" />-->
-
-<!--                        <include layout="@layout/shimmer_layout" />-->
-
-<!--                        <include layout="@layout/shimmer_layout" />-->
-
-<!--                        <include layout="@layout/shimmer_layout" />-->
-
-<!--                        <include layout="@layout/shimmer_layout" />-->
-
-<!--                        <include layout="@layout/shimmer_layout" />-->
-<!--                    </LinearLayout>-->
-
-<!--                </com.facebook.shimmer.ShimmerFrameLayout>-->
 
 
                 <androidx.recyclerview.widget.RecyclerView
