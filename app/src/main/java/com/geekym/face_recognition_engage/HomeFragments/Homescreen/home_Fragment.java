@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.Attendance.Attendance_Scanner_Activity;
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.adapter.PromptAdapter;
+import com.geekym.face_recognition_engage.HomeFragments.Homescreen.qr_screens.QRGeneratorActivity;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.geekym.face_recognition_engage.model.ClassPrompt;
@@ -336,6 +337,9 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
                 Toast.makeText(requireContext(), "Open qr scanner", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireContext(), "Open qr generator", Toast.LENGTH_SHORT).show();
+                Intent intentToQRGenerator = new Intent(requireContext(), QRGeneratorActivity.class);
+                intentToQRGenerator.putExtra("classPrompt", model);
+                startActivity(intentToQRGenerator);
             }
         }
     }
