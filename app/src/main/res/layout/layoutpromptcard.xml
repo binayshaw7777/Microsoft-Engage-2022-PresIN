@@ -21,7 +21,7 @@
             android:id="@+id/card_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/edit"
+            android:src="@drawable/qr_code_scanner"
             android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

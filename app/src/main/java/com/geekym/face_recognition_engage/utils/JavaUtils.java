@@ -2,8 +2,18 @@ package com.geekym.face_recognition_engage.utils;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+
 import androidx.annotation.RequiresApi;
+
+import com.geekym.face_recognition_engage.model.ClassPrompt;
 import com.geekym.face_recognition_engage.model.LatLong;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -15,26 +25,29 @@ import java.util.Date;
 
 public class JavaUtils {
 
-    public static LatLong aritralatlong = new LatLong((long) 22.6644468, (long) 88.3945738);
-    public static LatLong binaylatlong = new LatLong((long) 22.7331228, (long) 88.3643103);
+    public static LatLong aritralatlong = new LatLong(22.6644468, 88.3945738);
+    public static LatLong binaylatlong = new LatLong(22.7331228, 88.3643103);
 
-        public static String generateRandomId(int length) {
-            String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            StringBuilder randomId = new StringBuilder(length);
-            SecureRandom random = new SecureRandom();
+    public static Integer CARD_ICON_CLICKED = 8;
+    public static Integer CARD_VIEW_CLICKED = 4;
 
-            for (int i = 0; i < length; i++) {
-                int randomIndex = random.nextInt(characters.length());
-                randomId.append(characters.charAt(randomIndex));
-            }
+    public static String generateRandomId(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder randomId = new StringBuilder(length);
+        SecureRandom random = new SecureRandom();
 
-            return randomId.toString();
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            randomId.append(characters.charAt(randomIndex));
         }
 
-        public static String generateRandomId() {
-            // Default length is 20
-            return generateRandomId(20);
-        }
+        return randomId.toString();
+    }
+
+    public static String generateRandomId() {
+        // Default length is 20
+        return generateRandomId(20);
+    }
 
     public static long getCurrentTimestamp() {
         return System.currentTimeMillis();
@@ -88,5 +101,34 @@ public class JavaUtils {
     private static LocalDateTime convertTimestampToLocalDateTime(long timestamp) {
         Instant instant = Instant.ofEpochMilli(timestamp);
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    }
+
+    // Convert a ClassPrompt object to a string using serialization
+    public static String serializeToString(ClassPrompt classPrompt) {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(classPrompt);
+            objectOutputStream.close();
+            return byteArrayOutputStream.toString("ISO-8859-1");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Convert a string to a ClassPrompt object using deserialization
+    public static ClassPrompt deserializeFromString(String serializedString) {
+        try {
+            byte[] bytes = serializedString.getBytes(StandardCharsets.ISO_8859_1);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            Object object = objectInputStream.readObject();
+            objectInputStream.close();
+            return (ClassPrompt) object;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

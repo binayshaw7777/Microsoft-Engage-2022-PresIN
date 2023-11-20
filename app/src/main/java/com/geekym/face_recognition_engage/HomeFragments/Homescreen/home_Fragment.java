@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +17,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,9 +28,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.Attendance.Attendance_Scanner_Activity;
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.adapter.PromptAdapter;
+import com.geekym.face_recognition_engage.HomeFragments.Homescreen.qr_screens.QRGeneratorActivity;
+import com.geekym.face_recognition_engage.HomeFragments.Homescreen.qr_screens.QRScannerActivity;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.geekym.face_recognition_engage.model.ClassPrompt;
+import com.geekym.face_recognition_engage.utils.JavaUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,7 +49,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class home_Fragment extends Fragment implements PromptAdapter.PromptClickListener{
+public class home_Fragment extends Fragment implements PromptAdapter.PromptClickListener {
 
     private DatabaseReference reference;
     private String userID;
@@ -78,7 +84,7 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
 
         String userIDSP = userData.getString("userID", "0");
         isAdmin = userData.getString("admin", "false");
-        Log.d("","UID : " + userIDSP);
+        Log.d("", "UID : " + userIDSP);
         if (isAdmin.equals("true")) {
             attendanceBox.setVisibility(View.GONE);
             clockInOut.setVisibility(View.GONE);
@@ -109,13 +115,24 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         String month = new SimpleDateFormat("MMM").format(calendar.getTime());
         String date = new SimpleDateFormat("dd").format(calendar.getTime());
 
-        //Firebase data -> RecyclerView
-        FirebaseRecyclerOptions<ClassPrompt> classPrompt =
-                new FirebaseRecyclerOptions.Builder<ClassPrompt>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date).orderByChild("userID").equalTo(userID), ClassPrompt.class).build();
+        try {
 
-        //Setting up the adapter with the Firebase UI variable -> 'options'
-        promptAdapter = new PromptAdapter(classPrompt, this);
+            FirebaseRecyclerOptions<ClassPrompt> classPrompt;
+
+            if (isAdmin.equals("true")) {
+                classPrompt =
+                        new FirebaseRecyclerOptions.Builder<ClassPrompt>()
+                                .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date).orderByChild("userID").equalTo(userID), ClassPrompt.class).build();
+            } else {
+                classPrompt =
+                        new FirebaseRecyclerOptions.Builder<ClassPrompt>()
+                                .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date), ClassPrompt.class).build();
+            }
+            promptAdapter = new PromptAdapter(classPrompt, isAdmin.equals("true"), this);
+
+        } catch (Exception e) {
+            Log.d("", "Firebase rcv issue: " + e);
+        }
 
 
         if (promptAdapter.getItemCount() == 0) {
@@ -231,35 +248,35 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         clockInOut.setOnClickListener(view1 -> {
             if (isConnected()) {    //To check Internet Connectivity
 
-                    if (markTime.toString().equals("0")) {
+                if (markTime.toString().equals("0")) {
+                    startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
+                } else {
+                    //Pop a dialog when the user clicks on Delete Account Button, warn them
+                    Dialog dialog = new Dialog(getContext());
+                    dialog.setContentView(R.layout.custom_dialog);
+                    dialog.getWindow().setBackgroundDrawable(requireContext().getDrawable(R.drawable.custom_dialog_background));
+                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    dialog.setCancelable(false); //Optional
+                    dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
+
+                    Button Proceed = dialog.findViewById(R.id.proceed);
+                    Button Cancel = dialog.findViewById(R.id.cancel);
+                    TextView title = dialog.findViewById(R.id.dialog_title);
+                    TextView description = dialog.findViewById(R.id.dialog_description);
+
+                    Proceed.setText("Yes, retake");
+                    Proceed.setBackground(getResources().getDrawable(R.drawable.positive));
+                    title.setText("Attendance already marked");
+                    description.setText("Do you want to retake your attendance?");
+
+                    Proceed.setOnClickListener(v -> { //On Delete button press -> Call delete function
+                        dialog.dismiss();
                         startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
-                    } else {
-                        //Pop a dialog when the user clicks on Delete Account Button, warn them
-                        Dialog dialog = new Dialog(getContext());
-                        dialog.setContentView(R.layout.custom_dialog);
-                        dialog.getWindow().setBackgroundDrawable(requireContext().getDrawable(R.drawable.custom_dialog_background));
-                        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        dialog.setCancelable(false); //Optional
-                        dialog.getWindow().getAttributes().windowAnimations = R.style.animation; //Setting the animations to dialog
+                    });
 
-                        Button Proceed = dialog.findViewById(R.id.proceed);
-                        Button Cancel = dialog.findViewById(R.id.cancel);
-                        TextView title = dialog.findViewById(R.id.dialog_title);
-                        TextView description = dialog.findViewById(R.id.dialog_description);
-
-                        Proceed.setText("Yes, retake");
-                        Proceed.setBackground(getResources().getDrawable(R.drawable.positive));
-                        title.setText("Attendance already marked");
-                        description.setText("Do you want to retake your attendance?");
-
-                        Proceed.setOnClickListener(v -> { //On Delete button press -> Call delete function
-                            dialog.dismiss();
-                            startActivity(new Intent(getContext(), Attendance_Scanner_Activity.class)); //To Face Scanning (Marking Attendance) Activity
-                        });
-
-                        Cancel.setOnClickListener(v -> dialog.dismiss()); //On Cancel
-                        dialog.show();
-                    }
+                    Cancel.setOnClickListener(v -> dialog.dismiss()); //On Cancel
+                    dialog.show();
+                }
 
             } else {
                 DynamicToast.makeError(requireContext(), "Please connect to Internet").show();
@@ -304,16 +321,34 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         promptRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onItemClick(ClassPrompt model) {
-        if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
-            Intent intentToAttendanceScanner = new Intent(requireContext(), Attendance_Scanner_Activity.class);
-            intentToAttendanceScanner.putExtra("classPrompt", model);
-            startActivity(intentToAttendanceScanner);
+    public void onItemClick(ClassPrompt model, Integer clickedMode) {
+        Log.d("", "Clicked on: " + clickedMode);
+
+        if (clickedMode == JavaUtils.CARD_VIEW_CLICKED.intValue()) {
+
+            if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
+                Intent intentToAttendanceScanner = new Intent(requireContext(), Attendance_Scanner_Activity.class);
+                intentToAttendanceScanner.putExtra("classPrompt", model);
+                startActivity(intentToAttendanceScanner);
+            } else {
+                Log.d("", "String value of classPrompt is: " + model.toString());
+                Intent intentToStudentList = new Intent(requireContext(), SeeAllStudentsActivity.class);
+                intentToStudentList.putExtra("classPrompt", model);
+                startActivity(intentToStudentList);
+            }
         } else {
-            Intent intentToStudentList = new Intent(requireContext(), SeeAllStudentsActivity.class);
-            intentToStudentList.putExtra("classPrompt",model);
-            startActivity(intentToStudentList);
+            if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
+                Toast.makeText(requireContext(), "Open qr scanner", Toast.LENGTH_SHORT).show();
+                Intent intentToQRGenerator = new Intent(requireContext(), QRScannerActivity.class);
+                startActivity(intentToQRGenerator);
+            } else {
+                Toast.makeText(requireContext(), "Open qr generator", Toast.LENGTH_SHORT).show();
+                Intent intentToQRGenerator = new Intent(requireContext(), QRGeneratorActivity.class);
+                intentToQRGenerator.putExtra("classPrompt", model);
+                startActivity(intentToQRGenerator);
+            }
         }
     }
 }

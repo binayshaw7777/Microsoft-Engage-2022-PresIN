@@ -1,19 +1,38 @@
 package com.geekym.face_recognition_engage.model;
 
-public class LatLong {
-    private final long lat;
-    private final long lon;
 
-    public LatLong(long lat, long lon) {
+// LatLong class
+public class LatLong {
+    private double lat;
+    private double lon;
+
+    public LatLong(double lat, double lon) {
         this.lat = lat;
         this.lon = lon;
     }
 
-    public long getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public long getLon() {
+    public double getLon() {
         return lon;
     }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    @Override
+    public String toString() {
+        return "LatLong{" +
+                "latitude=" + lat +
+                ", longitude=" + lon +
+                '}';
+    }
 }
+
