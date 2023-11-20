@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Face_Recognition_Engage</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_form">Create Form</string>
+    <string name="class_name">Class Name</string>
+    <string name="expected_students">Expected Students</string>
+    <string name="class_details">Class Details</string>
+    <string name="no_students_present">No Students Present</string>
 </resources>
