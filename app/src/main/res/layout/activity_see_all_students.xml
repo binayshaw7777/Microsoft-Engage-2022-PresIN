@@ -49,19 +49,30 @@
                 tools:layout_editor_absoluteX="212dp"
                 tools:layout_editor_absoluteY="220dp" />
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Date: "
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="212dp"
-                tools:layout_editor_absoluteY="220dp" />
-
         </LinearLayout>
+
+        <org.eazegraph.lib.charts.PieChart
+            android:id="@+id/attendance_graph"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            app:egLegendTextSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/student_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/dm_sans_medium"
+            app:layout_constraintBottom_toBottomOf="@+id/attendance_graph"
+            app:layout_constraintEnd_toEndOf="@+id/attendance_graph"
+            app:layout_constraintStart_toStartOf="@+id/attendance_graph"
+            app:layout_constraintTop_toTopOf="@+id/attendance_graph"
+            tools:text="98%" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="No Attendees found"
+                        android:text="@string/no_students_present"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
