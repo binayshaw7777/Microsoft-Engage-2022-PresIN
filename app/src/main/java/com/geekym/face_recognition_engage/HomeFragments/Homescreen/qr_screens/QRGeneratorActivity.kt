@@ -6,6 +6,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.geekym.face_recognition_engage.R
 import com.geekym.face_recognition_engage.model.ClassPrompt
+import com.geekym.face_recognition_engage.utils.UtilsKt.classPromptToJson
 import com.geekym.face_recognition_engage.utils.UtilsKt.generateQR
 
 class QRGeneratorActivity : AppCompatActivity() {
@@ -25,6 +26,6 @@ class QRGeneratorActivity : AppCompatActivity() {
 
         val intent = intent
         classPrompt = intent.getSerializableExtra("classPrompt") as ClassPrompt
-        iv.setImageBitmap(classPrompt.toString().generateQR(displayMetrics))
+        iv.setImageBitmap(classPrompt.classPromptToJson().generateQR(displayMetrics))
     }
 }

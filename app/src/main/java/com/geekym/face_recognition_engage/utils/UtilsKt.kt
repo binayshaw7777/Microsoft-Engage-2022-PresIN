@@ -4,6 +4,9 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.DisplayMetrics
 import android.util.Log
+import com.geekym.face_recognition_engage.model.ClassPrompt
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
@@ -65,5 +68,37 @@ object UtilsKt {
 
         return bitmap
 
+    }
+
+    private val gson = Gson()
+
+    fun ClassPrompt.classPromptToJson(): String {
+        return gson.toJson(this)
+    }
+
+    fun String.jsonToClassPrompt(): ClassPrompt? {
+        return try {
+            gson.fromJson(this, ClassPrompt::class.java)
+        } catch (e: Exception) {
+            // Handle exceptions during deserialization
+            null
+        }
+    }
+
+    fun String.deserializeQRString(): ClassPrompt? {
+        return try {
+            // Extract the relevant part of the QR string
+            val jsonString = substringAfter("{").substringBefore("}")
+
+            // Use Gson to deserialize the JSON string into a ClassPrompt object
+            val gson = Gson()
+            gson.fromJson(jsonString, ClassPrompt::class.java)
+        } catch (e: JsonSyntaxException) {
+            // Handle invalid JSON syntax
+            null
+        } catch (e: Exception) {
+            // Handle other exceptions
+            null
+        }
     }
 }
