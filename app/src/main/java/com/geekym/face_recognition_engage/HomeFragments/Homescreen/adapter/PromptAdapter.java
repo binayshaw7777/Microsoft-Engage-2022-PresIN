@@ -19,7 +19,7 @@ import com.geekym.face_recognition_engage.utils.JavaUtils;
 public class PromptAdapter extends FirebaseRecyclerAdapter<ClassPrompt, PromptAdapter.myViewHolder> {
 
     public interface PromptClickListener {
-        void onItemClick(ClassPrompt model);
+        void onItemClick(ClassPrompt model, Integer clickMode);
     }
 
     private PromptClickListener promptClickListener;
@@ -37,9 +37,15 @@ public class PromptAdapter extends FirebaseRecyclerAdapter<ClassPrompt, PromptAd
         holder.className.setText(model.getClassName());
         holder.teachersName.setText(model.getUserName());
         holder.Time.setText(JavaUtils.formatTimestamp(Long.parseLong(model.getTimeStamp())));
+
+        holder.icon.setOnClickListener(view -> {
+            if (promptClickListener != null) {
+                promptClickListener.onItemClick(model, JavaUtils.CARD_ICON_CLICKED);
+            }
+        });
         holder.itemView.setOnClickListener(view -> {
             if (promptClickListener != null) {
-                promptClickListener.onItemClick(model);
+                promptClickListener.onItemClick(model, JavaUtils.CARD_VIEW_CLICKED);
             }
         });
     }
@@ -54,13 +60,14 @@ public class PromptAdapter extends FirebaseRecyclerAdapter<ClassPrompt, PromptAd
 
     static class myViewHolder extends RecyclerView.ViewHolder {
 
-        TextView className, teachersName, Time;
+        TextView className, teachersName, Time, icon;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             className = itemView.findViewById(R.id.classNameDisplay);
             teachersName = itemView.findViewById(R.id.facultyNameDisplay);
             Time = itemView.findViewById(R.id.promptTimeDisplay);
+            icon = itemView.findViewById(R.id.card_icon);
         }
     }
 

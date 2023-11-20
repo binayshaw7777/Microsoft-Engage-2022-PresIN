@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +17,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +31,7 @@ import com.geekym.face_recognition_engage.HomeFragments.Homescreen.adapter.Promp
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.geekym.face_recognition_engage.model.ClassPrompt;
+import com.geekym.face_recognition_engage.utils.JavaUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -109,13 +113,19 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         String month = new SimpleDateFormat("MMM").format(calendar.getTime());
         String date = new SimpleDateFormat("dd").format(calendar.getTime());
 
-        //Firebase data -> RecyclerView
-        FirebaseRecyclerOptions<ClassPrompt> classPrompt =
-                new FirebaseRecyclerOptions.Builder<ClassPrompt>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date).orderByChild("userID").equalTo(userID), ClassPrompt.class).build();
+        try {
 
-        //Setting up the adapter with the Firebase UI variable -> 'options'
-        promptAdapter = new PromptAdapter(classPrompt, this);
+
+            //Firebase data -> RecyclerView
+            FirebaseRecyclerOptions<ClassPrompt> classPrompt =
+                    new FirebaseRecyclerOptions.Builder<ClassPrompt>()
+                            .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(SPcollegeName).child(year).child(month).child(date).orderByChild("userID").equalTo(userID), ClassPrompt.class).build();
+
+            //Setting up the adapter with the Firebase UI variable -> 'options'
+            promptAdapter = new PromptAdapter(classPrompt, this);
+        } catch (Exception e) {
+            Log.d("", "Firebase rcv issue: " + e);
+        }
 
 
         if (promptAdapter.getItemCount() == 0) {
@@ -304,16 +314,29 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         promptRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onItemClick(ClassPrompt model) {
-        if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
-            Intent intentToAttendanceScanner = new Intent(requireContext(), Attendance_Scanner_Activity.class);
-            intentToAttendanceScanner.putExtra("classPrompt", model);
-            startActivity(intentToAttendanceScanner);
+    public void onItemClick(ClassPrompt model, Integer clickedMode) {
+        Log.d("", "Clicked on: " + clickedMode);
+
+        if (clickedMode == JavaUtils.CARD_VIEW_CLICKED.intValue()) {
+
+            if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
+                Intent intentToAttendanceScanner = new Intent(requireContext(), Attendance_Scanner_Activity.class);
+                intentToAttendanceScanner.putExtra("classPrompt", model);
+                startActivity(intentToAttendanceScanner);
+            } else {
+                Log.d("", "String value of classPrompt is: " + model.toString());
+                Intent intentToStudentList = new Intent(requireContext(), SeeAllStudentsActivity.class);
+                intentToStudentList.putExtra("classPrompt", model);
+                startActivity(intentToStudentList);
+            }
         } else {
-            Intent intentToStudentList = new Intent(requireContext(), SeeAllStudentsActivity.class);
-            intentToStudentList.putExtra("classPrompt",model);
-            startActivity(intentToStudentList);
+            if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
+                Toast.makeText(requireContext(), "Open qr scanner", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(requireContext(), "Open qr generator", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

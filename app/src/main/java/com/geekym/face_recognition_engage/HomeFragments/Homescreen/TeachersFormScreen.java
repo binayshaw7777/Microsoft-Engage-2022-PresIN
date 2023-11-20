@@ -1,16 +1,17 @@
 package com.geekym.face_recognition_engage.HomeFragments.Homescreen;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.model.ClassPrompt;
-import com.geekym.face_recognition_engage.model.LatLong;
 import com.geekym.face_recognition_engage.utils.JavaUtils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -24,6 +25,7 @@ public class TeachersFormScreen extends AppCompatActivity {
     EditText className, expectedStudentNo;
     Button create_Form;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"SimpleDateFormat"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +48,16 @@ public class TeachersFormScreen extends AppCompatActivity {
         create_Form.setOnClickListener(view -> {
 
             String classNameTextField = className.getText().toString().trim();
-            Integer expectedStudentTextField = Integer.parseInt(expectedStudentNo.getText().toString().trim());
+            int expectedStudentTextField = Integer.parseInt(expectedStudentNo.getText().toString().trim());
             String classID = JavaUtils.generateRandomId(10);
             String timeStamp = String.valueOf(JavaUtils.getCurrentTimestamp());
-            LatLong latLong = JavaUtils.aritralatlong;
+            String latLong = JavaUtils.aritralatlong.getLat() + "," +JavaUtils.aritralatlong.getLon();
 
-
-            ClassPrompt classPrompt = new ClassPrompt(classID,userID,classNameTextField,userName,timeStamp, latLong, expectedStudentTextField,null);
+            ClassPrompt classPrompt = new ClassPrompt(classID, userID, classNameTextField, userName, timeStamp, latLong, expectedStudentTextField);
 
             // Pushing the Class Prompt to Attendees
+            assert CollegeName != null;
             ref.child("Attendees").child(CollegeName).child(year).child(month).child(date).child(classID).setValue(classPrompt);
-
-//            ref.child("Users").child(userID).child("Attendance").child(year).child(month).child(date).setValue(classPrompt);
 
             onBackPressed();
 

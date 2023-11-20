@@ -1,9 +1,6 @@
 package com.geekym.face_recognition_engage.model;
 
-import com.geekym.face_recognition_engage.Users;
-
 import java.io.Serializable;
-import java.util.List;
 
 public class ClassPrompt implements Serializable {
     private String classID;
@@ -11,13 +8,11 @@ public class ClassPrompt implements Serializable {
     private String className;
     private String userName;
     private String timeStamp;
-    private LatLong latLong;
+    private String latLong;
     private int expectedStudents;
-    private List<Users> studentsList;
 
     public ClassPrompt(String classID, String userID, String className, String userName,
-                       String timeStamp, LatLong latLong, int expectedStudents,
-                       List<Users> studentsList) {
+                       String timeStamp, String latLong, int expectedStudents) {
         this.classID = classID;
         this.userID = userID;
         this.className = className;
@@ -25,11 +20,9 @@ public class ClassPrompt implements Serializable {
         this.timeStamp = timeStamp;
         this.latLong = latLong;
         this.expectedStudents = expectedStudents;
-        this.studentsList = studentsList;
     }
 
-    public ClassPrompt() {
-    }
+    public ClassPrompt() {}
 
     public String getUserID() {
         return userID;
@@ -55,4 +48,24 @@ public class ClassPrompt implements Serializable {
         return timeStamp;
     }
 
+    public String getLatLong() {
+        return latLong;
+    }
+
+    public void setLatLong(String latLong) {
+        this.latLong = latLong;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassPrompt{" +
+                "classID='" + classID + '\'' +
+                ", userID='" + userID + '\'' +
+                ", className='" + className + '\'' +
+                ", userName='" + userName + '\'' +
+                ", timeStamp='" + timeStamp + '\'' +
+                ", latLong=" + latLong +
+                ", expectedStudents=" + expectedStudents +
+                '}';
+    }
 }
