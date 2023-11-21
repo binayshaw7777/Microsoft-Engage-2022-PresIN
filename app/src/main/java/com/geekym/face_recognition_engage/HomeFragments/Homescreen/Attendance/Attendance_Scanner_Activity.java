@@ -123,9 +123,16 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         SharedPreferences userDataSP = Attendance_Scanner_Activity.this.getSharedPreferences("userData", 0);
         userID += userDataSP.getString("userID", "0");
 
-        //Camera Permission
-        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
+        //Camera & Location Permission
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(new String[]{
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            }, MY_CAMERA_REQUEST_CODE);
         }
 
         //Assist the user with instructions
@@ -546,9 +553,9 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                DynamicToast.makeSuccess(this, "Camera permission granted").show();
+                DynamicToast.makeSuccess(this, "Camera & Location permission granted").show();
             } else {
-                DynamicToast.makeError(this, "Camera permission denied").show();
+                DynamicToast.makeError(this, "Camera & Location permission denied").show();
                 intentNow(HomeScreen.class, false);
             }
         }
