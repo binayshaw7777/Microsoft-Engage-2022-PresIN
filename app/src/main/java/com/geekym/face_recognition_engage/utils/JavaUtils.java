@@ -31,6 +31,26 @@ public class JavaUtils {
     public static Integer CARD_ICON_CLICKED = 8;
     public static Integer CARD_VIEW_CLICKED = 4;
 
+    public static boolean isWithinGivenMinutes(long timestamp, long minutes) {
+        // Convert the timestamp to a Date object
+        Date timestampDate = new Date(timestamp);
+
+        // Get the current timestamp
+        long currentTimestamp = System.currentTimeMillis();
+
+        // Convert the current timestamp to a Date object
+        Date currentDate = new Date(currentTimestamp);
+
+        // Calculate the difference in milliseconds
+        long differenceInMillis = currentDate.getTime() - timestampDate.getTime();
+
+        // Convert minutes to milliseconds
+        long minutesInMillis = minutes * 60 * 1000;
+
+        // Compare the difference with the specified time limit
+        return differenceInMillis <= minutesInMillis;
+    }
+
     public static String generateRandomId(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder randomId = new StringBuilder(length);

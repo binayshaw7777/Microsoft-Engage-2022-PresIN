@@ -18,6 +18,17 @@ object Utils {
         return System.currentTimeMillis()
     }
 
+    fun isWithinTenMinutes(timestamp: Long): Boolean {
+        // Get current timestamp
+        val currentTimestamp = System.currentTimeMillis()
+
+        // Calculate the difference in milliseconds
+        val difference = currentTimestamp - timestamp
+
+        // Check if the difference is less than or equal to 10 minutes (600,000 milliseconds)
+        return difference <= 600000
+    }
+
     private fun timestampToLocalDateTime(timestamp: Long): LocalDateTime {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault())
     }
