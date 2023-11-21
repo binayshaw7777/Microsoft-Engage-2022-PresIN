@@ -43,7 +43,18 @@ public class PromptAdapter extends FirebaseRecyclerAdapter<ClassPrompt, PromptAd
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull ClassPrompt model) {
         holder.className.setText(model.getClassName());
         holder.teachersName.setText(model.getUserName());
-        holder.Time.setText(JavaUtils.formatTimestamp(Long.parseLong(model.getTimeStamp())));
+
+        if (JavaUtils.isWithinGivenMinutes(Long.parseLong(model.getTimeStamp()), 10)) {
+            holder.Time.setText(JavaUtils.formatTimestamp(Long.parseLong(model.getTimeStamp())));
+        } else {
+            holder.Time.setText("Time limit exceeded.");
+            try {
+                Context context = holder.itemView.getContext();
+                holder.Time.setTextColor(ResourcesCompat.getColor(context.getResources(), R.color.red_desat, null));
+            } catch (Exception e) {
+                Log.d("", "Can't change color of time text icon to red");
+            }
+        }
 
         if (isAdmin) {
             try {

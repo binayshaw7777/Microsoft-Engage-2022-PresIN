@@ -44,6 +44,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -329,26 +330,37 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         if (clickedMode == JavaUtils.CARD_VIEW_CLICKED.intValue()) {
 
             if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
-                Intent intentToAttendanceScanner = new Intent(requireContext(), Attendance_Scanner_Activity.class);
-                intentToAttendanceScanner.putExtra("classPrompt", model);
-                startActivity(intentToAttendanceScanner);
+                if (JavaUtils.isWithinGivenMinutes(Long.parseLong(model.getTimeStamp()), 10)) {
+                    intentNow(requireContext(), Attendance_Scanner_Activity.class, true, "classPrompt", model);
+                } else {
+                    Toast.makeText(requireContext(), "Attendance marking time ended", Toast.LENGTH_SHORT).show();
+                }
+
             } else {
-                Log.d("", "String value of classPrompt is: " + model.toString());
-                Intent intentToStudentList = new Intent(requireContext(), SeeAllStudentsActivity.class);
-                intentToStudentList.putExtra("classPrompt", model);
-                startActivity(intentToStudentList);
+                intentNow(requireContext(), SeeAllStudentsActivity.class, true, "classPrompt", model);
             }
         } else {
             if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
-                Toast.makeText(requireContext(), "Open qr scanner", Toast.LENGTH_SHORT).show();
-                Intent intentToQRGenerator = new Intent(requireContext(), QRScannerActivity.class);
-                startActivity(intentToQRGenerator);
+
+                if (JavaUtils.isWithinGivenMinutes(Long.parseLong(model.getTimeStamp()), 10)) {
+                    intentNow(requireContext(), QRScannerActivity.class, false, null, null);
+                } else {
+                    Toast.makeText(requireContext(), "Attendance marking time ended", Toast.LENGTH_SHORT).show();
+                }
+
             } else {
-                Toast.makeText(requireContext(), "Open qr generator", Toast.LENGTH_SHORT).show();
-                Intent intentToQRGenerator = new Intent(requireContext(), QRGeneratorActivity.class);
-                intentToQRGenerator.putExtra("classPrompt", model);
-                startActivity(intentToQRGenerator);
+                intentNow(requireContext(), QRGeneratorActivity.class, true, "classPrompt", model);
             }
         }
+    }
+
+    private void intentNow(Context context, Class<?> targetActivity, boolean shouldPassData, String extraKey, Serializable extraData) {
+        Intent intent = new Intent(context, targetActivity);
+
+        if (shouldPassData) {
+            intent.putExtra(extraKey, extraData);
+        }
+
+        context.startActivity(intent);
     }
 }
