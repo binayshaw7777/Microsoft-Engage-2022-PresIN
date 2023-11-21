@@ -149,7 +149,6 @@
                         android:layout_toStartOf="@+id/cal"
                         android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
-                        android:paddingLeft="20dp"
                         android:text="Progress"
                         android:textColor="@color/lightblue"
                         android:textSize="20sp" />
@@ -170,6 +169,59 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/attendace_prediction_card"
+                android:layout_width="360dp"
+                android:layout_height="95dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/card_bg"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="103dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="29dp"
+                        android:layout_toStartOf="@+id/attendace_prediction_card_icon"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:gravity="center|left"
+                        android:maxLines="1"
+                        android:text="Attendance Calculate"
+                        android:textColor="@color/lightblue"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/attendace_prediction_card_icon"
+                        android:layout_width="95dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:background="@drawable/list_icon"
+                        android:foregroundGravity="right"
+                        android:scaleType="centerCrop" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
