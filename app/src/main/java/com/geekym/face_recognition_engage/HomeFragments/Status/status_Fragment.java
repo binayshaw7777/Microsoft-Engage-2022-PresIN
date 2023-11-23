@@ -25,9 +25,10 @@ public class status_Fragment extends Fragment {
 
         //Calling User Data from SharedPreference
         SharedPreferences userDataSP = requireContext().getSharedPreferences("userData", 0);
-        String Admin = userDataSP.getString("admin", "0");
+        String Admin = userDataSP.getString("admin", "false");
 
-        if (Admin.equals("false")) {
+        assert Admin != null;
+        if (Admin.equals("true")) {
             attendeesList.setVisibility(View.GONE);
         }
 
@@ -42,7 +43,7 @@ public class status_Fragment extends Fragment {
     }
 
     //Single Method to handle Intents in this activity
-    private void intentNow(Class targetClass) {
+    private void intentNow(Class<?> targetClass) {
         startActivity(new Intent(getContext(), targetClass));
     }
 
