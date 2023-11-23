@@ -87,12 +87,12 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/collegeIdDisplay"
+                android:id="@+id/classNameDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/dm_sans"
-                android:text="College ID: "
+                android:text="Session: "
                 android:textColor="@color/lightblue"
                 android:textSize="15sp" />
 

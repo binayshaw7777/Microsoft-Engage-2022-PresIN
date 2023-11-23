@@ -12,19 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.R;
+import com.geekym.face_recognition_engage.model.PresentStudents;
 
-public class myAdapter extends FirebaseRecyclerAdapter<ModelClass, myAdapter.myViewHolder> {
+public class myAdapter extends FirebaseRecyclerAdapter<PresentStudents, myAdapter.myViewHolder> {
 
-    public myAdapter(@NonNull FirebaseRecyclerOptions<ModelClass> options) {
+    public myAdapter(@NonNull FirebaseRecyclerOptions<PresentStudents> options) {
         super(options);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull ModelClass model) {
-        holder.Name.setText("Name: "+model.getName());
-        holder.ID.setText("ID: "+model.getID());
-        holder.Time.setText("Time: "+model.getTime());
+    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull PresentStudents model) {
+        holder.Name.setText("Name: " + model.getFacultyName());
+        holder.Session.setText("Session: " + model.getClassName());
+        holder.Time.setText("Marked at: " + model.getTime());
     }
 
     @NonNull
@@ -36,12 +37,12 @@ public class myAdapter extends FirebaseRecyclerAdapter<ModelClass, myAdapter.myV
 
     static class myViewHolder extends RecyclerView.ViewHolder {
 
-        TextView Name, ID, Time;
+        TextView Name, Time, Session;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
-            Name = itemView.findViewById(R.id.nameDisplay);
-            ID = itemView.findViewById(R.id.collegeIdDisplay);
+            Name = itemView.findViewById(R.id.classNameDisplay);
+            Session = itemView.findViewById(R.id.classNameDisplay);
             Time = itemView.findViewById(R.id.timeDisplay);
         }
     }

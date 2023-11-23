@@ -18,10 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.geekym.face_recognition_engage.R;
+import com.geekym.face_recognition_engage.model.PresentStudents;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class Attendees extends AppCompatActivity {
 
@@ -44,7 +46,7 @@ public class Attendees extends AppCompatActivity {
 
         //Calling User Data from SharedPreference
         SharedPreferences userDataSP = Attendees.this.getSharedPreferences("userData", 0);
-        String CollegeName = userDataSP.getString("collegeName", "0");
+        String userID = userDataSP.getString("userID", "0");
 
 
         ShimmerViewContainer.startShimmer(); //start shimmer animation
@@ -63,9 +65,10 @@ public class Attendees extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.emptyState); //Initializing (Empty state illustration)
 
         //Firebase data -> RecyclerView
-        FirebaseRecyclerOptions<ModelClass> options =
-                new FirebaseRecyclerOptions.Builder<ModelClass>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Attendees").child(CollegeName).child(year).child(month).child(date), ModelClass.class)
+        assert userID != null;
+        FirebaseRecyclerOptions<PresentStudents> options =
+                new FirebaseRecyclerOptions.Builder<PresentStudents>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Attendance").child(year).child(month).child(date), PresentStudents.class)
                         .build();
 
 
@@ -82,8 +85,8 @@ public class Attendees extends AppCompatActivity {
                 ShimmerViewContainer.setVisibility(View.INVISIBLE); //Disable shimmering effect after the delay time
 
                 //If connected to internet
-                if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                        connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+                if (Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)).getState() == NetworkInfo.State.CONNECTED ||
+                        Objects.requireNonNull(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).getState() == NetworkInfo.State.CONNECTED) {
 
                     if (myAdapter.getItemCount() == 0) //If still the adapter is empty (we give time to the app to fetch data from firebase and check here)
                         layout.setVisibility(View.VISIBLE); //Checking again to handle slow internet or firebase issues, show Empty State Illustration
