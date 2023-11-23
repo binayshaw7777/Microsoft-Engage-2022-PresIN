@@ -6,4 +6,6 @@
     <string name="expected_students">Expected Students</string>
     <string name="class_details">Class Details</string>
     <string name="no_students_present">No Students Present</string>
+    <string name="not_achievable">Not Achievable</string>
+    <string name="achievable">Achievable</string>
 </resources>

@@ -59,6 +59,28 @@
 
                     <!--Content goes here -->
 
+                    <TextView
+                        android:id="@+id/attendance_possibility_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:padding="16dp"
+                        android:textColor="@color/red_desat"
+                        android:text="@string/not_achievable" />
+
+                    <androidx.appcompat.widget.AppCompatSeekBar
+                        android:id="@+id/attendance_seek_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/seekbar_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/bluish_black"
+                        android:textSize="20sp"
+                        android:text="0"/>
+
                 </LinearLayout>
 
             </ScrollView>
