@@ -1,14 +1,20 @@
 package com.geekym.face_recognition_engage.HomeFragments.Homescreen;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +27,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +41,13 @@ import com.geekym.face_recognition_engage.R;
 import com.geekym.face_recognition_engage.Users;
 import com.geekym.face_recognition_engage.model.ClassPrompt;
 import com.geekym.face_recognition_engage.utils.JavaUtils;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -65,6 +79,9 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
     RecyclerView promptRecyclerView;
 
     FloatingActionButton goToTeachersPromptScreen;
+
+    FusedLocationProviderClient client;
+
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
@@ -306,6 +323,102 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         return false;
     }
 
+    private void checkLocationPermission() {
+        // check condition
+        if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission
+                        .ACCESS_FINE_LOCATION)
+                == PackageManager
+                .PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission
+                        .ACCESS_COARSE_LOCATION)
+                == PackageManager
+                .PERMISSION_GRANTED) {
+            // When permission is granted
+            // Call method
+            getCurrentLocation();
+        } else {
+            // When permission is not granted
+            // Call method
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(
+                requestCode, permissions, grantResults);
+        // Check condition
+        if (requestCode == 100 && (grantResults.length > 0)
+                && (grantResults[0] + grantResults[1]
+                == PackageManager.PERMISSION_GRANTED)) {
+
+            getCurrentLocation();
+        } else {
+            // When permission are denied
+            // Display toast
+            Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getCurrentLocation() {
+        // Initialize Location manager
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        // Check condition
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+
+            // When location service is enabled
+            // Get last location
+            client.getLastLocation().addOnCompleteListener(
+                    task -> {
+
+                        // Initialize location
+                        Location location = task.getResult();
+
+                        if (location != null) {
+                            Log.d("", "Longitude: " + location.getLongitude() + " and latitude: " + location.getLatitude());
+
+                        } else {
+                            // When location result is null
+                            // initialize location request
+                            LocationRequest locationRequest = new LocationRequest()
+                                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                                    .setInterval(10000)
+                                    .setFastestInterval(1000)
+                                    .setNumUpdates(1);
+
+                            // Initialize location call back
+                            LocationCallback locationCallback = new LocationCallback() {
+                                @Override
+                                public void
+                                onLocationResult(LocationResult locationResult) {
+
+                                    Location location1 = locationResult.getLastLocation();
+
+                                    Log.d("", "Longitude1: " + location1.getLongitude() + " and latitude1: " + location1.getLatitude());
+                                }
+                            };
+
+                            // Request location updates
+                            client.requestLocationUpdates(
+                                    locationRequest,
+                                    locationCallback,
+                                    Looper.myLooper());
+                        }
+                    });
+        } else {
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+    }
+
     //Function to initialize the variables
     private void Initialization(View view) {
         PresentMark_Time = view.findViewById(R.id.in_count);
@@ -320,6 +433,8 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         goToTeachersPromptScreen = view.findViewById(R.id.teachersPromptFormBtn);
         promptRecyclerView = view.findViewById(R.id.prompt_recycler_view);
         promptRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        client = LocationServices.getFusedLocationProviderClient(requireContext());
+//        view.findViewById(R.id.textView).setOnClickListener(view1 -> checkLocationPermission());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -330,6 +445,8 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         if (clickedMode == JavaUtils.CARD_VIEW_CLICKED.intValue()) {
 
             if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
+                checkLocationPermission();
+
                 if (JavaUtils.isWithinGivenMinutes(Long.parseLong(model.getTimeStamp()), 10)) {
                     intentNow(requireContext(), Attendance_Scanner_Activity.class, true, "classPrompt", model);
                 } else {
@@ -341,6 +458,7 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
             }
         } else {
             if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
+                checkLocationPermission();
 
                 if (JavaUtils.isWithinGivenMinutes(Long.parseLong(model.getTimeStamp()), 10)) {
                     intentNow(requireContext(), QRScannerActivity.class, false, null, null);
