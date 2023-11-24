@@ -2,6 +2,7 @@ package com.geekym.face_recognition_engage.utils;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -50,6 +51,25 @@ public class JavaUtils {
 
         // Compare the difference with the specified time limit
         return differenceInMillis <= minutesInMillis;
+    }
+
+    public boolean distance(float lat_a, float lng_a, float lat_b, float lng_b, float isWithinMeters) {
+        double earthRadius = 3958.75;
+        double latDiff = Math.toRadians(lat_b - lat_a);
+        double lngDiff = Math.toRadians(lng_b - lng_a);
+        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+                Math.cos(Math.toRadians(lat_a)) * Math.cos(Math.toRadians(lat_b)) *
+                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = earthRadius * c;
+
+        int meterConversion = 1609;
+
+        float distanceInMeters = (float) distance * meterConversion;
+
+        Log.d("", "Distance in meters: " + distanceInMeters + " isWithin: " + isWithinMeters + " value: " + (distanceInMeters <= isWithinMeters));
+
+        return distanceInMeters <= isWithinMeters;
     }
 
     public static String generateRandomId(int length) {
