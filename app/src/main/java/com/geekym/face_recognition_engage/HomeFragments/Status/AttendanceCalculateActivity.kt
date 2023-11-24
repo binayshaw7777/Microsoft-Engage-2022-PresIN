@@ -28,9 +28,11 @@ class AttendanceCalculateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAttendanceCalculateBinding
     private lateinit var reference: DatabaseReference
     private var count: Long = 0
-    private val selectedDates = HashSet<Long>() // Use a HashSet to store selected dates
-    private var attendanceSeekValue: Int = 0
     private var expectedPercent: Float = 0.0f
+    private var todayDate: Int = 1
+    private var currentPercent: Float = 0f
+    private var monthAttendanceRatio: Float = 0f
+    private var daysLeft: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,53 +70,29 @@ class AttendanceCalculateActivity : AppCompatActivity() {
     private fun checkAchievability(p0: SeekBar?, p1: Int, p2: Boolean) {
         // Assume you have a seek bar with values ranging from 0 to 100
         val seekBarValue: Int = p1// Get the current value of the seek bar (0 to 100)
+        binding.seekbarValue.text = "To achieve more $seekBarValue %"
 
-        // Calculate the desired attendance percentage based on the seek bar value
-        val desiredPercent: Float = seekBarValue.toFloat()
-        val daysInMonth = UtilsKt.getWorkingDaysInCurrentMonth()
-        // Calculate the remaining days in the month
-        val remainingDays = daysInMonth - count
-
-        // Calculate the current attendance percentage
-        val currentPercent: Long = (count * 100) / daysInMonth
-        Log.d("", "Current percent: $currentPercent")
-
-        // Calculate the required attendance to achieve the desired percentage
-        val requiredAttendance = (desiredPercent / 100) * daysInMonth - count
-
-        Log.d("", "Curr: $currentPercent :: req: $requiredAttendance :: expected: $expectedPercent")
+        val needToAttend: Float = (30 * seekBarValue) / 100f
+        binding.daysNeededValue.text = "Attend more $needToAttend days"
 
 
-//        Log.d(
-//            "",
-//            "workingdays: $daysInMonth\ncount: $count\nabsent: $absent\npercent: $percent\nexpected: $expected"
-//        )
-        binding.seekbarValue.text = "$desiredPercent %"
+        Log.d("", "DaysLeft: $daysLeft and needToAttend: $needToAttend")
 
-// Check if the current attendance percentage is less than the desired percentage
-        if (expectedPercent + currentPercent < desiredPercent) {
-            // Display the number of days needed to achieve the desired percentage
-            Log.d(
-                "",
-                "You need to be present for ${requiredAttendance.roundToInt()} more days to achieve $desiredPercent% attendance."
-            )
-            binding.attendancePossibilityTextView.apply {
-                text = getString(R.string.not_achievable)
-                setTextColor(ResourcesCompat.getColor(resources, R.color.red_desat, null))
-            }
+        if (needToAttend <= daysLeft) {
+            binding.attendancePossibilityTextView.text = getString(R.string.achievable)
+            binding.attendancePossibilityTextView.setTextColor(ResourcesCompat.getColor(resources, R.color.green_desat, null))
+            binding.totalAttendanceValue.text = "Total attendance: ${seekBarValue + currentPercent} %"
+            binding.totalDaysValue.text = "Total days: ${needToAttend + count} days"
         } else {
-            // You have already achieved or surpassed the desired percentage
-            Log.d(
-                "",
-                "Congratulations! You have already achieved or surpassed $desiredPercent% attendance."
-            )
-            binding.attendancePossibilityTextView.apply {
-                text = getString(R.string.achievable)
-                setTextColor(ResourcesCompat.getColor(resources, R.color.green_desat, null))
-            }
-        }
+            binding.attendancePossibilityTextView.text = getString(R.string.not_achievable)
+            binding.attendancePossibilityTextView.setTextColor(ResourcesCompat.getColor(resources, R.color.red_desat, null))
+            Log.d("", "I need more ${needToAttend - daysLeft} days to achieve $seekBarValue % attendance")
 
+            binding.totalAttendanceValue.text = "Total attendance: $currentPercent %"
+            binding.totalDaysValue.text = "Total days: $count days"
+        }
     }
+
 
     private fun setView() {
         val userDataSP = applicationContext.getSharedPreferences("userData", 0)
@@ -126,8 +104,10 @@ class AttendanceCalculateActivity : AppCompatActivity() {
         val month = SimpleDateFormat("MM").format(cal.time)
         val date = SimpleDateFormat("dd").format(cal.time)
         val yearMonthObject = YearMonth.of(year.toInt(), month.toInt())
-        val daysInMonth = UtilsKt.getWorkingDaysInCurrentMonth()
-        val todayDate = date.toFloat()
+        val daysInMonth = yearMonthObject.lengthOfMonth()
+        todayDate = date.toInt()
+        monthAttendanceRatio = 100f / daysInMonth.toFloat()
+        daysLeft = daysInMonth - todayDate
 
 
         reference.child("Users").child(userID!!).child("Attendance").child(year).child(monthName)
@@ -137,12 +117,16 @@ class AttendanceCalculateActivity : AppCompatActivity() {
                     count = snapshot.childrenCount
 
                     val absent = todayDate - count
-                    val percent = count / todayDate * 100
-                    expectedPercent = (count + (daysInMonth - todayDate)) / daysInMonth * 100
+                    currentPercent = ((count * 100) / daysInMonth).toFloat()
+                    binding.attendanceSeekBar.setProgress(currentPercent.toInt(), true)
+                    binding.seekbarValue.text = "$currentPercent %"
+                    binding.daysNeededValue.text = "$count days"
+
+                    expectedPercent = (((daysInMonth - todayDate) * 100) / daysInMonth.toFloat()) + currentPercent
 
                     Log.d(
                         "",
-                        "workingdays: $daysInMonth\ncount: $count\nabsent: $absent\npercent: $percent\nexpected: $expectedPercent"
+                        "workingdays: $daysInMonth\ncount: $count\nabsent: $absent\npercent: $currentPercent\nexpected: $expectedPercent"
                     )
 
                 }

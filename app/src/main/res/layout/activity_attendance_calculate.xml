@@ -66,7 +66,7 @@
                         android:textSize="24sp"
                         android:padding="16dp"
                         android:textColor="@color/red_desat"
-                        android:text="@string/not_achievable" />
+                        android:text="Slide to check achievability" />
 
                     <androidx.appcompat.widget.AppCompatSeekBar
                         android:id="@+id/attendance_seek_bar"
@@ -75,6 +75,30 @@
 
                     <TextView
                         android:id="@+id/seekbar_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/bluish_black"
+                        android:textSize="20sp"
+                        android:text="0"/>
+
+                    <TextView
+                        android:id="@+id/daysNeeded_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/bluish_black"
+                        android:textSize="20sp"
+                        android:text="0"/>
+
+                    <TextView
+                        android:id="@+id/total_attendance_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/bluish_black"
+                        android:textSize="20sp"
+                        android:text="0"/>
+
+                    <TextView
+                        android:id="@+id/total_days_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/bluish_black"
