@@ -65,8 +65,9 @@ public class Progress_Activity extends AppCompatActivity {
 
                 float count = c;
                 float absent = todayDate - count;
-                float percent = (count / todayDate) * 100;
-                float expected = ((c + (daysInMonth - todayDate)) / daysInMonth) * 100;
+                float remainingDaysLeft = daysInMonth - todayDate;
+                float percent = (count * 100) / daysInMonth;
+                float expected = ((c + remainingDaysLeft) * 100) / daysInMonth;
                 mChart.setProgress(percent, true);
 
                 //Set calculated data in TextView
