@@ -46,8 +46,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -81,6 +79,9 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
     FloatingActionButton goToTeachersPromptScreen;
 
     FusedLocationProviderClient client;
+
+    ClassPrompt model;
+    Integer clickedMode;
 
 
     @SuppressLint({"SimpleDateFormat", "SetTextI18n", "UseCompatLoadingForDrawables"})
@@ -385,6 +386,7 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
 
                         if (location != null) {
                             Log.d("", "Longitude: " + location.getLongitude() + " and latitude: " + location.getLatitude());
+                            executeAttendance(location);
 
                         } else {
                             // When location result is null
@@ -404,6 +406,7 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
                                     Location location1 = locationResult.getLastLocation();
 
                                     Log.d("", "Longitude1: " + location1.getLongitude() + " and latitude1: " + location1.getLatitude());
+                                    executeAttendance(location);
                                 }
                             };
 
@@ -441,36 +444,48 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
     @Override
     public void onItemClick(ClassPrompt model, Integer clickedMode) {
         Log.d("", "Clicked on: " + clickedMode);
+        this.model = model;
+        this.clickedMode = clickedMode;
 
-        if (clickedMode == JavaUtils.CARD_VIEW_CLICKED.intValue()) {
 
-            if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
+
+        if (isAdmin.equals("false")) {
+
+            if (JavaUtils.isWithinGivenMinutes(Long.parseLong(model.getTimeStamp()), 10)) {
                 checkLocationPermission();
-
-                if (JavaUtils.isWithinGivenMinutes(Long.parseLong(model.getTimeStamp()), 10)) {
-                    intentNow(requireContext(), Attendance_Scanner_Activity.class, true, "classPrompt", model);
-                } else {
-                    Toast.makeText(requireContext(), "Attendance marking time ended", Toast.LENGTH_SHORT).show();
-                }
-
             } else {
-                intentNow(requireContext(), SeeAllStudentsActivity.class, true, "classPrompt", model);
+                Toast.makeText(requireContext(), "Attendance marking time ended", Toast.LENGTH_SHORT).show();
             }
         } else {
-            if (!isAdmin.equals("true")) { //TODO: REMOVE BEFORE PUSHING
-                checkLocationPermission();
-
-                if (JavaUtils.isWithinGivenMinutes(Long.parseLong(model.getTimeStamp()), 10)) {
-                    intentNow(requireContext(), QRScannerActivity.class, false, null, null);
-                } else {
-                    Toast.makeText(requireContext(), "Attendance marking time ended", Toast.LENGTH_SHORT).show();
-                }
-
+            if (clickedMode == JavaUtils.CARD_VIEW_CLICKED.intValue()) {
+                intentNow(requireContext(), SeeAllStudentsActivity.class, true, "classPrompt", model);
             } else {
                 intentNow(requireContext(), QRGeneratorActivity.class, true, "classPrompt", model);
             }
         }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void executeAttendance(Location location) {
+
+
+        float class_lat = Float.parseFloat(model.getLatLong().split(",")[0]);
+        float class_long = Float.parseFloat(model.getLatLong().split(",")[1]);
+
+        if (JavaUtils.distance((float)location.getLatitude(), (float)location.getLongitude(),class_lat, class_long, 100)) {
+            if (clickedMode == JavaUtils.CARD_VIEW_CLICKED.intValue()) {
+                intentNow(requireContext(), Attendance_Scanner_Activity.class, true, "classPrompt", model);
+            } else {
+                intentNow(requireContext(), QRScannerActivity.class, true, "classPrompt", model);
+            }
+        }
+        else {
+            Toast.makeText(requireContext(), "Distance must be less than 100 meters from class", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
 
     private void intentNow(Context context, Class<?> targetActivity, boolean shouldPassData, String extraKey, Serializable extraData) {
         Intent intent = new Intent(context, targetActivity);

@@ -53,7 +53,7 @@ public class JavaUtils {
         return differenceInMillis <= minutesInMillis;
     }
 
-    public boolean distance(float lat_a, float lng_a, float lat_b, float lng_b, float isWithinMeters) {
+    public static boolean distance(float lat_a, float lng_a, float lat_b, float lng_b, float isWithinMeters) {
         double earthRadius = 3958.75;
         double latDiff = Math.toRadians(lat_b - lat_a);
         double lngDiff = Math.toRadians(lng_b - lng_a);

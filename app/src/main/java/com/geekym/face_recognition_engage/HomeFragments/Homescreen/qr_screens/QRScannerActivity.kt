@@ -15,6 +15,7 @@ import com.budiyev.android.codescanner.ScanMode
 import com.geekym.face_recognition_engage.HomeFragments.Homescreen.Attendance.Attendance_Result_Activity
 import com.geekym.face_recognition_engage.R
 import com.geekym.face_recognition_engage.databinding.ActivityQrscannerBinding
+import com.geekym.face_recognition_engage.model.ClassPrompt
 import com.geekym.face_recognition_engage.utils.PermissionsUtil
 import com.geekym.face_recognition_engage.utils.UtilsKt.jsonToClassPrompt
 import com.google.android.material.snackbar.Snackbar
@@ -24,12 +25,14 @@ class QRScannerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityQrscannerBinding
     private lateinit var codeScanner: CodeScanner
     private var isFlashOn = false
+    private var classPromptIntent: ClassPrompt? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQrscannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         codeScanner = CodeScanner(this, binding.scannerView)
+        classPromptIntent = intent.getSerializableExtra("classPrompt") as ClassPrompt?
 
         checkForCameraPermissions()
         setupScanner()
@@ -91,15 +94,27 @@ class QRScannerActivity : AppCompatActivity() {
                 Log.d("", "Scanned data: $text")
                 val classPrompt = text.jsonToClassPrompt()
                 classPrompt?.let {
-                    val intent = Intent(this, Attendance_Result_Activity::class.java)
-                    intent.putExtra("classPrompt", classPrompt)
-                    startActivity(intent)
+
+
+                    Log.d("","Class Prompt intent: $classPromptIntent")
+                    Log.d("","Class Prompt: $it")
+
+                    Log.d("","==: ${classPromptIntent?.classID?.trim() == (it.classID.trim())} \n .equals: ${classPromptIntent?.classID?.trim().equals(it.classID.trim())}")
+                    if (classPromptIntent?.classID == (it.classID)) {
+                        val intent = Intent(this, Attendance_Result_Activity::class.java)
+                        intent.putExtra("classPrompt", it)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "Wrong Class QR", Toast.LENGTH_SHORT).show()
+                        onBackPressed()
+                    }
                 } ?: run {
                     Toast.makeText(this, "Invalid QR", Toast.LENGTH_SHORT).show()
                     onBackPressed()
                 }
             }
         }
+
         codeScanner.errorCallback = ErrorCallback {
             this.runOnUiThread {
                 toggleStatusView(false)
