@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dm_sans_bold"
-                android:text="Progress"
+                android:text="Predict"
                 android:paddingHorizontal="20dp"
                 android:textColor="@color/white"
                 android:textSize="35sp"
@@ -65,45 +65,56 @@
                         android:layout_height="wrap_content"
                         android:textSize="24sp"
                         android:padding="16dp"
+                        android:layout_marginTop="40dp"
                         android:textColor="@color/red_desat"
                         android:text="Slide to check achievability" />
 
                     <androidx.appcompat.widget.AppCompatSeekBar
                         android:id="@+id/attendance_seek_bar"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="20dp" />
 
                     <TextView
                         android:id="@+id/seekbar_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/bluish_black"
+                        android:layout_marginTop="40dp"
                         android:textSize="20sp"
-                        android:text="0"/>
+                        android:fontFamily="@font/dm_sans"
+                        tools:text="0"/>
 
                     <TextView
                         android:id="@+id/daysNeeded_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/bluish_black"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/dm_sans"
                         android:textSize="20sp"
-                        android:text="0"/>
+                        tools:text="0"/>
 
                     <TextView
                         android:id="@+id/total_attendance_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/bluish_black"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/dm_sans"
                         android:textSize="20sp"
-                        android:text="0"/>
+                        tools:text="0"/>
 
                     <TextView
                         android:id="@+id/total_days_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/bluish_black"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/dm_sans"
                         android:textSize="20sp"
-                        android:text="0"/>
+                        tools:text="0"/>
 
                 </LinearLayout>
 

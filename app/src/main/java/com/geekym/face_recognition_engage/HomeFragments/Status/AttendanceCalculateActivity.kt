@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -67,13 +68,19 @@ class AttendanceCalculateActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun checkAchievability(p0: SeekBar?, p1: Int, p2: Boolean) {
         // Assume you have a seek bar with values ranging from 0 to 100
         val seekBarValue: Int = p1// Get the current value of the seek bar (0 to 100)
-        binding.seekbarValue.text = "To achieve more $seekBarValue %"
+        binding.seekbarValue.text = "To achieve $seekBarValue %"
 
-        val needToAttend: Float = (30 * seekBarValue) / 100f
-        binding.daysNeededValue.text = "Attend more $needToAttend days"
+        binding.seekbarValue.visibility = View.VISIBLE
+        binding.daysNeededValue.visibility = View.VISIBLE
+
+        val needToAttend: Float = (30 * (seekBarValue - currentPercent)) / 100f
+        binding.daysNeededValue.text = if (needToAttend > 0) {
+            "Attend more ${needToAttend.roundToInt()} days"
+        } else "No need to attend more"
 
 
         Log.d("", "DaysLeft: $daysLeft and needToAttend: $needToAttend")
@@ -81,8 +88,8 @@ class AttendanceCalculateActivity : AppCompatActivity() {
         if (needToAttend <= daysLeft) {
             binding.attendancePossibilityTextView.text = getString(R.string.achievable)
             binding.attendancePossibilityTextView.setTextColor(ResourcesCompat.getColor(resources, R.color.green_desat, null))
-            binding.totalAttendanceValue.text = "Total attendance: ${seekBarValue + currentPercent} %"
-            binding.totalDaysValue.text = "Total days: ${needToAttend + count} days"
+            binding.totalAttendanceValue.text = "Total attendance: ${maxOf(seekBarValue, currentPercent.toInt())} %"
+            binding.totalDaysValue.text = "Total days: ${maxOf(needToAttend.roundToInt() + count, count)} days"
         } else {
             binding.attendancePossibilityTextView.text = getString(R.string.not_achievable)
             binding.attendancePossibilityTextView.setTextColor(ResourcesCompat.getColor(resources, R.color.red_desat, null))
@@ -119,8 +126,8 @@ class AttendanceCalculateActivity : AppCompatActivity() {
                     val absent = todayDate - count
                     currentPercent = ((count * 100) / daysInMonth).toFloat()
                     binding.attendanceSeekBar.setProgress(currentPercent.toInt(), true)
-                    binding.seekbarValue.text = "$currentPercent %"
-                    binding.daysNeededValue.text = "$count days"
+                    binding.seekbarValue.visibility = View.GONE
+                    binding.daysNeededValue.visibility = View.GONE
 
                     expectedPercent = (((daysInMonth - todayDate) * 100) / daysInMonth.toFloat()) + currentPercent
 

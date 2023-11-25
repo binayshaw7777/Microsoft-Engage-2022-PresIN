@@ -94,10 +94,9 @@
                         android:layout_toStartOf="@+id/card1dis"
                         android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
-                        android:paddingLeft="20dp"
                         android:text="Attendees list"
                         android:textColor="@color/lightblue"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <ImageView
                         android:id="@+id/card1dis"
@@ -151,7 +150,7 @@
                         android:gravity="center|left"
                         android:text="Progress"
                         android:textColor="@color/lightblue"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <ImageView
                         android:id="@+id/cal"
@@ -203,9 +202,9 @@
                         android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
                         android:maxLines="1"
-                        android:text="Attendance Calculate"
+                        android:text="Predict Attendance"
                         android:textColor="@color/lightblue"
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
 
                     <ImageView
                         android:id="@+id/attendace_prediction_card_icon"
