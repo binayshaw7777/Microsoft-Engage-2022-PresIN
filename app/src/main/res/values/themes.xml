@@ -19,4 +19,17 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 
+    <style name="CalendarTheme" parent="@android:style/Widget.CalendarView">
+        <!-- Customize the appearance of the CalendarView here -->
+        <item name="android:headerBackground">#ff4081</item>
+        <item name="android:dateTextAppearance">@style/DateTextAppearance</item>
+    </style>
+
+    <style name="DateTextAppearance" parent="android:TextAppearance.Small">
+        <!-- Customize the appearance of the date text -->
+        <item name="android:textColor">#ffffff</item>
+        <!-- Add other date text attributes as needed -->
+    </style>
+
+
 </resources>

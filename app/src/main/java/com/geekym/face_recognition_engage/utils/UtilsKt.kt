@@ -13,6 +13,7 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import java.util.Calendar
 
 
 object UtilsKt {
@@ -83,6 +84,33 @@ object UtilsKt {
             // Handle exceptions during deserialization
             null
         }
+    }
+
+    fun getWorkingDaysInCurrentMonth(): Int {
+        val calendar = Calendar.getInstance()
+
+        // Set the calendar to the first day of the current month
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+
+        // Get the number of days in the current month
+        val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+
+        // Initialize a counter for working days
+        var workingDays = 0
+
+        // Iterate through each day of the month
+        for (day in 1..daysInMonth) {
+            calendar.set(Calendar.DAY_OF_MONTH, day)
+
+            // Check if the day is not Sunday (Calendar.SUNDAY) or Saturday (Calendar.SATURDAY)
+            if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY &&
+                calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+            ) {
+                workingDays++
+            }
+        }
+
+        return workingDays
     }
 
     fun String.deserializeQRString(): ClassPrompt? {
