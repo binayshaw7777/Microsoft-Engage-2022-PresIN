@@ -94,7 +94,7 @@
                         android:layout_toStartOf="@+id/card1dis"
                         android:fontFamily="@font/dm_sans_medium"
                         android:gravity="center|left"
-                        android:text="Attendees list"
+                        android:text="Classes Attended"
                         android:textColor="@color/lightblue"
                         android:textSize="18sp" />
 

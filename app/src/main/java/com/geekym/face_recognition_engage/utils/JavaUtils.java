@@ -28,6 +28,7 @@ public class JavaUtils {
 
     public static LatLong aritralatlong = new LatLong(22.6644468, 88.3945738);
     public static LatLong binaylatlong = new LatLong(22.7331228, 88.3643103);
+    public static LatLong JISCElatlong = new LatLong(22.9595792, 88.4477127);
     // Binay's Logged LatLong: Longitude: 88.3642841 and latitude: 22.7332499
 
     public static Integer CARD_ICON_CLICKED = 8;

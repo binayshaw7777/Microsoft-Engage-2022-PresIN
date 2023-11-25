@@ -41,7 +41,7 @@ public class myAdapter extends FirebaseRecyclerAdapter<PresentStudents, myAdapte
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
-            Name = itemView.findViewById(R.id.classNameDisplay);
+            Name = itemView.findViewById(R.id.nameDisplay);
             Session = itemView.findViewById(R.id.classNameDisplay);
             Time = itemView.findViewById(R.id.timeDisplay);
         }
