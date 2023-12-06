@@ -23,6 +23,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.util.Size;
 import android.widget.ImageView;
@@ -85,7 +86,7 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
     PreviewView previewView;
     Interpreter tfLite;
     CameraSelector cameraSelector;
-//        float distance = 1.0f;
+    //        float distance = 1.0f;
     float distance = 0.85f;
     ProcessCameraProvider cameraProvider;
     ImageView info;
@@ -131,8 +132,12 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    //Converting Snapshot children -> embeddings String and getting hashmap in return
-                    global.putAll(StringToMap(Objects.requireNonNull(ds.child("embeddings").getValue()).toString()));
+                    try {
+                        //Converting Snapshot children -> embeddings String and getting hashmap in return
+                        global.putAll(StringToMap(Objects.requireNonNull(ds.child("embeddings").getValue()).toString()));
+                    } catch (Exception e) {
+                        Log.d("Exception", "Exception caught at onDataChange: " + e);
+                    }
                 }
             }
 
@@ -300,11 +305,11 @@ public class Attendance_Scanner_Activity extends AppCompatActivity {
                 float distance_localFirst = nearest.get(0).second; //get distance of closest matching face
 
                 if (distance_localFirst < distance && keyFirst.equals(userID)) {  //If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
-                        distance = Float.MIN_VALUE; //setting min value because camera is running all the time in this activity
-                        // and hence the if condition gets true more than one time
-                        if (isConnected()) { //Check if the user is connected or not
-                            intentNow(Attendance_Result_Activity.class, true);
-                        }
+                    distance = Float.MIN_VALUE; //setting min value because camera is running all the time in this activity
+                    // and hence the if condition gets true more than one time
+                    if (isConnected()) { //Check if the user is connected or not
+                        intentNow(Attendance_Result_Activity.class, true);
+                    }
                 } else
                     FaceStatus.setText("Unknown");
             }
