@@ -324,6 +324,7 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void checkLocationPermission() {
         // check condition
         if (ContextCompat.checkSelfPermission(
@@ -348,6 +349,7 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions,
@@ -367,6 +369,7 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("MissingPermission")
     private void getCurrentLocation() {
         // Initialize Location manager
@@ -399,6 +402,7 @@ public class home_Fragment extends Fragment implements PromptAdapter.PromptClick
 
                             // Initialize location call back
                             LocationCallback locationCallback = new LocationCallback() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void
                                 onLocationResult(LocationResult locationResult) {
